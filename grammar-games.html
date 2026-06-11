@@ -46,15 +46,110 @@
     </div>
   </nav>
 
-    <section class="hero">
+ <section class="hero">
         <h1>Learn Grammar Through Play</h1>
         <p>Choose a game below and start learning English grammar in a fun way!</p>
     </section>
 
     <div class="container">
-        <h2 class="section-title">Choose Your Game</h2>
+        <h2 class="section-title">Choose a topic</h2>
         
         <div class="games-grid">
+
+            <!-- CARD VIDEO 1 -->
+            <div class="game-card">
+                <div class="game-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+
+                <h3>Video Lesson 1</h3>
+
+                <div class="video-container">
+
+                    <iframe 
+                        class="interactive-video youtube-video"
+                        data-video-id="RrRmYHyO7G4"
+                        width="100%" 
+                        height="250"
+                        src="https://www.youtube.com/embed/RrRmYHyO7G4?enablejsapi=1"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+
+                    <div class="question-popup">
+                        <h4>Answer this question!</h4>
+                        <p>What did you learn so far?</p>
+                        <button onclick="continueVideo(this)">Continue Video</button>
+                    </div>
+                </div>
+
+                <p>The verb to be</p>
+            </div>
+
+            <!-- CARD VIDEO 2 -->
+            <div class="game-card">
+                <div class="game-icon">
+                    <i class="fas fa-video"></i>
+                </div>
+
+                <h3>Video Lesson 2</h3>
+
+                <div class="video-container">
+
+                    <iframe 
+                        class="interactive-video youtube-video"
+                        data-video-id="qqX4NMjBHE8"
+                        width="100%" 
+                        height="250"
+                        src="https://www.youtube.com/embed/qqX4NMjBHE8?enablejsapi=1"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+
+                    <div class="question-popup">
+                        <h4>Answer this question!</h4>
+                        <p>Can you remember the grammar rule?</p>
+                        <button onclick="continueVideo(this)">Continue Video</button>
+                    </div>
+                </div>
+
+                <p>The simple present</p>
+            </div>
+
+            <!-- CARD VIDEO 3 -->
+<div class="game-card">
+    <div class="game-icon">
+        <i class="fas fa-video"></i>
+    </div>
+
+    <h3>Video Lesson 3</h3>
+
+    <div class="video-container">
+
+        <iframe 
+            class="interactive-video youtube-video"
+            data-video-id="_pWh761n6qQ"
+            width="100%" 
+            height="250"
+            src="https://www.youtube.com/embed/_pWh761n6qQ?enablejsapi=1"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+
+        <div class="question-popup">
+            <h4>Quick Question!</h4>
+            <p>Choose the correct answer before continuing.</p>
+            <button onclick="continueVideo(this)">Continue Video</button>
+        </div>
+    </div>
+
+    <p>The simple past</p>
+</div>
+
+            <!-- CARDS ORIGINALES -->
             <div class="game-card">
                 <div class="game-icon">
                     <i class="fas fa-user"></i>
@@ -117,10 +212,12 @@
                     Play Now <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
+
         </div>
     </div>
 
-<!-- Footer -->
+            
+            <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -165,8 +262,9 @@
             <img src="img/Logo2.png" alt="Logo" class="Logo"><p>&copy; 2026 All rights reserved.</p>
         </div>
     </footer>
-    
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/grammar-games.js" defer></script>
 
 </body>
 </html>

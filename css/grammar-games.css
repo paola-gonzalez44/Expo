@@ -246,3 +246,45 @@
                 grid-template-columns: 1fr;
             }
         }
+
+/* NUEVOS ESTILOS PARA VIDEOS */
+        .video-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .video-container video,
+        .video-container iframe {
+            width: 100%;
+            border-radius: 15px;
+        }
+
+        .question-popup {
+            display: none;
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            border-radius: 15px;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .question-popup h4 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .question-popup button {
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            background: #3b82f6;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
