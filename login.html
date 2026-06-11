@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oak English — Iniciar sesión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+  <div id="onboarding-wrapper">
+    <div class="register-card slide-in" style="max-width:420px; margin:0 auto;">
+
+      <!-- Logo -->
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:1.75rem;">
+        <div style="width:36px; height:36px; background:#185FA5; border-radius:8px; display:flex; align-items:center; justify-content:center; color:white; font-size:18px;">
+          <i class="ti ti-language" aria-hidden="true"></i>
+        </div>
+        <span style="font-size:16px; font-weight:500;">Oak English</span>
+      </div>
+
+      <div class="register-title">Bienvenido de vuelta</div>
+      <div class="register-sub">Inicia sesión para continuar tu aprendizaje.</div>
+
+      <!-- Mensaje de error -->
+      <div id="errorMsg" style="display:none; font-size:13px; color:#A32D2D; background:#FCEBEB; border:0.5px solid #F7C1C1; border-radius:8px; padding:10px 12px; margin-bottom:1rem; align-items:center; gap:8px;">
+        <i class="ti ti-alert-circle" aria-hidden="true"></i>
+        <span id="errorText">Correo o contraseña incorrectos.</span>
+      </div>
+
+      <!-- Mensaje de éxito -->
+      <div id="successMsg" style="display:none; font-size:13px; color:#0F6E56; background:#E1F5EE; border:0.5px solid #9FE1CB; border-radius:8px; padding:10px 12px; margin-bottom:1rem; align-items:center; gap:8px;">
+        <i class="ti ti-circle-check" aria-hidden="true"></i>
+        <span>Sesión iniciada. Redirigiendo...</span>
+      </div>
+
+      <!-- Email -->
+      <div class="field">
+        <label>Correo electrónico</label>
+        <div style="position:relative;">
+          <i class="ti ti-mail" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:17px; color:#888780; pointer-events:none;" aria-hidden="true"></i>
+          <input type="email" id="inp-email" placeholder="correo@ejemplo.com"
+                 autocomplete="email" onkeydown="handleEnter(event)"
+                 style="padding-left:38px;">
+        </div>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="field">
+        <label>Contraseña</label>
+        <div style="position:relative;">
+          <i class="ti ti-lock" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:17px; color:#888780; pointer-events:none;" aria-hidden="true"></i>
+          <input type="password" id="inp-pwd" placeholder="Tu contraseña"
+                 autocomplete="current-password" onkeydown="handleEnter(event)"
+                 style="padding-left:38px; padding-right:40px;">
+          <button onclick="togglePwd()" aria-label="Mostrar contraseña"
+                  style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#888780; font-size:17px; padding:0; display:flex;">
+            <i class="ti ti-eye" id="eyeIcon" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+
+      <a href="#" style="display:block; text-align:right; font-size:13px; color:#185FA5; text-decoration:none; margin-top:-6px; margin-bottom:1.5rem;">
+        ¿Olvidaste tu contraseña?
+      </a>
+
+      <button class="btn-next" id="btnLogin" onclick="login()">
+        Iniciar sesión
+        <i class="ti ti-arrow-right" aria-hidden="true"></i>
+      </button>
+
+      <p class="login-link" style="margin-top:1rem;">
+        ¿No tienes cuenta? <a href="index.html">Crear cuenta</a>
+      </p>
+
+    </div>
+  </div>
+
+  <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+
+<script src="js/login.html" defer></script>
+</body>
+</html>
