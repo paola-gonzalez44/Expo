@@ -1,7 +1,7 @@
 
         const vocabularies = {
             berries: {
-                title: "weekly vocabulary: berries",
+                title: "Weekly vocabulary: berries",
                 items: [
                     { eng: "Strawberry", esp: "Fresa", def: "A small juicy red fruit that has tiny seeds on its surface." },
                     { eng: "Blueberry", esp: "Arándano", def: "A small sweet blue fruit that grows on a bush." },
@@ -10,7 +10,7 @@
                 ]
             },
             clothes: {
-                title: "weekly vocabulary: clothes",
+                title: "Weekly vocabulary: clothes",
                 items: [
                     { eng: "Shirt", esp: "Camisa", def: "A piece of clothing worn on the upper part of the body." },
                     { eng: "Pants", esp: "Pantalones", def: "An outer garment covering the body from the waist to the ankles." },
@@ -19,7 +19,7 @@
                 ]
             },
             classroom: {
-                title: "weekly vocabulary: classroom materials",
+                title: "Weekly vocabulary: classroom materials",
                 items: [
                     { eng: "Pencil Case", esp: "Cartuchera", def: "A small container used to store pencils, pens, and erasers." },
                     { eng: "Pencil", esp: "Lápiz", def: "An instrument for writing or drawing, consisting of a thin stick of graphite." },
@@ -28,7 +28,7 @@
                 ]
             },
             fruits: {
-                title: "weekly vocabulary: fruits",
+                title: "Weekly vocabulary: fruits",
                 items: [
                     { eng: "Apple", esp: "Manzana", def: "A round fruit with red, green, or yellow skin and crisp white flesh." },
                     { eng: "Banana", esp: "Guineo / Plátano", def: "A long curved fruit with a thick yellow skin and soft sweet flesh." },
@@ -37,7 +37,7 @@
                 ]
             },
             colors: {
-                title: "weekly vocabulary: colors",
+                title: "Weekly vocabulary: colors",
                 items: [
                     { eng: "Red", esp: "Rojo", def: "The color of blood, rubies, or ripe strawberries." },
                     { eng: "Blue", esp: "Azul", def: "The color of the clear sky or the deep ocean." },
@@ -46,7 +46,7 @@
                 ]
             },
             animals: {
-                title: "weekly vocabulary: animals",
+                title: "Weekly vocabulary: animals",
                 items: [
                     { eng: "Dog", esp: "Perro", def: "A common domesticated animal known for being a loyal pet." },
                     { eng: "Cat", esp: "Gato", def: "A small domesticated carnivorous mammal with soft fur." },
@@ -55,7 +55,7 @@
                 ]
             },
             family: {
-                title: "weekly vocabulary: family members",
+                title: "Weekly vocabulary: family members",
                 items: [
                     { eng: "Mother", esp: "Madre", def: "A female parent who cares for and raises children." },
                     { eng: "Father", esp: "Padre", def: "A male parent of a child or family leader." },
@@ -64,7 +64,7 @@
                 ]
             },
             weather: {
-                title: "weekly vocabulary: weather",
+                title: "Weekly vocabulary: weather",
                 items: [
                     { eng: "Sunny", esp: "Soleado", def: "Bright with sunlight and minimal or no clouds." },
                     { eng: "Rainy", esp: "Lluvioso", def: "Having a great deal of rainfall over a period." },
@@ -73,7 +73,7 @@
                 ]
             },
             sports: {
-                title: "weekly vocabulary: sports",
+                title: "Weekly vocabulary: sports",
                 items: [
                     { eng: "Soccer", esp: "Fútbol", def: "A game played by two teams of eleven players with a round ball." },
                     { eng: "Basketball", esp: "Baloncesto", def: "A game played on a court where players throw a ball into a high hoop." },
@@ -82,7 +82,7 @@
                 ]
             },
             house: {
-                title: "weekly vocabulary: house rooms",
+                title: "Weekly vocabulary: house rooms",
                 items: [
                     { eng: "Kitchen", esp: "Cocina", def: "A room or area where food is prepared and cooked." },
                     { eng: "Bedroom", esp: "Dormitorio", def: "A room used primarily for sleeping and resting." },
@@ -98,7 +98,7 @@
         const searchInput = document.getElementById('search-input');
 
         function showCatalog() {
-            pageTitle.innerText = "weekly vocabulary: topics";
+            pageTitle.innerText = "Weekly vocabulary: topics";
             backBtnContainer.style.display = "none";
             searchInput.value = "";
             grid.innerHTML = "";
@@ -113,8 +113,8 @@
                             </div>
                             <div class="card-content-area">
                                 <h3 class="card-title" style="text-transform: capitalize;">${key} Vocabulary</h3>
-                                <div class="card-subtitle">Haga clic para ingresar</div>
-                                <p class="card-definition-text">Explora palabras interactivas sobre este tema.</p>
+                                <div class="card-subtitle">Click here to enter</div>
+                                <p class="card-definition-text">Learn more about this topic.</p>
                             </div>
                         </div>
                     </div>
