@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encontrar Parejas - Vocabulario en Inglés</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7F2; --surface:#FFFFFF; --teal:#4F8481; --teal-dark:#3A6663;
+    --lavender:#9B8AC4; --gold:#E8B04B; --ink:#33393A; --ink-soft:#6B7371;
+    --success:#74A978; --amber:#D98E5B; --ring:#B9CFC9;
+    --radius-lg:22px; --radius-md:14px; --radius-sm:9px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Atkinson Hyperlegible', sans-serif;}
+  h1,h2,.btn,.segmented button{font-family:'Baloo 2', sans-serif;}
+  .app-shell{max-width:640px;margin:0 auto;padding:20px 16px 48px;}
+  header{text-align:center;margin-bottom:18px;}
+  header h1{font-size:1.5rem;color:var(--teal-dark);margin:0 0 4px;}
+  header p{margin:0;color:var(--ink-soft);font-size:0.95rem;}
+  .controls-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:18px 0;}
+  .segmented{display:flex;background:var(--surface);border-radius:999px;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,0.06);gap:2px;}
+  .segmented button{border:none;background:transparent;padding:9px 16px;border-radius:999px;font-size:0.92rem;color:var(--ink-soft);cursor:pointer;font-weight:600;}
+  .segmented button.active{background:var(--teal);color:white;}
+  .segmented button:focus-visible{outline:3px solid var(--ring);outline-offset:2px;}
+  .panel{background:var(--surface);border-radius:var(--radius-lg);padding:24px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
+  .panel h2{margin-top:0;color:var(--teal-dark);font-size:1.25rem;}
+  .instructions{color:var(--ink-soft);font-size:0.95rem;margin:0 0 18px;line-height:1.5;}
+  .stars-row{display:flex;align-items:center;gap:6px;font-size:1.2rem;margin-bottom:16px;color:var(--gold);min-height:1.4rem;}
+  .stars-row .label{font-family:'Atkinson Hyperlegible', sans-serif;color:var(--ink-soft);font-size:0.85rem;margin-right:4px;}
+  .btn{border:none;padding:11px 20px;border-radius:var(--radius-sm);font-size:0.95rem;font-weight:600;cursor:pointer;}
+  .btn:focus-visible{outline:3px solid var(--ring);outline-offset:2px;}
+  .btn-primary{background:var(--teal);color:white;}
+  .btn-primary:hover{background:var(--teal-dark);}
+  .action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;}
+  .feedback-msg{min-height:1.4rem;font-weight:600;margin:10px 0 0;font-size:0.95rem;}
+  .feedback-msg.success{color:var(--success);}
+  .feedback-msg.retry{color:var(--amber);}
+  .pairs-wrap{display:flex;gap:20px;justify-content:center;}
+  .pairs-col{display:flex;flex-direction:column;gap:10px;flex:1;max-width:220px;}
+  .pair-item{background:#F0F4EF;border:2px solid transparent;border-radius:var(--radius-sm);padding:12px 10px;text-align:center;font-size:1.05rem;font-weight:600;cursor:pointer;color:var(--ink);}
+  .pair-item.emoji-item{font-size:1.6rem;}
+  .pair-item:hover:not(.matched){border-color:var(--lavender);}
+  .pair-item.selected{border-color:var(--gold);background:#FFF6E4;}
+  .pair-item.matched{background:#E8F3E9;border-color:var(--success);color:var(--success);cursor:default;}
+  .pair-item:focus-visible{outline:3px solid var(--ring);outline-offset:2px;}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header>
+    <h1>🔗 Encontrar Parejas</h1>
+    <p>Une cada palabra en inglés con su dibujo.</p>
+  </header>
+
+  <div class="controls-row">
+    <div class="segmented" role="group" aria-label="Nivel">
+      <button class="level-btn active" data-level="basico">Nivel básico</button>
+      <button class="level-btn" data-level="intermedio">Nivel intermedio</button>
+    </div>
+    <div class="segmented" role="group" aria-label="Cantidad de palabras">
+      <button class="size-btn active" data-size="6">6 palabras</button>
+      <button class="size-btn" data-size="10">10 palabras</button>
+    </div>
+  </div>
+
+  <section class="panel">
+    <h2>Instrucciones</h2>
+    <p class="instructions">Toca una palabra en inglés y luego el dibujo que le corresponde. Si aciertas, se marcan en verde. Si no, simplemente elige de nuevo.</p>
+    <div class="stars-row"><span class="label">Parejas encontradas:</span><span id="parejas-stars"></span></div>
+    <div class="pairs-wrap">
+      <div class="pairs-col" id="parejas-words"></div>
+      <div class="pairs-col" id="parejas-images"></div>
+    </div>
+    <div class="feedback-msg" id="parejas-feedback"></div>
+    <div class="action-row">
+      <button class="btn btn-primary" id="parejas-reset">Empezar juego nuevo</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const VOCAB = {
+  basico: [
+    {en:"cat", emoji:"🐱"}, {en:"dog", emoji:"🐶"}, {en:"sun", emoji:"☀️"}, {en:"moon", emoji:"🌙"},
+    {en:"apple", emoji:"🍎"}, {en:"banana", emoji:"🍌"}, {en:"house", emoji:"🏠"}, {en:"book", emoji:"📖"},
+    {en:"water", emoji:"💧"}, {en:"milk", emoji:"🥛"}, {en:"fish", emoji:"🐟"}, {en:"bird", emoji:"🐦"},
+    {en:"star", emoji:"⭐"}, {en:"tree", emoji:"🌳"}, {en:"ball", emoji:"⚽"}, {en:"chair", emoji:"🪑"},
+    {en:"flower", emoji:"🌸"}, {en:"shoe", emoji:"👟"}, {en:"hat", emoji:"🧢"}, {en:"car", emoji:"🚗"},
+    {en:"bus", emoji:"🚌"}, {en:"boat", emoji:"⛵"}, {en:"egg", emoji:"🥚"}, {en:"bread", emoji:"🍞"},
+    {en:"cheese", emoji:"🧀"}, {en:"cake", emoji:"🎂"}, {en:"cookie", emoji:"🍪"}, {en:"orange", emoji:"🍊"},
+    {en:"grape", emoji:"🍇"}, {en:"strawberry", emoji:"🍓"}, {en:"carrot", emoji:"🥕"}, {en:"corn", emoji:"🌽"},
+    {en:"pizza", emoji:"🍕"}, {en:"rabbit", emoji:"🐰"}, {en:"horse", emoji:"🐴"}, {en:"cow", emoji:"🐮"},
+    {en:"pig", emoji:"🐷"}, {en:"sheep", emoji:"🐑"}, {en:"duck", emoji:"🦆"}, {en:"frog", emoji:"🐸"},
+    {en:"bee", emoji:"🐝"}, {en:"butterfly", emoji:"🦋"}, {en:"snake", emoji:"🐍"}, {en:"lion", emoji:"🦁"},
+    {en:"elephant", emoji:"🐘"}, {en:"monkey", emoji:"🐒"}, {en:"door", emoji:"🚪"}, {en:"window", emoji:"🪟"},
+    {en:"bed", emoji:"🛏️"}, {en:"clock", emoji:"🕐"}
+  ],
+  intermedio: [
+    {en:"happy", emoji:"😊"}, {en:"sad", emoji:"😢"}, {en:"angry", emoji:"😠"}, {en:"tired", emoji:"😴"},
+    {en:"scared", emoji:"😨"}, {en:"surprised", emoji:"😲"}, {en:"excited", emoji:"🤩"}, {en:"run", emoji:"🏃"},
+    {en:"jump", emoji:"🤸"}, {en:"swim", emoji:"🏊"}, {en:"dance", emoji:"💃"}, {en:"sing", emoji:"🎤"},
+    {en:"read", emoji:"📚"}, {en:"write", emoji:"✍️"}, {en:"draw", emoji:"🎨"}, {en:"listen", emoji:"👂"},
+    {en:"talk", emoji:"🗣️"}, {en:"walk", emoji:"🚶"}, {en:"fly", emoji:"✈️"}, {en:"climb", emoji:"🧗"},
+    {en:"build", emoji:"🧱"}, {en:"clean", emoji:"🧹"}, {en:"wash", emoji:"🚿"}, {en:"cook", emoji:"🍳"},
+    {en:"teacher", emoji:"👩‍🏫"}, {en:"doctor", emoji:"👨‍⚕️"}, {en:"nurse", emoji:"🩺"}, {en:"police officer", emoji:"👮"},
+    {en:"firefighter", emoji:"👨‍🚒"}, {en:"pilot", emoji:"👨‍✈️"}, {en:"chef", emoji:"👨‍🍳"}, {en:"artist", emoji:"👩‍🎨"},
+    {en:"scientist", emoji:"👩‍🔬"}, {en:"farmer", emoji:"👨‍🌾"}, {en:"rain", emoji:"🌧️"}, {en:"cloud", emoji:"☁️"},
+    {en:"snow", emoji:"❄️"}, {en:"wind", emoji:"💨"}, {en:"storm", emoji:"⛈️"}, {en:"rainbow", emoji:"🌈"},
+    {en:"hot", emoji:"🔥"}, {en:"cold", emoji:"🥶"}, {en:"morning", emoji:"🌅"}, {en:"night", emoji:"🌃"},
+    {en:"garden", emoji:"🌳"}, {en:"school", emoji:"🏫"}, {en:"kitchen", emoji:"🍽️"}, {en:"friend", emoji:"🤝"},
+    {en:"family", emoji:"👪"}, {en:"music", emoji:"🎵"}
+  ]
+};
+let state = { level:"basico", size:6 };
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function getWordSet(){
+  const list = VOCAB[state.level];
+  return shuffle(list).slice(0, Math.min(state.size, list.length));
+}
+function starsHTML(n){ return "⭐".repeat(n); }
+
+document.querySelectorAll('.level-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); state.level = btn.dataset.level; initParejas();
+  });
+});
+document.querySelectorAll('.size-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); state.size = parseInt(btn.dataset.size,10); initParejas();
+  });
+});
+
+let parejasState = { words:[], selectedWord:null, selectedImage:null, matchedCount:0 };
+
+function initParejas(){
+  const words = getWordSet();
+  parejasState = { words, selectedWord:null, selectedImage:null, matchedCount:0 };
+
+  const wordsCol = document.getElementById('parejas-words');
+  const imagesCol = document.getElementById('parejas-images');
+  wordsCol.innerHTML=''; imagesCol.innerHTML='';
+
+  const shuffledWords = shuffle(words.map((w,idx)=>({...w, pairId:idx})));
+  const shuffledImages = shuffle(words.map((w,idx)=>({...w, pairId:idx})));
+
+  shuffledWords.forEach(w=>{
+    const el = document.createElement('button');
+    el.className='pair-item';
+    el.textContent=w.en;
+    el.addEventListener('click', ()=>onParejasWordClick(el,w));
+    wordsCol.appendChild(el);
+  });
+  shuffledImages.forEach(w=>{
+    const el = document.createElement('button');
+    el.className='pair-item emoji-item';
+    el.textContent=w.emoji;
+    el.setAttribute('aria-label','imagen');
+    el.addEventListener('click', ()=>onParejasImageClick(el,w));
+    imagesCol.appendChild(el);
+  });
+
+  document.getElementById('parejas-feedback').textContent='';
+  document.getElementById('parejas-feedback').className='feedback-msg';
+  updateParejasStars();
+}
+function updateParejasStars(){
+  document.getElementById('parejas-stars').textContent = starsHTML(parejasState.matchedCount)+` (${parejasState.matchedCount}/${parejasState.words.length})`;
+}
+function onParejasWordClick(el,data){
+  if(el.classList.contains('matched')) return;
+  if(parejasState.selectedWord) parejasState.selectedWord.el.classList.remove('selected');
+  parejasState.selectedWord = { el, data };
+  el.classList.add('selected');
+  checkParejasMatch();
+}
+function onParejasImageClick(el,data){
+  if(el.classList.contains('matched')) return;
+  if(parejasState.selectedImage) parejasState.selectedImage.el.classList.remove('selected');
+  parejasState.selectedImage = { el, data };
+  el.classList.add('selected');
+  checkParejasMatch();
+}
+function checkParejasMatch(){
+  if(!parejasState.selectedWord || !parejasState.selectedImage) return;
+  const feedback = document.getElementById('parejas-feedback');
+  const w = parejasState.selectedWord;
+  const im = parejasState.selectedImage;
+  if(w.data.pairId === im.data.pairId){
+    w.el.classList.remove('selected'); im.el.classList.remove('selected');
+    w.el.classList.add('matched'); im.el.classList.add('matched');
+    parejasState.matchedCount++;
+    updateParejasStars();
+    feedback.textContent='¡Correcto! Buena pareja. 🎉';
+    feedback.className='feedback-msg success';
+    if(parejasState.matchedCount===parejasState.words.length){
+      feedback.textContent='¡Encontraste todas las parejas! 🌟';
+    }
+  } else {
+    feedback.textContent='No es esa pareja. Intenta de nuevo.';
+    feedback.className='feedback-msg retry';
+    setTimeout(()=>{ w.el.classList.remove('selected'); im.el.classList.remove('selected'); }, 500);
+  }
+  parejasState.selectedWord=null; parejasState.selectedImage=null;
+}
+document.getElementById('parejas-reset').addEventListener('click', initParejas);
+
+const urlParams = new URLSearchParams(window.location.search);
+const nivelFromUrl = urlParams.get('nivel');
+if(nivelFromUrl === 'basico' || nivelFromUrl === 'intermedio'){
+  state.level = nivelFromUrl;
+  document.querySelectorAll('.level-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.level === nivelFromUrl);
+  });
+}
+initParejas();
+</script>
+</body>
+</html>

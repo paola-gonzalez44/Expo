@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rompecabezas de Imagen - Vocabulario en Inglés</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F7F2; --surface:#FFFFFF; --teal:#4F8481; --teal-dark:#3A6663;
+    --lavender:#9B8AC4; --gold:#E8B04B; --ink:#33393A; --ink-soft:#6B7371;
+    --success:#74A978; --amber:#D98E5B; --ring:#B9CFC9;
+    --radius-lg:22px; --radius-md:14px; --radius-sm:9px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Atkinson Hyperlegible', sans-serif;}
+  h1,h2,.btn,.segmented button{font-family:'Baloo 2', sans-serif;}
+  .app-shell{max-width:640px;margin:0 auto;padding:20px 16px 48px;}
+  header{text-align:center;margin-bottom:18px;}
+  header h1{font-size:1.5rem;color:var(--teal-dark);margin:0 0 4px;}
+  header p{margin:0;color:var(--ink-soft);font-size:0.95rem;}
+  .controls-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:18px 0;}
+  .segmented{display:flex;background:var(--surface);border-radius:999px;padding:4px;box-shadow:0 1px 3px rgba(0,0,0,0.06);gap:2px;}
+  .segmented button{border:none;background:transparent;padding:9px 16px;border-radius:999px;font-size:0.92rem;color:var(--ink-soft);cursor:pointer;font-weight:600;}
+  .segmented button.active{background:var(--teal);color:white;}
+  .segmented button:focus-visible{outline:3px solid var(--ring);outline-offset:2px;}
+  .panel{background:var(--surface);border-radius:var(--radius-lg);padding:24px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.05);text-align:center;}
+  .panel h2{margin-top:0;color:var(--teal-dark);font-size:1.25rem;text-align:left;}
+  .instructions{color:var(--ink-soft);font-size:0.95rem;margin:0 0 18px;line-height:1.5;text-align:left;}
+  .stars-row{display:flex;align-items:center;gap:6px;font-size:1.2rem;margin-bottom:16px;color:var(--gold);min-height:1.4rem;justify-content:flex-start;}
+  .stars-row .label{font-family:'Atkinson Hyperlegible', sans-serif;color:var(--ink-soft);font-size:0.85rem;margin-right:4px;}
+  .btn{border:none;padding:11px 20px;border-radius:var(--radius-sm);font-size:0.95rem;font-weight:600;cursor:pointer;}
+  .btn:focus-visible{outline:3px solid var(--ring);outline-offset:2px;}
+  .btn-primary{background:var(--teal);color:white;}
+  .btn-primary:hover{background:var(--teal-dark);}
+  .btn-secondary{background:#EDEAE3;color:var(--ink);}
+  .btn-secondary:hover{background:#E2DED4;}
+  .action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;justify-content:center;}
+  .feedback-msg{min-height:1.4rem;font-weight:700;margin:14px 0 0;font-size:1.05rem;}
+  .feedback-msg.success{color:var(--success);}
+  .feedback-msg.retry{color:var(--amber);}
+
+  .word-banner{
+    display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:16px;
+  }
+  .word-banner .word-text{font-family:'Baloo 2', sans-serif;font-size:1.3rem;color:var(--teal-dark);}
+  .speaker-btn{
+    background:var(--lavender);color:white;border:none;border-radius:50%;
+    width:40px;height:40px;font-size:1.1rem;cursor:pointer;
+  }
+  .speaker-btn:hover{background:#8672B0;}
+  .speaker-btn:focus-visible{outline:3px solid var(--ring);outline-offset:2px;}
+
+  .puzzle-board{
+    display:grid;
+    gap:4px;
+    width:280px;
+    aspect-ratio:1/1;
+    margin:0 auto;
+    background:var(--teal);
+    padding:4px;
+    border-radius:var(--radius-md);
+  }
+  .puzzle-piece{
+    background-repeat:no-repeat;
+    border-radius:6px;
+    cursor:pointer;
+    border:3px solid transparent;
+    transition:border-color 0.2s ease, transform 0.15s ease;
+  }
+  .puzzle-piece:hover{ transform:scale(1.02); }
+  .puzzle-piece.selected{ border-color:var(--gold); }
+  .puzzle-piece.correct-spot{ border-color:var(--success); }
+  .puzzle-piece:focus-visible{ outline:3px solid var(--ring); outline-offset:2px; }
+
+  .puzzle-board.solved .puzzle-piece{
+    border-color:transparent;
+    cursor:default;
+  }
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header>
+    <h1>🧩 Rompecabezas de Imagen</h1>
+    <p>Arma la imagen tocando dos piezas para intercambiarlas de lugar.</p>
+  </header>
+
+  <div class="controls-row">
+    <div class="segmented" role="group" aria-label="Nivel">
+      <button class="level-btn active" data-level="basico">Nivel básico</button>
+      <button class="level-btn" data-level="intermedio">Nivel intermedio</button>
+    </div>
+    <div class="segmented" role="group" aria-label="Dificultad">
+      <button class="grid-btn active" data-grid="2">Fácil (4 piezas)</button>
+      <button class="grid-btn" data-grid="3">Normal (9 piezas)</button>
+    </div>
+  </div>
+
+  <section class="panel">
+    <h2>Instrucciones</h2>
+    <p class="instructions">Toca una pieza y luego otra para intercambiarlas de lugar. Las piezas que ya están en su sitio correcto se marcan en verde. Cuando todas estén en verde, ¡la imagen estará completa!</p>
+
+    <div class="word-banner" id="word-banner" style="display:none;">
+      <span class="word-text" id="word-text"></span>
+      <button class="speaker-btn" id="speak-btn" title="Escuchar la palabra" aria-label="Escuchar la palabra">🔊</button>
+    </div>
+
+    <div class="puzzle-board" id="puzzle-board"></div>
+
+    <div class="feedback-msg" id="puzzle-feedback"></div>
+
+    <div class="action-row">
+      <button class="btn btn-secondary" id="reveal-btn">Ver la imagen completa</button>
+      <button class="btn btn-primary" id="next-btn">Nueva imagen</button>
+    </div>
+  </section>
+</div>
+
+<script>
+const VOCAB = {
+  basico: [
+    {en:"cat", emoji:"🐱"}, {en:"dog", emoji:"🐶"}, {en:"sun", emoji:"☀️"}, {en:"moon", emoji:"🌙"},
+    {en:"apple", emoji:"🍎"}, {en:"banana", emoji:"🍌"}, {en:"house", emoji:"🏠"}, {en:"book", emoji:"📖"},
+    {en:"water", emoji:"💧"}, {en:"milk", emoji:"🥛"}, {en:"fish", emoji:"🐟"}, {en:"bird", emoji:"🐦"},
+    {en:"star", emoji:"⭐"}, {en:"tree", emoji:"🌳"}, {en:"ball", emoji:"⚽"}, {en:"chair", emoji:"🪑"},
+    {en:"flower", emoji:"🌸"}, {en:"shoe", emoji:"👟"}, {en:"hat", emoji:"🧢"}, {en:"car", emoji:"🚗"},
+    {en:"bus", emoji:"🚌"}, {en:"boat", emoji:"⛵"}, {en:"egg", emoji:"🥚"}, {en:"bread", emoji:"🍞"},
+    {en:"cheese", emoji:"🧀"}, {en:"cake", emoji:"🎂"}, {en:"cookie", emoji:"🍪"}, {en:"orange", emoji:"🍊"},
+    {en:"grape", emoji:"🍇"}, {en:"strawberry", emoji:"🍓"}, {en:"carrot", emoji:"🥕"}, {en:"corn", emoji:"🌽"},
+    {en:"pizza", emoji:"🍕"}, {en:"rabbit", emoji:"🐰"}, {en:"horse", emoji:"🐴"}, {en:"cow", emoji:"🐮"},
+    {en:"pig", emoji:"🐷"}, {en:"sheep", emoji:"🐑"}, {en:"duck", emoji:"🦆"}, {en:"frog", emoji:"🐸"},
+    {en:"bee", emoji:"🐝"}, {en:"butterfly", emoji:"🦋"}, {en:"snake", emoji:"🐍"}, {en:"lion", emoji:"🦁"},
+    {en:"elephant", emoji:"🐘"}, {en:"monkey", emoji:"🐒"}, {en:"door", emoji:"🚪"}, {en:"window", emoji:"🪟"},
+    {en:"bed", emoji:"🛏️"}, {en:"clock", emoji:"🕐"}
+  ],
+  intermedio: [
+    {en:"happy", emoji:"😊"}, {en:"sad", emoji:"😢"}, {en:"angry", emoji:"😠"}, {en:"tired", emoji:"😴"},
+    {en:"scared", emoji:"😨"}, {en:"surprised", emoji:"😲"}, {en:"excited", emoji:"🤩"}, {en:"run", emoji:"🏃"},
+    {en:"jump", emoji:"🤸"}, {en:"swim", emoji:"🏊"}, {en:"dance", emoji:"💃"}, {en:"sing", emoji:"🎤"},
+    {en:"read", emoji:"📚"}, {en:"write", emoji:"✍️"}, {en:"draw", emoji:"🎨"}, {en:"listen", emoji:"👂"},
+    {en:"talk", emoji:"🗣️"}, {en:"walk", emoji:"🚶"}, {en:"fly", emoji:"✈️"}, {en:"climb", emoji:"🧗"},
+    {en:"build", emoji:"🧱"}, {en:"clean", emoji:"🧹"}, {en:"wash", emoji:"🚿"}, {en:"cook", emoji:"🍳"},
+    {en:"teacher", emoji:"👩‍🏫"}, {en:"doctor", emoji:"👨‍⚕️"}, {en:"nurse", emoji:"🩺"}, {en:"police officer", emoji:"👮"},
+    {en:"firefighter", emoji:"👨‍🚒"}, {en:"pilot", emoji:"👨‍✈️"}, {en:"chef", emoji:"👨‍🍳"}, {en:"artist", emoji:"👩‍🎨"},
+    {en:"scientist", emoji:"👩‍🔬"}, {en:"farmer", emoji:"👨‍🌾"}, {en:"rain", emoji:"🌧️"}, {en:"cloud", emoji:"☁️"},
+    {en:"snow", emoji:"❄️"}, {en:"wind", emoji:"💨"}, {en:"storm", emoji:"⛈️"}, {en:"rainbow", emoji:"🌈"},
+    {en:"hot", emoji:"🔥"}, {en:"cold", emoji:"🥶"}, {en:"morning", emoji:"🌅"}, {en:"night", emoji:"🌃"},
+    {en:"garden", emoji:"🌳"}, {en:"school", emoji:"🏫"}, {en:"kitchen", emoji:"🍽️"}, {en:"friend", emoji:"🤝"},
+    {en:"family", emoji:"👪"}, {en:"music", emoji:"🎵"}
+  ]
+};
+
+let state = { level:"basico", gridSize:2, words:[], wordIndex:0 };
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+document.querySelectorAll('.level-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); state.level = btn.dataset.level;
+    startNewSet();
+  });
+});
+document.querySelectorAll('.grid-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.grid-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); state.gridSize = parseInt(btn.dataset.grid,10);
+    loadPuzzle();
+  });
+});
+
+function startNewSet(){
+  state.words = shuffle(VOCAB[state.level]);
+  state.wordIndex = 0;
+  loadPuzzle();
+}
+
+/* Draws the emoji onto a canvas and returns a data URL to use as the puzzle image */
+function buildImageForWord(word){
+  const size = 280;
+  const canvas = document.createElement('canvas');
+  canvas.width = size; canvas.height = size;
+  const ctx = canvas.getContext('2d');
+
+  // soft background
+  ctx.fillStyle = '#EAF2F0';
+  ctx.fillRect(0,0,size,size);
+  ctx.fillStyle = '#F7FAF7';
+  ctx.beginPath();
+  ctx.arc(size/2, size/2, size/2 - 10, 0, Math.PI*2);
+  ctx.fill();
+
+  // big emoji centered
+  ctx.font = `${size*0.55}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(word.emoji, size/2, size/2 + size*0.03);
+
+  return canvas.toDataURL('image/png');
+}
+
+let puzzleState = { pieces:[], imageURL:'', selectedIndex:null, solved:false };
+
+function loadPuzzle(){
+  const word = state.words[state.wordIndex];
+  puzzleState.imageURL = buildImageForWord(word);
+  const n = state.gridSize;
+  const total = n*n;
+
+  let correctOrder = Array.from({length: total}, (_, i) => i);
+  let order = shuffle(correctOrder);
+  // make sure it isn't already solved
+  let tries = 0;
+  while(order.every((v,i)=>v===i) && tries < 5){ order = shuffle(correctOrder); tries++; }
+
+  puzzleState.pieces = order;
+  puzzleState.selectedIndex = null;
+  puzzleState.solved = false;
+
+  document.getElementById('word-banner').style.display = 'none';
+  document.getElementById('puzzle-feedback').textContent = '';
+  document.getElementById('puzzle-feedback').className = 'feedback-msg';
+
+  renderBoard();
+}
+
+function renderBoard(){
+  const n = state.gridSize;
+  const board = document.getElementById('puzzle-board');
+  board.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
+  board.classList.toggle('solved', puzzleState.solved);
+  board.innerHTML = '';
+
+  puzzleState.pieces.forEach((correctIndex, currentIndex) => {
+    const col = correctIndex % n;
+    const row = Math.floor(correctIndex / n);
+    const posX = n === 1 ? 0 : (col / (n-1)) * 100;
+    const posY = n === 1 ? 0 : (row / (n-1)) * 100;
+
+    const piece = document.createElement('button');
+    piece.className = 'puzzle-piece';
+    piece.style.backgroundImage = `url(${puzzleState.imageURL})`;
+    piece.style.backgroundSize = `${n*100}% ${n*100}%`;
+    piece.style.backgroundPosition = `${posX}% ${posY}%`;
+    piece.setAttribute('aria-label', `Pieza en posición ${currentIndex + 1}`);
+
+    if(!puzzleState.solved && currentIndex === correctIndex){
+      piece.classList.add('correct-spot');
+    }
+    if(puzzleState.selectedIndex === currentIndex){
+      piece.classList.add('selected');
+    }
+    piece.addEventListener('click', () => onPieceClick(currentIndex));
+    board.appendChild(piece);
+  });
+}
+
+function onPieceClick(currentIndex){
+  if(puzzleState.solved) return;
+
+  if(puzzleState.selectedIndex === null){
+    puzzleState.selectedIndex = currentIndex;
+    renderBoard();
+    return;
+  }
+  if(puzzleState.selectedIndex === currentIndex){
+    puzzleState.selectedIndex = null;
+    renderBoard();
+    return;
+  }
+  const a = puzzleState.selectedIndex;
+  const b = currentIndex;
+  [puzzleState.pieces[a], puzzleState.pieces[b]] = [puzzleState.pieces[b], puzzleState.pieces[a]];
+  puzzleState.selectedIndex = null;
+
+  const isSolved = puzzleState.pieces.every((val, idx) => val === idx);
+  if(isSolved){
+    puzzleState.solved = true;
+    onPuzzleSolved();
+  }
+  renderBoard();
+}
+
+function onPuzzleSolved(){
+  const word = state.words[state.wordIndex];
+  const feedback = document.getElementById('puzzle-feedback');
+  feedback.textContent = '¡Excelente! Completaste la imagen. 🎉';
+  feedback.className = 'feedback-msg success';
+
+  document.getElementById('word-text').textContent = word.en;
+  document.getElementById('word-banner').style.display = 'flex';
+}
+
+function speak(text){
+  if(!('speechSynthesis' in window)) return;
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'en-US';
+  utter.rate = 0.85;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utter);
+}
+document.getElementById('speak-btn').addEventListener('click', () => {
+  speak(state.words[state.wordIndex].en);
+});
+
+document.getElementById('reveal-btn').addEventListener('click', () => {
+  const wasSolved = puzzleState.solved;
+  puzzleState.solved = true;
+  renderBoard();
+  if(!wasSolved){
+    const feedback = document.getElementById('puzzle-feedback');
+    feedback.textContent = 'Así se ve la imagen completa. Toca "Nueva imagen" para seguir practicando.';
+    feedback.className = 'feedback-msg';
+  }
+});
+
+document.getElementById('next-btn').addEventListener('click', () => {
+  state.wordIndex = (state.wordIndex + 1) % state.words.length;
+  loadPuzzle();
+});
+
+const urlParams = new URLSearchParams(window.location.search);
+const nivelFromUrl = urlParams.get('nivel');
+if(nivelFromUrl === 'basico' || nivelFromUrl === 'intermedio'){
+  state.level = nivelFromUrl;
+  document.querySelectorAll('.level-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.level === nivelFromUrl);
+  });
+}
+startNewSet();
+</script>
+</body>
+</html>
