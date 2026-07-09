@@ -71,4 +71,444 @@
   <script src="js/verb-game.js" defer></script>
 
 </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verb To Be Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e0edff 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 5%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, #1e3a5f 0%, #3b82f6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(30, 58, 95, 0.35);
+        }
+
+        .game-container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .game-header h1 {
+            font-size: 2.5rem;
+            color: #1e3a5f;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .game-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .progress-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(30, 58, 95, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3a5f 0%, #3b82f6 100%);
+            transition: width 0.5s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            color: #1e3a5f;
+        }
+
+        .question-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 35px rgba(30, 58, 95, 0.12);
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 2.2rem;
+            color: #1e3a5f;
+            margin-bottom: 2.5rem;
+            font-weight: 700;
+        }
+
+        .blank {
+            display: inline-block;
+            min-width: 120px;
+            border-bottom: 4px solid #3b82f6;
+            color: #3b82f6;
+            padding: 0 0.5rem;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .option-btn {
+            padding: 1.8rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border: 3px solid #e2e8f0;
+            background: white;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #1e3a5f;
+        }
+
+        .option-btn:hover {
+            border-color: #3b82f6;
+            background: #f0f7ff;
+            transform: translateY(-3px);
+        }
+
+        .option-btn.selected {
+            background: linear-gradient(135deg, #1e3a5f 0%, #3b82f6 100%);
+            color: white;
+            border-color: #1e3a5f;
+        }
+
+        .option-btn.correct {
+            background: #10b981;
+            color: white;
+            border-color: #10b981;
+        }
+
+        .option-btn.incorrect {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+
+        .feedback {
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: #d1fae5;
+            color: #059669;
+            border: 3px solid #10b981;
+        }
+
+        .feedback.incorrect {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 3px solid #ef4444;
+        }
+
+        .btn-submit, .btn-next {
+            padding: 1.2rem 3.5rem;
+            font-size: 1.2rem;
+            font-weight: 800;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #1e3a5f 0%, #3b82f6 100%);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(30, 58, 95, 0.3);
+        }
+
+        .btn-next {
+            background: #10b981;
+            color: white;
+            display: none;
+        }
+
+        .btn-next:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .result-screen {
+            display: none;
+            text-align: center;
+            background: white;
+            padding: 4rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 35px rgba(30, 58, 95, 0.12);
+        }
+
+        .result-screen.show {
+            display: block;
+        }
+
+        .result-screen h2 {
+            font-size: 2.8rem;
+            color: #1e3a5f;
+            margin-bottom: 1rem;
+        }
+
+        .final-score {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #3b82f6;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .options {
+                grid-template-columns: 1fr;
+            }
+
+            .question-text {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="grammar-games.html" class="btn-back">
+            <i class="fas fa-arrow-left"></i> Back to Games
+        </a>
+        <div style="font-weight: 700; color: #1e3a5f; font-size: 1.2rem;">
+            Verb To Be Game
+        </div>
+    </nav>
+
+    <div class="game-container">
+        <div class="game-header">
+            <h1>Verb To Be</h1>
+            <p>Choose the correct form: am, is, or are</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+            </div>
+            <div class="stats">
+                <span>Question <span id="currentQ">1</span> of 10</span>
+                <span>Score: <span id="score">0</span>/10</span>
+            </div>
+        </div>
+
+        <div id="questionScreen">
+            <div class="question-card">
+                <div class="question-text" id="questionText">
+                    I <span class="blank">___</span> a student
+                </div>
+
+                <div class="options" id="options">
+                    <button class="option-btn" onclick="selectOption(0)">am</button>
+                    <button class="option-btn" onclick="selectOption(1)">is</button>
+                    <button class="option-btn" onclick="selectOption(2)">are</button>
+                </div>
+
+                <div class="feedback" id="feedback"></div>
+
+                <button class="btn-submit" id="btnSubmit" onclick="checkAnswer()">
+                    Check Answer
+                </button>
+                <button class="btn-next" id="btnNext" onclick="nextQuestion()">
+                    Next Question
+                </button>
+            </div>
+        </div>
+
+        <div class="result-screen" id="resultScreen">
+            <h2>Great Job!</h2>
+            <p>You completed the game!</p>
+            <div class="final-score" id="finalScore">0/10</div>
+            <p id="resultMessage"></p>
+            <a href="grammar-games.html" class="btn-back" style="margin-top: 2rem; display: inline-flex;">
+                <i class="fas fa-home"></i> Back to All Games
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "I ___ a student", options: ["am", "is", "are"], correct: 0 },
+            { question: "She ___ my teacher", options: ["am", "is", "are"], correct: 1 },
+            { question: "They ___ happy", options: ["am", "is", "are"], correct: 2 },
+            { question: "He ___ my friend", options: ["am", "is", "are"], correct: 1 },
+            { question: "We ___ in class", options: ["am", "is", "are"], correct: 2 },
+            { question: "It ___ a cat", options: ["am", "is", "are"], correct: 1 },
+            { question: "You ___ kind", options: ["am", "is", "are"], correct: 2 },
+            { question: "I ___ seven years old", options: ["am", "is", "are"], correct: 0 },
+            { question: "My mom ___ nice", options: ["am", "is", "are"], correct: 1 },
+            { question: "The dogs ___ playful", options: ["am", "is", "are"], correct: 2 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let selectedOption = null;
+        let answered = false;
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('questionText').innerHTML = 
+                q.question.split('___').join('<span class="blank">___</span>');
+            
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => selectOption(idx);
+                optionsDiv.appendChild(btn);
+            });
+
+            document.getElementById('currentQ').textContent = currentQuestion + 1;
+            
+            const progress = (currentQuestion / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            document.getElementById('feedback').classList.remove('show');
+            document.getElementById('btnSubmit').style.display = 'inline-block';
+            document.getElementById('btnNext').style.display = 'none';
+            
+            selectedOption = null;
+            answered = false;
+        }
+
+        function selectOption(index) {
+            if (answered) return;
+            
+            selectedOption = index;
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach((btn, idx) => {
+                btn.classList.remove('selected');
+                if (idx === index) btn.classList.add('selected');
+            });
+        }
+
+        function checkAnswer() {
+            if (selectedOption === null) {
+                alert('Please select an answer!');
+                return;
+            }
+
+            answered = true;
+            const q = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            const feedback = document.getElementById('feedback');
+
+            if (selectedOption === q.correct) {
+                score++;
+                document.getElementById('score').textContent = score;
+                buttons[selectedOption].classList.add('correct');
+                feedback.className = 'feedback correct show';
+                feedback.innerHTML = 'Excellent! That is correct!';
+            } else {
+                buttons[selectedOption].classList.add('incorrect');
+                buttons[q.correct].classList.add('correct');
+                feedback.className = 'feedback incorrect show';
+                feedback.innerHTML = 'The correct answer is: ' + q.options[q.correct];
+            }
+
+            document.getElementById('btnSubmit').style.display = 'none';
+            document.getElementById('btnNext').style.display = 'inline-block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('questionScreen').style.display = 'none';
+            document.getElementById('resultScreen').classList.add('show');
+            document.getElementById('progressBar').style.width = '100%';
+            document.getElementById('finalScore').textContent = score + '/10';
+
+            let message = '';
+            if (score === 10) {
+                message = 'Perfect score! You are a grammar master!';
+            } else if (score >= 8) {
+                message = 'Great job! You did really well!';
+            } else if (score >= 6) {
+                message = 'Good effort! Keep practicing!';
+            } else {
+                message = 'Nice try! Practice makes perfect!';
+            }
+
+            document.getElementById('resultMessage').textContent = message;
+        }
+
+        loadQuestion();
+    </script>
+</body>
 </html>

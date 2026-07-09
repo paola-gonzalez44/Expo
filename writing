@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing A1 - Steady Oak</title>
+    
+    <!-- ============================================
+         ESTILOS CSS - Definición de toda la apariencia visual
+         ============================================ -->
+    <style>
+        /* Reset básico para eliminar márgenes por defecto del navegador */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos generales del cuerpo de la página */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            color: #1a2b4a;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           HEADER - Barra de navegación superior
+           PUNTO DE UNIÓN: Este header debe ser idéntico en todas las páginas
+           ============================================ */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Logo con el árbol de Steady Oak */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a2b4a;
+        }
+
+        .logo svg {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Menú de navegación principal */
+        nav {
+            display: flex;
+            gap: 40px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #1a2b4a;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #0066cc;
+        }
+
+        /* ============================================
+           BOTONES DE AUTENTICACIÓN - Login y Sign Up juntos
+           ============================================ */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-login, .btn-signup {
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            border: 2px solid #1a2b4a;
+        }
+
+        .btn-login {
+            background-color: #1a2b4a;
+            color: white;
+        }
+
+        .btn-login:hover {
+            background-color: #2c3e6b;
+            transform: translateY(-2px);
+        }
+
+        .btn-signup {
+            background-color: transparent;
+            color: #1a2b4a;
+        }
+
+        .btn-signup:hover {
+            background-color: #1a2b4a;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* ============================================
+           CONTENIDO PRINCIPAL - Sección única de cada página
+           PUNTO DE UNIÓN: Aquí va el contenido específico de cada página
+           ============================================ */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 48px;
+            color: #1a2b4a;
+            margin-bottom: 40px;
+            font-weight: 700;
+        }
+
+        /* Contenedor de las tarjetas de práctica */
+        .practice-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Estilo de cada tarjeta individual */
+        .card {
+            display: flex;
+            align-items: center;
+            border: 2px solid #1a2b4a;
+            border-radius: 10px;
+            padding: 30px;
+            gap: 40px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background-color: white;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(26, 43, 74, 0.15);
+        }
+
+        .card img {
+            width: 300px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card-content h2 {
+            font-size: 28px;
+            color: #1a2b4a;
+            margin-bottom: 10px;
+        }
+
+        .card-content p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .btn-practice {
+            display: inline-block;
+            padding: 15px 40px;
+            background-color: #1a2b4a;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-practice:hover {
+            background-color: #2c3e6b;
+        }
+
+        /* ============================================
+           FOOTER - Pie de página
+           PUNTO DE UNIÓN: Este footer debe ser idéntico en todas las páginas
+           ============================================ */
+        footer {
+            background-color: #1a2b4a;
+            color: white;
+            padding: 50px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+            opacity: 0.9;
+        }
+
+        .footer-section a:hover {
+            color: #a0c4ff;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .social-icons a {
+            font-size: 24px;
+            transition: transform 0.3s;
+        }
+
+        .social-icons a:hover {
+            transform: scale(1.2);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 30px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-bottom .logo-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-bottom svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* ============================================
+           MODAL - Ventanas emergentes para Login/Signup
+           ============================================ */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #1a2b4a;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #ff0000;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #1a2b4a;
+            font-size: 28px;
+        }
+
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .modal-content input:focus {
+            outline: none;
+            border-color: #1a2b4a;
+        }
+
+        .modal-content button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #1a2b4a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal-content button[type="submit"]:hover {
+            background-color: #2c3e6b;
+        }
+
+        /* ============================================
+           RESPONSIVE - Adaptación a dispositivos móviles
+           ============================================ */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .card {
+                flex-direction: column;
+            }
+
+            .card img {
+                width: 100%;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         HEADER - Navegación principal
+         PUNTO DE UNIÓN: Copiar este header en todas las páginas
+         ============================================ -->
+    <header>
+  
+        
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="skills.html">Skills</a>
+            <a href="grammar.html">Grammar</a>
+            <a href="vocabulary.html">Vocabulary</a>
+        </nav>
+
+        <div class="auth-buttons">
+            <!-- BOTONES DE LOGIN Y SIGN UP JUNTOS -->
+            <button class="btn-login" onclick="openModal('loginModal')">Login</button>
+            <button class="btn-signup" onclick="openModal('signupModal')">Sign Up</button>
+        </div>
+    </header>
+
+    <!-- ============================================
+         CONTENIDO PRINCIPAL - Writing A1
+         PUNTO DE UNIÓN: Este es el contenido único de esta página
+         ============================================ -->
+    <main>
+        <h1>Writing A1</h1>
+
+        <div class="practice-cards">
+            <!-- Tarjeta 1: Mensaje de retraso -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300&fit=crop" alt="Mensaje en teléfono">
+                <div class="card-content">
+                    <h2>A message to say you are late</h2>
+                    <p>Learn how to write a message to express you are late</p>
+                    <button class="btn-practice" onclick="startPractice('message-late')">Practice now</button>
+                </div>
+            </div>
+
+            <!-- Tarjeta 2: Escribir invitación -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=300&fit=crop" alt="Escribir invitación">
+                <div class="card-content">
+                    <h2>Write an invitation</h2>
+                    <p>Write an invitation to your friends</p>
+                    <button class="btn-practice" onclick="startPractice('invitation')">Practice now</button>
+                </div>
+            </div>
+
+            <!-- Tarjeta 3: Diario diario -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?w=400&h=300&fit=crop" alt="Diario diario">
+                <div class="card-content">
+                    <h2>Daily Log</h2>
+                    <p>Write a short paragraph (30-50 words) about what you did in your day using the Past Simple.</p>
+                    <button class="btn-practice" onclick="startPractice('daily-log')">Practice now</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ============================================
+         FOOTER - Pie de página
+         PUNTO DE UNIÓN: Copiar este footer en todas las páginas
+         ============================================ -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Skills</h3>
+                <ul>
+                    <li><a href="reading.html">Reading</a></li>
+                    <li><a href="listening.html">Listening</a></li>
+                    <li><a href="writing.html">Writing</a></li>
+                    <li><a href="speaking.html">Speaking</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Vocabulary</h3>
+                <ul>
+                    <li><a href="vocab-a1-a2.html">A1 - A2 Vocabulary</a></li>
+                    <li><a href="vocab-b1-b2.html">B1 - B2 Vocabulary</a></li>
+                    <li><a href="games.html">Interactive Games: Play with Words</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Grammar</h3>
+                <ul>
+                    <li><a href="grammar-a1-a2.html">A1 - A2 Grammar</a></li>
+                    <li><a href="grammar-b1-b2.html">B1 - B2 Grammar</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Connect with us</h3>
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook">📘</a>
+                    <a href="#" aria-label="Twitter">𝕏</a>
+                    <a href="#" aria-label="Instagram">📷</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="logo-text">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 20 Q30 20 25 40 Q20 60 35 70 Q30 80 40 85 L50 90 L60 85 Q70 80 65 70 Q80 60 75 40 Q70 20 50 20" fill="#ffffff"/>
+                </svg>
+                <span>Steady Oak © 2026</span>
+            </div>
+            <div>
+                <a href="mission.html">Our Mission</a> | 
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         MODAL DE LOGIN - Ventana emergente para iniciar sesión
+         ============================================ -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Login</h2>
+            <form onsubmit="handleLogin(event)">
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============================================
+         MODAL DE SIGN UP - Ventana emergente para registrarse
+         ============================================ -->
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('signupModal')">&times;</span>
+            <h2>Sign Up</h2>
+            <form onsubmit="handleSignup(event)">
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+                <input type="password" placeholder="Confirm Password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============================================
+         JAVASCRIPT - Funcionalidad interactiva
+         ============================================ -->
+    <script>
+        // Función para abrir modales (Login/Signup)
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        // Función para cerrar modales
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Cerrar modal al hacer clic fuera de él
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+
+        // Manejar el envío del formulario de Login
+        function handleLogin(event) {
+            event.preventDefault();
+            // Aquí conectarías con tu backend para autenticación
+            alert('Login exitoso! (Aquí conectarías con tu backend)');
+            closeModal('loginModal');
+        }
+
+        // Manejar el envío del formulario de Sign Up
+        function handleSignup(event) {
+            event.preventDefault();
+            // Aquí conectarías con tu backend para registrar usuario
+            alert('Registro exitoso! (Aquí conectarías con tu backend)');
+            closeModal('signupModal');
+        }
+
+        // Iniciar práctica - redirige a la actividad correspondiente
+        function startPractice(activity) {
+            // PUNTO DE UNIÓN: Aquí puedes redirigir a páginas de práctica específicas
+            alert(`Iniciando práctica: ${activity}\n(Aquí redirigirías a la página de práctica correspondiente)`);
+            // Ejemplo de redirección:
+            // window.location.href = `practice-${activity}.html`;
+        }
+
+    </script>
+
+</body>
+</html>
