@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary — Learn with Clarity</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+  :root{
+    --bg:#F1F6FA;
+    --surface:#FFFFFF;
+    --sky:#9DC7E4;
+    --sky-dark:#4C7EA6;
+    --sky-tint:#E7F1F8;
+    --navy:#153A63;
+    --navy-dark:#102B4A;
+    --navy-tint:#E6EAF0;
+    --pink:#5A7893;
+    --pink-dark:#425C71;
+    --pink-tint:#EAEFF3;
+    --ink:#2C3A4A;
+    --ink-soft:#647180;
+    --ring:#BFD9EC;
+    --radius-lg:26px;
+    --radius-md:16px;
+    --radius-sm:10px;
+  }
+  *{box-sizing:border-box;}
+  html{
+    scroll-behavior:smooth;
+}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Poppins', sans-serif;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.btn,.nav-links a,.stone-label,.chip{
+    font-family:'Poppins', sans-serif;
+}
+  a{
+    color:inherit;
+    text-decoration:none;
+}
+  img,svg{
+    display:block;
+    max-width:100%;
+}
+
+   /* Navbar */
+        .Logo{
+        height:70px;
+        width:auto;
+        }
+
+        .navbar{
+            background:white;
+            padding:20px 40px;
+            box-shadow:0 2px 10px rgba(0,0,0,.05);
+            z-index:1000;
+        }
+        
+        .navbar-brand{
+        font-weight:700;
+        color:#1f3f82;
+        font-size:24px;
+        }
+
+        .nav-link{
+        color:#1f3f82;
+        margin:0 10px;
+        font-weight:500;
+        }
+        
+
+  /* Hero  */
+  .hero{
+    position:relative;
+    padding:64px 6vw 90px;
+    overflow:hidden;
+    background:linear-gradient(180deg, #E9F2F8 0%, var(--bg) 100%);
+  }
+  .hero-blob{
+    position:absolute;
+    border-radius:50%;
+    opacity:0.35;
+    filter:blur(2px);
+  }
+  .blob-1{ width:280px; height:280px; background:var(--pink); top:-90px; right:8vw; }
+  .blob-2{ width:180px; height:180px; background:var(--sky); bottom:-60px; left:2vw; opacity:0.3;}
+  .blob-3{ width:120px; height:120px; background:var(--navy); top:40%; right:22vw; opacity:0.2;}
+
+  .hero-inner{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    gap:48px;
+    max-width:1120px;
+    margin:0 auto;
+  }
+  .hero-text{
+    flex:1; 
+    max-width:650px; 
+    text-align:left;
+ }
+
+  .eyebrow{
+    font-family: 'Poppins', sans-serif;
+    display:inline-block;
+    background:var(--pink-tint);
+    color:var(--pink-dark);
+    font-weight:600;
+    font-size:0.9rem;
+    padding:6px 14px;
+    border-radius:999px;
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-family: 'Poppins', sans-serif;
+    font-size:3.3 rem;
+    font-weight: 700;
+    line-height:1.2;
+    color:var(--navy-dark);
+    margin:0 0 16px;
+  }
+  .hero h1 .accent{ 
+    color:var(--sky-dark); 
+}
+
+  .hero p{
+    font-family: 'Poppins', sans-serif;
+    font-size:1.08rem;
+    font-weight: 400;
+    color:var(--ink-soft);
+    max-width:560px;
+    line-height:1.8;
+    margin:0 0 26px;
+  }
+  .hero-ctas{
+    display:flex; 
+    gap:14px; flex-wrap:wrap;
+    justify-content:flex-start; 
+    }
+
+  .btn{
+    font-family: 'Poppins', sans-serif;
+    border:none;
+    padding:14px 26px;
+    border-radius:999px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  .btn:active{ transform:scale(0.97); }
+  .btn-primary{ background:var(--sky-dark); color:white; box-shadow:0 6px 16px rgba(76,126,166,0.35); }
+  .btn-primary:hover{ background:var(--navy-dark); }
+  .btn-ghost{ background:var(--surface); color:var(--navy-dark); border:2px solid var(--sky-tint); }
+  .btn-ghost:hover{ border-color:var(--sky); }
+
+  /* INFO CHIPS (accordion) */
+  .chips-row{
+    max-width:1120px;
+    margin:36px auto 0;
+    display:flex;
+    gap:16px;
+    flex-wrap:wrap;
+    position:relative;
+  }
+  .chip{
+    flex:1;
+    min-width:260px;
+    background:var(--surface);
+    border-radius:var(--radius-md);
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    overflow:hidden;
+  }
+
+  .chip-head{
+    font-family:'Poppins', sans-serif;
+    width:100%;
+    background:none;
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 20px;
+    cursor:pointer;
+    font-weight:600;
+    font: size 1.05rem;
+    color:var(--navy-dark);
+  }
+  .chip-head .arrow{
+    transition:transform 0.25s ease;
+    color:var(--pink-dark);
+    font-size:1rem;
+  }
+  .chip.open .chip-head .arrow{
+    transform:rotate(180deg);
+    }
+
+  .chip-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+    padding:0 20px;
+  }
+  .chip.open .chip-body{ 
+    max-height:220px; 
+    padding-bottom:18px;
+ }
+
+  .chip-body p{
+    font-family:'Poppins', sans-serif;
+    margin:0;
+    color:var(--ink-soft);
+    font-size:0.97rem;
+    line-height:1.7;
+  }
+
+  /* Path */
+  .path-section{
+    max-width:1120px;
+    margin:80px auto 0;
+    padding:0 6vw;
+  }
+  .section-heading{
+    text-align:center;
+    margin-bottom:52px;
+  }
+  .section-heading .eyebrow{ 
+    margin-bottom:12px; 
+}
+
+  .section-heading h2{
+    font-family:'Poppins', sans-serif;
+    font: size 2.2rem;
+    font-weight: 700;
+    color:var(--navy-dark);
+    margin:0 0 10px;
+  }
+  .section-heading p{ 
+    font-family:'Poppins', sans-serif;
+    font-size:1rem;
+    font-weight:400;
+    color:var(--ink-soft); 
+    margin:0; 
+    max-width:520px; 
+    margin:0 auto; }
+
+  .trail{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .trail-line{
+    position:absolute;
+    left:50%;
+    top:60px;
+    bottom:60px;
+    width:6px;
+    background-image:linear-gradient(var(--ink-soft) 40%, transparent 0%);
+    background-position:center;
+    background-size:6px 22px;
+    background-repeat:repeat-y;
+    opacity:0.25;
+    transform:translateX(-50%);
+  }
+  @media (max-width:760px){ .trail-line{ display:none; } }
+
+  .stone{
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:36px;
+    margin-bottom:46px;
+  }
+  .stone:nth-child(even){ flex-direction:row-reverse; }
+  .stone-card{
+    flex:1;
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    padding:30px 32px;
+    box-shadow:0 4px 18px rgba(0,0,0,0.06);
+    border-top:6px solid var(--stone-color, var(--sky));
+  }
+  .stone-num{
+    flex-shrink:0;
+    width:74px;height:74px;
+    border-radius:50%;
+    background:var(--stone-color, var(--sky));
+    color:white;
+    display:flex;align-items:center;justify-content:center;
+    font-size:2rem;
+    box-shadow:0 6px 14px rgba(0,0,0,0.15);
+    z-index:2;
+  }
+  .stone-label{
+    font-family:'Poppins', sans-serif;
+    display:inline-block;
+    font-size:0.85rem;
+    font-weight:600;
+    letter-spacing:0.03em;
+    color:var(--stone-color, var(--sky));
+    background:color-mix(in srgb, var(--stone-color, var(--sky)) 14%, white);
+    padding:4px 12px;
+    border-radius:999px;
+    margin-bottom:10px;
+  }
+  .stone-card h3{
+    font-family:'Poppins', sans-serif;
+    margin:0 0 8px;
+    font-size:1.45rem;
+    font-weight: 700;
+    color:var(--ink);
+  }
+  .stone-card p{
+    font-family:'Poppins', sans-serif;
+    font-size:1rem;
+    font-weight:400;
+    margin:0 0 18px;
+    color:var(--ink-soft);
+    line-height:1.7;
+  }
+  .stone-actions{ 
+    display:flex; 
+    gap:10px;
+    flex-wrap:wrap; }
+
+  .mini-btn{
+    font-family: 'Poppins', sans-serif;
+    background:var(--stone-color, var(--sky));
+    color:white;
+    border:none;
+    padding:10px 18px;
+    border-radius:999px;
+    font-weight:600;
+    font-size:.95rem;
+    cursor:pointer;
+  }
+  .mini-btn:hover{ filter:brightness(0.92); }
+  .mini-btn.outline{
+    background:transparent;
+    color:var(--stone-color, var(--sky));
+    border:2px solid var(--stone-color, var(--sky));
+  }
+
+  @media (max-width:760px){
+    .stone, .stone:nth-child(even){ flex-direction:column; align-items:flex-start; }
+    .stone-num{ margin-bottom:-16px; margin-left:12px; }
+  }
+
+  /* Games */
+  .games-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    margin-top:18px;
+  }
+  .game-tile{
+    background:var(--pink-tint);
+    border-radius:var(--radius-sm);
+    padding:16px 12px;
+    text-align:center;
+    transition:transform 0.15s ease;
+  }
+  .game-tile:hover{ 
+    transform:translateY(-3px);
+ }
+  .game-tile .icon{
+    font-size:1.8rem;
+     margin-bottom:8px; }
+
+  .game-tile .name{ 
+    font-family: 'Poppins', sans-serif;
+    font-weight:600; 
+    font-size:0.95rem; 
+    color:var(--ink); display:block; margin-bottom:10px; }
+  @media (max-width:600px){ .games-grid{ grid-template-columns:1fr; } }
+
+
+  /* Footer */
+        footer {
+            background-color: #1e3a5f;
+            color: white;
+            padding: 3rem 5%;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #a0aec0;
+        }
+
+         @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .levels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+</style>
+</head>
+<body>
+
+ <!-- Navbar -->
+ <nav class="navbar navbar-expand-lg sticky-top"> 
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="#">
+        <img src="img/Logo.png" alt="Logo" class="Logo">
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="menu">
+
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="grammar__menu.html">Grammar</a></li>
+          <li class="nav-item"><a class="nav-link" href="vocabulary_home.html">Vocabulary</a></li>
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+
+<section class="hero" id="home">
+  <span class="hero-blob blob-1"></span>
+  <span class="hero-blob blob-2"></span>
+  <span class="hero-blob blob-3"></span>
+
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="eyebrow">Learn at your own pace</span>
+      <h1>English vocabulary, <span class="accent">made clear</span></h1>
+      <p>Grow your English vocabulary in a clear, organized way — from the basics to more complete words. Take your time, no pressure, with games that make practice feel like play.</p>
+      <div class="hero-ctas">
+        <a href="#levels" class="btn btn-primary"> Start learning</a>
+        <a href="#games" class="btn btn-ghost"> Go to the games</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="chips-row">
+    <div class="chip" id="chip-what">
+      <button class="chip-head" aria-expanded="false">
+        <span> What will you learn?</span>
+        <span class="arrow">▾</span>
+      </button>
+      <div class="chip-body">
+        <p>Essential words for everyday life: animals, food, emotions, routines, jobs, and more — organized by level, from the simplest to the most complete.</p>
+      </div>
+    </div>
+    <div class="chip" id="chip-how">
+      <button class="chip-head" aria-expanded="false">
+        <span> How will you learn?</span>
+        <span class="arrow">▾</span>
+      </button>
+      <div class="chip-body">
+        <p>With short games and no time limit: memory, matching pairs, and picture puzzles. You can listen to the pronunciation of any word whenever you want.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="path-section" id="levels">
+  <div class="section-heading">
+    <span class="eyebrow">Your learning path</span>
+    <h2>One step at a time</h2>
+    <p>Move at your own pace: start with the basics, then intermediate, and practice everything with games whenever you like.</p>
+  </div>
+
+  <div class="trail">
+    <span class="trail-line"></span>
+
+    <div class="stone" style="--stone-color:#9DC7E4;">
+      <div class="stone-num"></div>
+      <div class="stone-card">
+        <span class="stone-label">Step 1</span>
+        <h3>A1–A2 Vocabulary (Basic)</h3>
+        <p>The most common words to describe yourself and the world around you: animals, food, home, colors, and everyday objects.</p>
+        <div class="stone-actions">
+          <a href="1_memoria.html?nivel=basico" class="mini-btn">Practice with games</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stone" style="--stone-color:#153A63;">
+      <div class="stone-num"></div>
+      <div class="stone-card">
+        <span class="stone-label">Step 2</span>
+        <h3>B1–B2 Vocabulary (Intermediate)</h3>
+        <p>Words to express emotions, actions, jobs, and weather — fuller phrases to help you communicate with more confidence.</p>
+        <div class="stone-actions">
+          <a href="1_memoria.html?nivel=intermedio" class="mini-btn" style="background:#153A63;">Practice with games</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stone" id="games" style="--stone-color:#5A7893;">
+      <div class="stone-num"></div>
+      <div class="stone-card">
+        <span class="stone-label">Step 3</span>
+        <h3>Interactive games: learn by playing</h3>
+        <p>Choose a game to practice the vocabulary you've already learned. Play as many times as you like — there's no score to lose.</p>
+        <div class="games-grid">
+          <a href="memoriagame-V.html" class="game-tile">
+            <span class="name">Memory</span>
+          </a>
+          <a href="pairsgame-V.html" class="game-tile">
+            <span class="name">Matching pairs</span>
+          </a>
+          <a href="puzzletgame-V.html" class="game-tile">
+            <span class="name">Puzzle</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Skills</h4>
+                <ul>
+                    <li><a href="#">Reading</a></li>
+                    <li><a href="#">Listening</a></li>
+                    <li><a href="#">Writing</a></li>
+                    <li><a href="#">Speaking</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Vocabulary</h4>
+                <ul>
+                    <li><a href="#">A1 - A2 Vocabulary</a></li>
+                    <li><a href="#">B1 - B2 Vocabulary</a></li>
+                    <li><a href="#">Interactive Games</a></li>
+                    <li><a href="#">Play with Words</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Grammar</h4>
+                <ul>
+                    <li><a href="grammar-games.html">A1 - A2 Grammar</a></li>
+                    <li><a href="b1-b2-grammar.html">B1 - B2 Grammar</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Connect with us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <img src="img/Logo2.png" alt="Logo" class="Logo"><p>&copy; 2026 All rights reserved.</p>
+        </div>
+    </footer>
+
+<script>
+  document.querySelectorAll('.chip-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const chip = head.closest('.chip');
+      const isOpen = chip.classList.contains('open');
+      document.querySelectorAll('.chip').forEach(c => {
+        c.classList.remove('open');
+        c.querySelector('.chip-head').setAttribute('aria-expanded', 'false');
+      });
+      if(!isOpen){
+        chip.classList.add('open');
+        head.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

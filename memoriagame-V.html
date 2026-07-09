@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juego de Memoria - Vocabulario en Inglés</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+  --bg:#F1F6FA;
+  --surface:#FFFFFF;
+  --primary:#4C7EA6;
+  --primary-dark:#153A63;
+  --secondary:#9DC7E4;
+  --light:#E7F1F8;
+
+  --ink:#2C3A4A;
+  --ink-soft:#647180;
+
+  --success:#7BBE86;
+  --warning:#E3A54A;
+
+  --ring:#BFD9EC;
+
+  --radius-lg:22px;
+  --radius-md:16px;
+  --radius-sm:10px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins', sans-serif;
+    background:linear-gradient(180deg,#EEF5FA 0%,#F8FBFD 100%);
+    color:var(--ink);
+}
+
+/*Container*/
+
+.app-shell{
+    max-width:900px;
+    margin:40px auto;
+    padding:20px;
+}
+
+.back-container{
+    margin-bottom:20px;
+}
+
+.back-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:12px 22px;
+    background:white;
+    color:var(--primary-dark);
+    border:2px solid var(--secondary);
+    border-radius:999px;
+    font-family:'Poppins',sans-serif;
+    font-weight:600;
+    text-decoration:none;
+    transition:.25s;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.back-btn:hover{
+    background:var(--primary);
+    color:white;
+    border-color:var(--primary);
+    transform:translateY(-2px);
+}
+
+header{
+    font-family: 'Poppins', sans-serif;
+    text-align:center;
+    margin-bottom:35px;
+}
+
+header h1{
+    font-family: 'Poppins', sans-serif;
+    font-size:2.4rem;
+    font-weight:700;
+    color:var(--primary-dark);
+    margin-bottom:10px;
+}
+
+header p{
+    font-family: 'Poppins', sans-serif;
+    font-size:1rem;
+    color:var(--ink-soft);
+}
+
+
+.controls-row{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:18px;
+    margin-bottom:30px;
+}
+
+.segmented{
+    display:flex;
+    background:white;
+    border-radius:999px;
+    padding:6px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.segmented button{
+    border:none;
+    background:none;
+    padding:12px 22px;
+    border-radius:999px;
+    font-family:'Poppins',sans-serif;
+    font-size:.95rem;
+    font-weight:600;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:.25s;
+}
+
+.segmented button:hover{
+    color:var(--primary-dark);
+}
+
+.segmented button.active{
+    background:var(--primary);
+    color:white;
+}
+
+/* Panel */
+
+.panel{
+    background:white;
+    border-radius:24px;
+    padding:35px;
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+}
+
+.panel h2{
+    font-family: 'Poppins', sans-serif;
+    color:var(--primary-dark);
+    font-size:1.6rem;
+    margin-bottom:15px;
+}
+
+.instructions{
+    font-family: 'Poppins', sans-serif;
+    color:var(--ink-soft);
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+/*Stars*/
+
+.stars-row{
+    font-family: 'Poppins', sans-serif;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:25px;
+    color:#F2C94C;
+    font-size:1.3rem;
+}
+
+.label{
+    font-family: 'Poppins', sans-serif;
+    color:var(--ink-soft);
+    font-size:.95rem;
+    font-weight:500;
+}
+
+/*Game grid */
+
+.card-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-top:25px;
+}
+
+/* Card */
+
+.memory-card{
+    aspect-ratio:1;
+    border:none;
+    border-radius:18px;
+    background:var(--secondary);
+    color:var(--primary-dark);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family: 'Poppins', sans-serif;
+    font-size:2rem;
+    font-weight:700;
+    cursor:pointer;
+    transition:.25s;
+    box-shadow:0 6px 14px rgba(0,0,0,.08);
+}
+
+.memory-card:hover:not(.matched):not(.flipped){
+    transform:translateY(-5px);
+}
+
+.memory-card.hidden-content{
+    background:var(--secondary);
+    color:white;
+    font-size:1.8rem;
+}
+
+.memory-card.flipped{
+    background:white;
+    border:3px solid var(--secondary);
+}
+
+.memory-card.matched{
+    background:#E9F7F1;
+    border:3px solid var(--success);
+    color:var(--success);
+}
+
+.memory-card.small-text{
+    font-family: 'Poppins', sans-serif;
+    font-size:1rem;
+    padding:8px;
+    text-align:center;
+}
+
+/*Feedback*/
+
+.feedback-msg{
+    font-family: 'Poppins', sans-serif;
+    min-height:24px;
+    margin-top:25px;
+    font-weight:600;
+    text-align:center;
+}
+
+.feedback-msg.success{
+    font-family: 'Poppins', sans-serif;
+    color:var(--success);
+}
+
+.feedback-msg.retry{
+    color:#D9822B;
+}
+
+/* Button */
+
+.action-row{
+    display:flex;
+    justify-content:center;
+    margin-top:30px;
+}
+
+.btn{
+    border:none;
+    padding:14px 30px;
+    border-radius:999px;
+    font-family:'Poppins',sans-serif;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+    transform:translateY(-2px);
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.card-grid{
+    grid-template-columns:repeat(3,1fr);
+}
+
+header h1{
+    font-family: 'Poppins', sans-serif;
+    font-size:2rem;
+}
+
+.panel{
+    padding:25px;
+}
+
+}
+
+@media(max-width:480px){
+
+.card-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+.segmented{
+    flex-direction:column;
+    border-radius:18px;
+}
+
+.segmented button{
+    width:100%;
+}
+
+header h1{
+    font-family: 'Poppins', sans-serif;
+    font-size:1.8rem;
+}
+
+}
+
+/* Footer */
+        footer {
+            background-color: #1e3a5f;
+            color: white;
+            padding: 3rem 5%;
+            margin-top: 5rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #a0aec0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .footer-bottom {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #a0aec0;
+        }
+
+        .Logo{
+        height:70px;
+        width:auto;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .levels {
+                grid-template-columns: 1fr;
+            }
+        }
+   
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+    <div class="back-container">
+    <a href="vocabulary_home.html" class="back-btn">
+        ← Back to Vocabulary
+    </a>
+</div>
+
+    <header>
+        <h1> Memory Game</h1>
+        <p>Match each picture with its English word.</p>
+    </header>
+
+    <div class="controls-row">
+
+        <!-- LEVEL -->
+
+        <div class="segmented" role="group" aria-label="Level">
+
+            <button class="level-btn active" data-level="basico">
+                Basic
+            </button>
+
+            <button class="level-btn" data-level="intermedio">
+                Intermediate
+            </button>
+
+        </div>
+
+        <!-- NUMBER OF WORDS -->
+
+        <div class="segmented" role="group" aria-label="Words">
+
+            <button class="size-btn active" data-size="6">
+                6 Words
+            </button>
+
+            <button class="size-btn" data-size="10">
+                10 Words
+            </button>
+
+            <button class="size-btn" data-size="15">
+                15 Words
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- GAME PANEL -->
+
+    <section class="panel">
+
+        <h2>Instructions</h2>
+
+        <p class="instructions">
+
+            Flip over two cards.
+            Match each picture with its English word.
+            If the cards match, they stay face up.
+            If they don't, they flip back over.
+            There is no time limit, so learn at your own pace.
+
+        </p>
+
+        <div class="stars-row">
+
+            <span class="label">
+                Matched Pairs:
+            </span>
+
+            <span id="memoria-stars"></span>
+
+        </div>
+
+        <div
+            class="card-grid"
+            id="memoria-grid">
+        </div>
+
+        <div
+            class="feedback-msg"
+            id="memoria-feedback">
+        </div>
+
+        <div class="action-row">
+
+            <button
+                class="btn btn-primary"
+                id="memoria-reset">
+
+                New Game
+
+            </button>
+
+        </div>
+
+    </section>
+
+</div>
+
+<!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Skills</h4>
+                <ul>
+                    <li><a href="#">Reading</a></li>
+                    <li><a href="#">Listening</a></li>
+                    <li><a href="#">Writing</a></li>
+                    <li><a href="#">Speaking</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Vocabulary</h4>
+                <ul>
+                    <li><a href="#">A1 - A2 Vocabulary</a></li>
+                    <li><a href="#">B1 - B2 Vocabulary</a></li>
+                    <li><a href="#">Interactive Games</a></li>
+                    <li><a href="#">Play with Words</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Grammar</h4>
+                <ul>
+                    <li><a href="grammar-games.html">A1 - A2 Grammar</a></li>
+                    <li><a href="b1-b2-grammar.html">B1 - B2 Grammar</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Connect with us</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <img src="img/Logo2.png" alt="Logo" class="Logo"><p>&copy; 2026 All rights reserved.</p>
+        </div>
+    </footer>
+
+<script>
+const VOCAB = {
+  basico: [
+    {en:"cat", emoji:"🐱"}, {en:"dog", emoji:"🐶"}, {en:"sun", emoji:"☀️"}, {en:"moon", emoji:"🌙"},
+    {en:"apple", emoji:"🍎"}, {en:"banana", emoji:"🍌"}, {en:"house", emoji:"🏠"}, {en:"book", emoji:"📖"},
+    {en:"water", emoji:"💧"}, {en:"milk", emoji:"🥛"}, {en:"fish", emoji:"🐟"}, {en:"bird", emoji:"🐦"},
+    {en:"star", emoji:"⭐"}, {en:"tree", emoji:"🌳"}, {en:"ball", emoji:"⚽"}, {en:"chair", emoji:"🪑"},
+    {en:"flower", emoji:"🌸"}, {en:"shoe", emoji:"👟"}, {en:"hat", emoji:"🧢"}, {en:"car", emoji:"🚗"},
+    {en:"bus", emoji:"🚌"}, {en:"boat", emoji:"⛵"}, {en:"egg", emoji:"🥚"}, {en:"bread", emoji:"🍞"},
+    {en:"cheese", emoji:"🧀"}, {en:"cake", emoji:"🎂"}, {en:"cookie", emoji:"🍪"}, {en:"orange", emoji:"🍊"},
+    {en:"grape", emoji:"🍇"}, {en:"strawberry", emoji:"🍓"}, {en:"carrot", emoji:"🥕"}, {en:"corn", emoji:"🌽"},
+    {en:"pizza", emoji:"🍕"}, {en:"rabbit", emoji:"🐰"}, {en:"horse", emoji:"🐴"}, {en:"cow", emoji:"🐮"},
+    {en:"pig", emoji:"🐷"}, {en:"sheep", emoji:"🐑"}, {en:"duck", emoji:"🦆"}, {en:"frog", emoji:"🐸"},
+    {en:"bee", emoji:"🐝"}, {en:"butterfly", emoji:"🦋"}, {en:"snake", emoji:"🐍"}, {en:"lion", emoji:"🦁"},
+    {en:"elephant", emoji:"🐘"}, {en:"monkey", emoji:"🐒"}, {en:"door", emoji:"🚪"}, {en:"window", emoji:"🪟"},
+    {en:"bed", emoji:"🛏️"}, {en:"clock", emoji:"🕐"}
+  ],
+  intermedio: [
+    {en:"happy", emoji:"😊"}, {en:"sad", emoji:"😢"}, {en:"angry", emoji:"😠"}, {en:"tired", emoji:"😴"},
+    {en:"scared", emoji:"😨"}, {en:"surprised", emoji:"😲"}, {en:"excited", emoji:"🤩"}, {en:"run", emoji:"🏃"},
+    {en:"jump", emoji:"🤸"}, {en:"swim", emoji:"🏊"}, {en:"dance", emoji:"💃"}, {en:"sing", emoji:"🎤"},
+    {en:"read", emoji:"📚"}, {en:"write", emoji:"✍️"}, {en:"draw", emoji:"🎨"}, {en:"listen", emoji:"👂"},
+    {en:"talk", emoji:"🗣️"}, {en:"walk", emoji:"🚶"}, {en:"fly", emoji:"✈️"}, {en:"climb", emoji:"🧗"},
+    {en:"build", emoji:"🧱"}, {en:"clean", emoji:"🧹"}, {en:"wash", emoji:"🚿"}, {en:"cook", emoji:"🍳"},
+    {en:"teacher", emoji:"👩‍🏫"}, {en:"doctor", emoji:"👨‍⚕️"}, {en:"nurse", emoji:"🩺"}, {en:"police officer", emoji:"👮"},
+    {en:"firefighter", emoji:"👨‍🚒"}, {en:"pilot", emoji:"👨‍✈️"}, {en:"chef", emoji:"👨‍🍳"}, {en:"artist", emoji:"👩‍🎨"},
+    {en:"scientist", emoji:"👩‍🔬"}, {en:"farmer", emoji:"👨‍🌾"}, {en:"rain", emoji:"🌧️"}, {en:"cloud", emoji:"☁️"},
+    {en:"snow", emoji:"❄️"}, {en:"wind", emoji:"💨"}, {en:"storm", emoji:"⛈️"}, {en:"rainbow", emoji:"🌈"},
+    {en:"hot", emoji:"🔥"}, {en:"cold", emoji:"🥶"}, {en:"morning", emoji:"🌅"}, {en:"night", emoji:"🌃"},
+    {en:"garden", emoji:"🌳"}, {en:"school", emoji:"🏫"}, {en:"kitchen", emoji:"🍽️"}, {en:"friend", emoji:"🤝"},
+    {en:"family", emoji:"👪"}, {en:"music", emoji:"🎵"}
+  ]
+};
+let state = { level:"basico", size:6 };
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function getWordSet(){
+  const list = VOCAB[state.level];
+  return shuffle(list).slice(0, Math.min(state.size, list.length));
+}
+function starsHTML(n){ return "⭐".repeat(n); }
+
+document.querySelectorAll('.level-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); state.level = btn.dataset.level; initMemoria();
+  });
+});
+document.querySelectorAll('.size-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); state.size = parseInt(btn.dataset.size,10); initMemoria();
+  });
+});
+
+let memoriaState = { cards:[], flipped:[], matchedCount:0, lock:false };
+
+function initMemoria(){
+  const words = getWordSet();
+  let deck=[];
+  words.forEach((w,idx)=>{
+    deck.push({pairId:idx, type:'emoji', content:w.emoji});
+    deck.push({pairId:idx, type:'word', content:w.en});
+  });
+  deck = shuffle(deck);
+  memoriaState = { cards:deck, flipped:[], matchedCount:0, lock:false };
+
+  const grid = document.getElementById('memoria-grid');
+  grid.innerHTML='';
+  deck.forEach((card,i)=>{
+    const el = document.createElement('button');
+    el.className='memory-card hidden-content';
+    el.setAttribute('aria-label','Carta tapada');
+    el.textContent='?';
+    el.addEventListener('click', ()=>onMemoriaCardClick(i));
+    grid.appendChild(el);
+  });
+  document.getElementById('memoria-feedback').textContent='';
+  document.getElementById('memoria-feedback').className='feedback-msg';
+  updateMemoriaStars(words.length);
+}
+function updateMemoriaStars(total){
+  document.getElementById('memoria-stars').textContent = starsHTML(memoriaState.matchedCount)+` (${memoriaState.matchedCount}/${total})`;
+}
+function onMemoriaCardClick(i){
+  if(memoriaState.lock) return;
+  const cardData = memoriaState.cards[i];
+  const cardEl = document.querySelectorAll('#memoria-grid .memory-card')[i];
+  if(cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
+
+  cardEl.classList.remove('hidden-content');
+  cardEl.classList.add('flipped');
+  cardEl.textContent = cardData.content;
+  if(cardData.type==='word') cardEl.classList.add('small-text');
+  memoriaState.flipped.push({i, cardData, el:cardEl});
+
+  if(memoriaState.flipped.length===2){
+    memoriaState.lock = true;
+    const [a,b] = memoriaState.flipped;
+    const feedback = document.getElementById('memoria-feedback');
+    if(a.cardData.pairId===b.cardData.pairId && a.cardData.type!==b.cardData.type){
+      a.el.classList.add('matched'); b.el.classList.add('matched');
+      a.el.classList.remove('flipped'); b.el.classList.remove('flipped');
+      memoriaState.matchedCount++;
+      const total = memoriaState.cards.length/2;
+      updateMemoriaStars(total);
+      feedback.textContent='¡Muy bien! Es una pareja. 🎉';
+      feedback.className='feedback-msg success';
+      memoriaState.flipped=[]; memoriaState.lock=false;
+      if(memoriaState.matchedCount===total){
+        feedback.textContent='¡Completaste el juego! 🌟 Puedes empezar uno nuevo.';
+      }
+    } else {
+      feedback.textContent='Casi. Vuelve a intentarlo.';
+      feedback.className='feedback-msg retry';
+      setTimeout(()=>{
+        a.el.classList.remove('flipped'); a.el.classList.add('hidden-content'); a.el.classList.remove('small-text'); a.el.textContent='?';
+        b.el.classList.remove('flipped'); b.el.classList.add('hidden-content'); b.el.classList.remove('small-text'); b.el.textContent='?';
+        memoriaState.flipped=[]; memoriaState.lock=false;
+        feedback.textContent='';
+      }, 1100);
+    }
+  }
+}
+document.getElementById('memoria-reset').addEventListener('click', initMemoria);
+
+const urlParams = new URLSearchParams(window.location.search);
+const nivelFromUrl = urlParams.get('nivel');
+if(nivelFromUrl === 'basico' || nivelFromUrl === 'intermedio'){
+  state.level = nivelFromUrl;
+  document.querySelectorAll('.level-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.level === nivelFromUrl);
+  });
+}
+initMemoria();
+</script>
+</body>
+</html>

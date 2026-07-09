@@ -1,0 +1,73 @@
+<script>
+    function togglePwd() {
+      const input = document.getElementById("inp-pwd");
+      const icon  = document.getElementById("eyeIcon");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.className = "ti ti-eye-off";
+      } else {
+        input.type = "password";
+        icon.className = "ti ti-eye";
+      }
+    }
+
+    function handleEnter(e) {
+      if (e.key === "Enter") login();
+    }
+
+    function showError(msg) {
+      const el = document.getElementById("errorMsg");
+      document.getElementById("errorText").textContent = msg;
+      el.style.display = "flex";
+      document.getElementById("successMsg").style.display = "none";
+    }
+
+    async function login() {
+      const email = document.getElementById("inp-email").value.trim();
+      const pwd   = document.getElementById("inp-pwd").value;
+      const btn   = document.getElementById("btnLogin");
+
+      document.getElementById("errorMsg").style.display = "none";
+
+      if (!email || !pwd) {
+        showError("Por favor completa todos los campos.");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = `<i class="ti ti-loader-2" style="animation:spin 1s linear infinite" aria-hidden="true"></i> Entrando...`;
+
+      // Login con localStorage hasta tener backend
+      const stored = localStorage.getItem("userProfile");
+      if (stored) {
+        const user = JSON.parse(stored);
+        if (user.email === email && user.password === pwd) {
+          document.getElementById("successMsg").style.display = "flex";
+          setTimeout(() => { window.location.href = "home.html"; }, 1500);
+          return;
+        }
+      }
+
+      showError("Correo o contraseña incorrectos.");
+      btn.disabled = false;
+      btn.innerHTML = `Iniciar sesión <i class="ti ti-arrow-right" aria-hidden="true"></i>`;
+
+      // Cuando tengas tu API descomenta esto:
+      // try {
+      //   const res = await fetch("/api/login", {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify({ email, password: pwd })
+      //   });
+      //   const data = await res.json();
+      //   if (!res.ok) throw new Error(data.message || "Error al iniciar sesión");
+      //   localStorage.setItem("userProfile", JSON.stringify(data.user));
+      //   document.getElementById("successMsg").style.display = "flex";
+      //   setTimeout(() => { window.location.href = "home.html"; }, 1500);
+      // } catch (err) {
+      //   showError(err.message);
+      //   btn.disabled = false;
+      //   btn.innerHTML = `Iniciar sesión <i class="ti ti-arrow-right"></i>`;
+      // }
+    }
+  </script>
