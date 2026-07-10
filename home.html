@@ -11,12 +11,13 @@
 
   <!-- Google Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <link rel="stylesheet" href="css/home.css">
+
 </head>
 <body>
   <script>
@@ -25,6 +26,8 @@
     window.location.href = "onboarding.html";
 }
   </script>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg sticky-top">  
@@ -45,6 +48,12 @@
           <li class="nav-item"><a class="nav-link" href="#">Skills</a></li>
           <li class="nav-item"><a class="nav-link" href="grammar__menu.html">Grammar</a></li>
           <li class="nav-item"><a class="nav-link" href="vocabulary_home.html">Vocabulary</a></li>
+          <li class="nav-item">
+            <button id="calm-toggle" class="calm-toggle" type="button" aria-pressed="false">
+              <i class="bi bi-moon-stars" aria-hidden="true"></i>
+              <span>Calm mode</span>
+            </button>
+          </li>
 
         </ul>
 
@@ -53,13 +62,18 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="hero" id="main-content">
+    <span class="hero-blob blob-1" aria-hidden="true"></span>
+    <span class="hero-blob blob-2" aria-hidden="true"></span>
+    <span class="hero-blob blob-3" aria-hidden="true"></span>
+
     <div class="container-fluid">
       <div class="row align-items-center">
 
         <div class="col-lg-6">
+          <span class="eyebrow"> Learn at your own pace</span>
           <h1>
-            Learn English with Inclusion,
+            Learn English with <span class="accent">Inclusion</span>,
             Quality, and Confidence
           </h1>
 
@@ -73,7 +87,9 @@
         </div>
 
         <div class="col-lg-6 mt-4 mt-lg-0">
-          <img src="https://i.pinimg.com/1200x/5c/45/c3/5c45c37bf24213fe155a99fc709f9af5.jpg" alt="">
+          <div class="hero-img-wrap">
+            <img src="https://i.pinimg.com/1200x/5c/45/c3/5c45c37bf24213fe155a99fc709f9af5.jpg" alt="Student smiling while studying English at home">
+          </div>
         </div>
 
       </div>
@@ -81,20 +97,22 @@
   </section>
 
   <!-- Cards  -->
-  <div class="container">
+  <div class="container info-cards-wrap">
     <div class="row g-4">
 
       <div class="col-lg-4">
-        <div class="info-card">
+        <div class="info-card" style="--card-color:#5B8DEF;">
+          <div class="icon-circle"><i class="bi bi-people-fill" aria-hidden="true"></i></div>
           <h5>About us</h5>
           <p>
-            We are dedicated to providing English courses  in a comfortable and safe environment.
+            We are dedicated to providing English courses in a comfortable and safe environment.
           </p>
         </div>
       </div>
 
       <div class="col-lg-4">
-        <div class="info-card">
+        <div class="info-card" style="--card-color:#3E6FD1;">
+          <div class="icon-circle"><i class="bi bi-bullseye" aria-hidden="true"></i></div>
           <h5>Mission</h5>
           <p>
             That our users learn English quickly and confidently.
@@ -103,7 +121,8 @@
       </div>
 
       <div class="col-lg-4">
-        <div class="info-card">
+        <div class="info-card" style="--card-color:#3E6FD1;">
+          <div class="icon-circle"><i class="bi bi-eye-fill" aria-hidden="true"></i></div>
           <h5>Vision</h5>
           <p>
             To promote inclusion and offer English courses in a safe way.
@@ -117,6 +136,7 @@
   <!-- Welcome -->
   <div class="container">
     <div class="welcome-section">
+      <span class="section-eyebrow">Oak English</span>
       <h1>Welcome to Oak English!</h1>
 
       <p>
@@ -132,17 +152,17 @@
       <div class="col-lg-4">
         <div class="course-card">
 
-          <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop">
+          <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop" alt="Person reading a book by a window">
 
           <div class="content">
-            <h4>Skills</h4>
+            <h4><i class="bi bi-mortarboard-fill" aria-hidden="true"></i> Skills</h4>
 
             <p>
               Practice your Reading, Listening,
               Writing and Speaking.
             </p>
 
-            <button class="learn-btn">
+            <button class="learn-btn" aria-label="Learn more about Skills">
               Learn more
             </button>
           </div>
@@ -153,16 +173,16 @@
       <div class="col-lg-4">
         <div class="course-card">
 
-          <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1200&auto=format&fit=crop">
+          <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1200&auto=format&fit=crop" alt="Open notebook with handwritten notes">
 
           <div class="content">
-            <h4>Grammar</h4>
+            <h4><i class="bi bi-pencil-square" aria-hidden="true"></i> Grammar</h4>
 
             <p>
               Practice and improve your grammar.
             </p>
 
-            <button class="learn-btn">
+            <button class="learn-btn" aria-label="Learn more about Grammar">
               Learn more
             </button>
           </div>
@@ -173,17 +193,17 @@
       <div class="col-lg-4">
         <div class="course-card">
 
-          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop">
+          <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop" alt="Stack of colorful books">
 
           <div class="content">
-            <h4>Vocabulary</h4>
+            <h4><i class="bi bi-chat-square-text-fill" aria-hidden="true"></i> Vocabulary</h4>
 
             <p>
               Expand your vocabulary with essential
               words for everyday life.
             </p>
 
-            <button class="learn-btn">
+            <button class="learn-btn" aria-label="Learn more about Vocabulary">
               Learn more
             </button>
           </div>
@@ -218,14 +238,14 @@
             These are the most common words you will use.
           </p>
 
-          <button class="learn-btn"  onclick="window.location.href='We.vocabulary.html'">
+          <button class="learn-btn" aria-label="Learn more about Daily Vocabulary" onclick="window.location.href='We.vocabulary.html'">
             Learn more
           </button>
 
         </div>
 
         <div class="col-lg-5 mt-4 mt-lg-0">
-          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop">
+          <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop" style="width:100%;" alt="Notebook and pen for daily vocabulary practice">
         </div>
 
       </div>
@@ -249,14 +269,14 @@
             find special exercises based on what you need.
           </p>
 
-          <button class="learn-btn">
+          <button class="learn-btn" aria-label="Learn more about My Study Guide">
             Learn more
           </button>
 
         </div>
 
         <div class="col-lg-5 mt-4 mt-lg-0">
-          <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop">
+          <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop" style="width:100%;" alt="Person planning a personalized study routine">
         </div>
 
       </div>
@@ -267,50 +287,86 @@
 
 <!-- Footer -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Skills</h4>
-                <ul>
-                    <li><a href="#">Reading</a></li>
-                    <li><a href="#">Listening</a></li>
-                    <li><a href="#">Writing</a></li>
-                    <li><a href="#">Speaking</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Vocabulary</h4>
-                <ul>
-                    <li><a href="#">A1 - A2 Vocabulary</a></li>
-                    <li><a href="#">B1 - B2 Vocabulary</a></li>
-                    <li><a href="#">Interactive Games</a></li>
-                    <li><a href="#">Play with Words</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Grammar</h4>
-                <ul>
-                    <li><a href="grammar-games.html">A1 - A2 Grammar</a></li>
-                    <li><a href="b1-b2-grammar.html">B1 - B2 Grammar</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Connect with us</h4>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+        <div class="footer-inner">
+            <div class="footer-top">
+
+                <div class="footer-brand">
+                    <img src="img/Logo2.png" alt="Oak English logo" class="Logo">
+                    <p>A calm, inclusive space to learn English at your own pace — no pressure, no rush.</p>
                 </div>
+
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Skills</h4>
+                        <ul>
+                            <li><a href="#">Reading</a></li>
+                            <li><a href="#">Listening</a></li>
+                            <li><a href="#">Writing</a></li>
+                            <li><a href="#">Speaking</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>Vocabulary</h4>
+                        <ul>
+                            <li><a href="#">A1 - A2 Vocabulary</a></li>
+                            <li><a href="#">B1 - B2 Vocabulary</a></li>
+                            <li><a href="#">Interactive Games</a></li>
+                            <li><a href="#">Play with Words</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>Grammar</h4>
+                        <ul>
+                            <li><a href="grammar-games.html">A1 - A2 Grammar</a></li>
+                            <li><a href="b1-b2-grammar.html">B1 - B2 Grammar</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <span class="footer-social-label">Connect with us</span>
+                        <div class="social-links">
+                            <a href="#" aria-label="Oak English on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Oak English on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Oak English on Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-        
+
         <div class="footer-bottom">
-            <img src="img/Logo2.png" alt="Logo" class="Logo"><p>&copy; 2026 All rights reserved.</p>
+            <p>&copy; 2026 Oak English. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Contact</a>
+            </div>
         </div>
     </footer>
 
  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+ <script>
+
+   // Calm Mode: lets the person turn off decorative motion/shapes,
+   // independent of their system-level "reduce motion" setting.
+   const calmBtn = document.getElementById('calm-toggle');
+   const CALM_KEY = 'oakEnglishCalmMode';
+
+   function setCalmMode(on){
+     document.body.classList.toggle('calm-mode', on);
+     calmBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+     localStorage.setItem(CALM_KEY, on ? '1' : '0');
+   }
+
+   if(calmBtn){
+     setCalmMode(localStorage.getItem(CALM_KEY) === '1');
+     calmBtn.addEventListener('click', () => {
+       setCalmMode(!document.body.classList.contains('calm-mode'));
+     });
+   }
+ </script>
 </body>
 </html>
