@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="css/home.css">
 
 </head>
-<body>
+<body> 
   <script>
     // Redirige al onboarding si no ha completado el perfil
   if (!localStorage.getItem("userProfile")) {
@@ -205,6 +205,7 @@
             </p>
 
             <button class="learn-btn" aria-label="Learn more about Vocabulary">
+              <a href="vocabulary_home.html"></a>
               Learn more
             </button>
           </div>
@@ -270,7 +271,7 @@
             find special exercises based on what you need.
           </p>
 
-          <button class="learn-btn" aria-label="Learn more about My Study Guide">
+          <button class="learn-btn" aria-label="Learn more about My Study Guide" onclick="window.location.href='persoalize.html'">
             Learn more
           </button>
 
