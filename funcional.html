@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing A1 - Steady Oak</title>
+    <!-- Si usas Font Awesome, descomenta esta línea -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #1a1a2e;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+    nav{
+    max-width:1200px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 40px;
+}
+
+.logo-img{
+    width:60px;
+}
+
+.nav-links{
+    display:flex;
+    list-style:none;
+    gap:55px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#21467b;
+    font-weight:500;
+    font-size:18px;
+}
+
+.auth-buttons{
+    display:flex;
+    gap:15px;
+}
+
+.btn-signup{
+    background:white;
+    color:#21467b;
+    border:2px solid #21467b;
+    padding:10px 22px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-signup:hover{
+    background:#21467b;
+    color:white;
+}
+
+.btn-login{
+    background:#21467b;
+    color:white;
+    padding:10px 22px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.btn-login:hover{
+    background:#16335c;
+}
+        .section {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            animation: fadeIn 0.5s;
+        }
+
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+
+    .page-title{
+    text-align:center;
+    margin:60px 0;
+}
+
+.page-title h1{
+    font-size:65px;
+    color:#121c57;
+    font-weight:800;
+}
+
+        .btn-primary {
+            display: inline-block;
+            background-color: white;
+            color: #0d3b66;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: transform 0.3s;
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .activity-card img { width: 100%; height: 200px; object-fit: cover; }
+        .activity-card-content { padding: 25px; }
+        .activity-card h3 { font-size: 24px; margin-bottom: 10px; color: #1a1a2e; }
+        .activity-card p { color: #666; margin-bottom: 20px; }
+
+        .activity-level {
+            display: inline-block;
+            background-color: #0d3b66;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .practice-area {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .practice-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .practice-header h2 { font-size: 32px; color: #1a1a2e; margin-bottom: 10px; }
+
+        .practice-instructions {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #0d3b66;
+        }
+
+        .practice-instructions h3 { margin-bottom: 10px; color: #0d3b66; }
+
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #1a1a2e; }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0d3b66;
+        }
+
+        .form-group textarea { min-height: 200px; resize: vertical; }
+
+        .word-count { text-align: right; font-size: 14px; color: #666; margin-top: 5px; }
+
+        .btn-submit {
+            background-color: #0d3b66;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn-submit:hover { background-color: #1a5276; }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #1a1a2e;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .btn-secondary:hover { background-color: #e0e0e0; }
+
+        .examples-section {
+            margin-top: 40px;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .examples-section h3 { margin-bottom: 20px; color: #0d3b66; }
+
+        .example-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #28a745;
+        }
+
+        .example-box h4 { margin-bottom: 10px; color: #1a1a2e; }
+
+        .feedback {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            animation: slideIn 0.5s;
+        }
+
+        .feedback.show { display: block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .feedback.success { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .feedback.error { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+
+        footer {
+            background-color: #0d3b66;
+            color: white;
+            padding: 50px 40px 30px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 { margin-bottom: 20px; font-size: 20px; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section a { color: white; text-decoration: none; transition: opacity 0.3s; }
+        .footer-section a:hover { opacity: 0.8; }
+
+        .social-links { display: flex; gap: 15px; margin-top: 15px; }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+
+        .social-links a:hover { background-color: rgba(255,255,255,0.2); }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { gap: 15px; font-size: 14px; }
+            .hero h1 { font-size: 32px; }
+            .activities-grid { grid-template-columns: 1fr; }
+            .practice-area { padding: 20px; }
+        }
+
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .mt-20 { margin-top: 20px; }
+        .mb-20 { margin-bottom: 20px; }
+
+        .spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0d3b66;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        .spinner.show { display: block; }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- header -->
+<header>
+    <nav>
+
+        <a href="#" class="logo" onclick="showSection('home')">
+            <img src="logo.png" class="logo-img">
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="#" onclick="showSection('home')">Home</a></li>
+            <li><a href="#" onclick="showSection('skills')">Skills</a></li>
+            <li><a href="#" onclick="showSection('grammar')">Grammar</a></li>
+            <li><a href="#" onclick="showSection('vocabulary')">Vocabulary</a></li>
+        </ul>
+
+        <div class="auth-buttons">
+            <a href="#" class="btn-signup"
+               onclick="alert('Aquí irá el formulario de registro')">
+                Sign Up
+            </a>
+
+            <a href="#" class="btn-login"
+               onclick="alert('Aquí irá el formulario de login')">
+                Login
+            </a>
+        </div>
+
+    </nav>
+</header>
+
+    <!-- home -->
+    <section id="home" class="section active">
+        <div class="page-title">
+    <h1>Writing A1</h1>
+</div>
+
+        <div class="text-center mb-20">
+            <h2 style="font-size: 32px; margin-bottom: 10px;">Why Practice With Us?</h2>
+            <p style="color: #666; font-size: 18px;">Interactive exercises designed for A1 level learners</p>
+        </div>
+
+        <div class="activities-grid" id="activities-home"></div>
+    </section>
+
+    <section id="activities" class="section">
+        <div class="practice-area">
+            <div class="practice-header">
+                <h2 id="activity-title">Activity Title</h2>
+                <p id="activity-description">Activity description goes here</p>
+            </div>
+
+            <div class="practice-instructions">
+                <h3>Instructions:</h3>
+                <ul id="instructions-list">
+                    <li>Write your answer in the text box below</li>
+                    <li>Use at least 30-50 words</li>
+                    <li>Check your grammar and spelling</li>
+                </ul>
+            </div>
+
+            <form id="practice-form">
+                <div class="form-group">
+                    <label for="student-name">Your Name:</label>
+                    <input type="text" id="student-name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="writing-answer">Your Answer:</label>
+                    <textarea id="writing-answer" placeholder="Start writing here..." required></textarea>
+                    <div class="word-count">Words: <span id="word-count">0</span></div>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn-submit">Submit Answer</button>
+                    <button type="button" class="btn-secondary" onclick="showSection('home')">Back to Home</button>
+                </div>
+            </form>
+
+            <div class="spinner" id="loading-spinner"></div>
+
+            <div class="feedback" id="feedback">
+                <h3 id="feedback-title"></h3>
+                <p id="feedback-message"></p>
+            </div>
+
+            <div class="examples-section">
+                <h3>Examples:</h3>
+                <div id="examples-container">
+                    <div class="example-box">
+                        <h4>Example 1:</h4>
+                        <p>Your example text here...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <h1 style="text-align: center; margin-bottom: 40px;">Skills</h1>
+        <div class="activities-grid">
+            <div class="activity-card"><div class="activity-card-content"><h3>Reading</h3><p>Practice your reading comprehension</p></div></div>
+            <div class="activity-card"><div class="activity-card-content"><h3>Listening</h3><p>Improve your listening skills</p></div></div>
+            <div class="activity-card"><div class="activity-card-content"><h3>Writing</h3><p>Enhance your writing abilities</p></div></div>
+            <div class="activity-card"><div class="activity-card-content"><h3>Speaking</h3><p>Practice your speaking skills</p></div></div>
+        </div>
+    </section>
+
+    <section id="grammar" class="section">
+        <h1 style="text-align: center; margin-bottom: 40px;">Grammar</h1>
+        <div class="practice-area"><p>Grammar exercises and lessons will go here</p></div>
+    </section>
+
+    <section id="vocabulary" class="section">
+        <h1 style="text-align: center; margin-bottom: 40px;">Vocabulary</h1>
+        <div class="practice-area"><p>Vocabulary exercises and word lists will go here</p></div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Skills</h3>
+                <ul>
+                    <li><a href="#">Reading</a></li>
+                    <li><a href="#">Listening</a></li>
+                    <li><a href="#">Writing</a></li>
+                    <li><a href="#">Speaking</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Vocabulary</h3>
+                <ul>
+                    <li><a href="#">A1 - A2 Vocabulary</a></li>
+                    <li><a href="#">B1 - B2 Vocabulary</a></li>
+                    <li><a href="#">Interactive Games</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Grammar</h3>
+                <ul>
+                    <li><a href="#">A1 - A2 Grammar</a></li>
+                    <li><a href="#">B1 - B2 Grammar</a></li>
+                    <li><a href="#">Exercises</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect with us</h3>
+                <div class="social-links">
+                    <a href="#">📘</a>
+                    <a href="#">🐦</a>
+                    <a href="#">📷</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Steady Oak. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const activities = [
+            {
+                id: 1,
+                title: "A message to say you are late",
+                description: "Learn how to write a message to express you are late",
+                image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300&fit=crop",
+                level: "A1",
+                instructions: ["Write a message to your friend", "Explain why you are late", "Say when you will arrive", "Use 30-50 words"],
+                examples: [{ title: "Example:", text: "Hi Sarah! I'm so sorry but I'm running late. My bus was delayed. I'll be there in about 20 minutes. See you soon!" }]
+            },
+            {
+                id: 2,
+                title: "Write an invitation",
+                description: "Write an invitation to your friends",
+                image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=300&fit=crop",
+                level: "A1",
+                instructions: ["Invite your friends to a party/event", "Include date, time and place", "Ask them to RSVP", "Use 40-60 words"],
+                examples: [{ title: "Example:", text: "Hi everyone! I'm having a birthday party next Saturday at 7 PM at my house. There will be food, music and games. Please let me know if you can come. Hope to see you there!" }]
+            },
+            {
+                id: 3,
+                title: "Daily Log",
+                description: "Write about what you did today",
+                image: "https://images.unsplash.com/photo-1517842645767-c639042777db?w=400&h=300&fit=crop",
+                level: "A1",
+                instructions: ["Write about your day", "Use Past Simple tense", "Include at least 3 activities", "Use 30-50 words"],
+                examples: [{ title: "Example:", text: "Today I woke up at 7 AM. I had breakfast with my family. Then I went to school. After school, I played football with my friends. In the evening, I did my homework and watched TV." }]
+            }
+        ];
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll('.nav-links a').forEach(l => {
+                if (!l.classList.contains('btn-login') && !l.classList.contains('btn-signup')) {
+                    l.classList.remove('active');
+                }
+            });
+            window.scrollTo(0, 0);
+            if (sectionId === 'home') loadActivities();
+        }
+
+        function loadActivities() {
+            const container = document.getElementById('activities-home');
+            container.innerHTML = '';
+            activities.forEach(a => {
+                const card = document.createElement('div');
+                card.className = 'activity-card';
+                card.onclick = () => loadActivity(a.id);
+                card.innerHTML = `
+                    <img src="${a.image}" alt="${a.title}">
+                    <div class="activity-card-content">
+                        <h3>${a.title}</h3>
+                        <p>${a.description}</p>
+                        <span class="activity-level">${a.level}</span>
+                    </div>`;
+                container.appendChild(card);
+            });
+        }
+
+        function loadActivity(id) {
+            const a = activities.find(x => x.id === id);
+            if (!a) return;
+            document.getElementById('activity-title').textContent = a.title;
+            document.getElementById('activity-description').textContent = a.description;
+            const il = document.getElementById('instructions-list');
+            il.innerHTML = '';
+            a.instructions.forEach(i => { const li = document.createElement('li'); li.textContent = i; il.appendChild(li); });
+            const ec = document.getElementById('examples-container');
+            ec.innerHTML = '';
+            a.examples.forEach(e => {
+                const box = document.createElement('div');
+                box.className = 'example-box';
+                box.innerHTML = `<h4>${e.title}</h4><p>${e.text}</p>`;
+                ec.appendChild(box);
+            });
+            document.getElementById('practice-form').reset();
+            document.getElementById('word-count').textContent = '0';
+            document.getElementById('feedback').classList.remove('show');
+            showSection('activities');
+        }
+
+        document.getElementById('writing-answer')?.addEventListener('input', function() {
+            const text = this.value.trim();
+            document.getElementById('word-count').textContent = text ? text.split(/\s+/).length : 0;
+        });
+
+        document.getElementById('practice-form')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('loading-spinner').classList.add('show');
+            setTimeout(() => {
+                document.getElementById('loading-spinner').classList.remove('show');
+                const feedback = document.getElementById('feedback');
+                const wc = parseInt(document.getElementById('word-count').textContent);
+                if (wc >= 30) {
+                    feedback.className = 'feedback success show';
+                    document.getElementById('feedback-title').textContent = 'Great job!';
+                    document.getElementById('feedback-message').textContent = 'Your answer has been submitted successfully.';
+                } else {
+                    feedback.className = 'feedback error show';
+                    document.getElementById('feedback-title').textContent = 'Keep writing!';
+                    document.getElementById('feedback-message').textContent = 'Your answer is too short. Try to write at least 30 words.';
+                }
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 1500);
+        });
+
+        document.addEventListener('DOMContentLoaded', loadActivities);
+    </script>
+</body>
+</html>
