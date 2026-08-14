@@ -1,0 +1,211 @@
+
+  :root{
+    --bg:#F1F6FA; 
+    --surface:#FFFFFF;
+     --teal:#4C7EA6;
+    --teal-dark:#153A63;
+    --lavender:#525faa;
+    --gold:#E8B04B; 
+    --ink:#33393A;
+    --ink-soft:#6489a3;
+    --success:#74A978; 
+    --amber:#D98E5B; 
+    --ring:#B9CFC9;
+    --radius-lg:22px; 
+    --radius-md:14px; 
+    --radius-sm:9px;
+  }
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Atkinson Hyperlegible', sans-serif;
+}
+  h1,h2,.btn,.segmented button{
+    font-family:'Baloo 2', sans-serif;
+  }
+  .app-shell{
+    max-width:640px;
+    margin:0 auto;
+    padding:20px 16px 48px;}
+  header{
+    text-align:center;
+    margin-bottom:22px;
+}
+  header h1{
+    font-size:2rem;
+    color:var(--teal-dark);
+    margin:0 0 4px;
+}
+  header p{
+    margin:0;color:var(--ink-soft);font-size:0.95rem;}
+  .controls-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin:18px 0;
+}
+  .segmented{
+    display:flex;
+    background:var(--surface);
+    border-radius:999px;
+    padding:4px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06);
+    gap:2px;
+}
+  .segmented button{
+    border:none;
+    background:transparent;
+    padding:9px 16px;
+    border-radius:999px;
+    font-size:0.92rem;color:var(--ink-soft);
+    cursor:pointer;
+    font-weight:600;
+}
+  .segmented button.active{
+    background:var(--teal);
+    color:white;
+}
+  .segmented button:focus-visible{
+    outline:3px solid var(--ring);
+    outline-offset:2px;
+}
+  .panel{
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    padding:24px 20px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+    text-align:center;
+}
+  .panel h2{
+    margin-top:0;
+    color:var(--teal-dark);
+    font-size:1.25rem;
+    text-align:left;
+}
+  .instructions{
+    color:var(--ink-soft);
+    font-size:0.95rem;
+    margin:0 0 18px;
+    line-height:1.5;
+    text-align:left;
+}
+  .stars-row{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:1.2rem;
+    margin-bottom:16px;
+    color:var(--gold);
+    min-height:1.4rem;
+    justify-content:flex-start;
+}
+  .stars-row .label{
+    font-family:'Atkinson Hyperlegible', sans-serif;
+    color:var(--ink-soft);
+    font-size:0.85rem;
+    margin-right:4px;
+}
+  .btn{
+    border:none;
+    padding:11px 20px;
+    border-radius:var(--radius-sm);
+    font-size:0.95rem;
+    font-weight:600;
+    cursor:pointer;
+}
+  .btn:focus-visible{
+    outline:3px solid var(--ring);
+    outline-offset:2px;
+}
+  .btn-primary{
+    background:var(--teal);
+    color:white;
+}
+  .btn-primary:hover{
+    background:var(--teal-dark);
+}
+  .btn-secondary{
+    background:#EDEAE3;
+    color:var(--ink);
+}
+  .btn-secondary:hover{
+    background:#E2DED4;
+}
+  .action-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+    justify-content:center;
+}
+  .feedback-msg{
+    min-height:1.4rem;
+    font-weight:700;
+    margin:14px 0 0;
+    font-size:1.05rem;
+}
+  .feedback-msg.success{
+    color:var(--success);
+}
+  .feedback-msg.retry{
+    color:var(--amber);
+}
+  .word-banner{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:16px;
+  }
+  .word-banner .word-text{
+    font-family:'Baloo 2', sans-serif;
+    font-size:1.3rem;
+    color:var(--teal-dark);
+}
+  .speaker-btn{
+    background:var(--lavender);
+    color:white;border:none;
+    border-radius:50%;
+    width:40px;
+    height:40px;
+    font-size:1.1rem;
+    cursor:pointer;
+  }
+  .speaker-btn:hover{
+    background:#8672B0;
+}
+  .speaker-btn:focus-visible{
+    outline:3px solid var(--ring);
+    outline-offset:2px;
+}
+
+  .puzzle-board{
+    display:grid;
+    gap:4px;
+    width:280px;
+    aspect-ratio:1/1;
+    margin:0 auto;
+    background:var(--teal);
+    padding:4px;
+    border-radius:var(--radius-md);
+  }
+  .puzzle-piece{
+    background-repeat:no-repeat;
+    border-radius:6px;
+    cursor:pointer;
+    border:3px solid transparent;
+    transition:border-color 0.2s ease, transform 0.15s ease;
+  }
+  .puzzle-piece:hover{ transform:scale(1.02); }
+  .puzzle-piece.selected{ border-color:var(--gold); }
+  .puzzle-piece.correct-spot{ border-color:var(--success); }
+  .puzzle-piece:focus-visible{ outline:3px solid var(--ring); outline-offset:2px; }
+
+  .puzzle-board.solved .puzzle-piece{
+    border-color:transparent;
+    cursor:default;
+  }

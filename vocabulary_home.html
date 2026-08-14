@@ -60,30 +60,23 @@
     max-width:100%;
 }
 
-   /* Navbar */
-        .Logo{
-        height:70px;
-        width:auto;
-        }
-
-        .navbar{
-            background:white;
-            padding:20px 40px;
-            box-shadow:0 2px 10px rgba(0,0,0,.05);
-            z-index:1000;
-        }
-        
-        .navbar-brand{
-        font-weight:700;
-        color:#1f3f82;
-        font-size:24px;
-        }
-
-        .nav-link{
-        color:#1f3f82;
-        margin:0 10px;
-        font-weight:500;
-        }
+ .navbar{
+      background:var(--surface);
+      padding:14px 4vw;
+      box-shadow:0 1px 6px rgba(22,35,63,0.06);
+    }
+    .Logo{ height:38px; }
+    .navbar-nav .nav-link{
+      font-weight:600;
+      color:var(--ink-soft);
+      padding:8px 16px !important;
+      border-radius:999px;
+      transition:background 0.2s ease, color 0.2s ease;
+    }
+    .navbar-nav .nav-link:hover{
+      background:var(--sky-tint);
+      color:var(--sky-dark);
+    }
         
 
   /* Hero  */
@@ -489,7 +482,7 @@
 <body>
 
  <!-- Navbar -->
- <nav class="navbar navbar-expand-lg sticky-top"> 
+  <nav class="navbar navbar-expand-lg sticky-top">  
     <div class="container-fluid">
 
       <a class="navbar-brand" href="#">
@@ -507,6 +500,12 @@
           <li class="nav-item"><a class="nav-link" href="#">Skills</a></li>
           <li class="nav-item"><a class="nav-link" href="grammar__menu.html">Grammar</a></li>
           <li class="nav-item"><a class="nav-link" href="vocabulary_home.html">Vocabulary</a></li>
+          <li class="nav-item">
+            <button id="calm-toggle" class="calm-toggle" type="button" aria-pressed="false">
+              <i class="bi bi-moon-stars" aria-hidden="true"></i>
+              <span>Calm mode</span>
+            </button>
+          </li>
 
         </ul>
 

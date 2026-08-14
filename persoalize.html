@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personaalized section</title>
+ <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+      <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<style>
+
+:root{
+      --navy:#16233F;
+      --navy-2:#233B75;
+      --sky:#5B8DEF;
+      --sky-dark:#3E6FD1;
+      --sky-tint:#E7F0FD;
+      --pink-tint:#FDEAF0;
+      --bg:#F3F8FB;
+      --surface:#FFFFFF;
+      --ink:#2C3A4A;
+      --ink-soft:#647180;
+      --ring:#BFE0F0;
+      --radius-lg:26px;
+      --radius-md:16px;
+      --radius-sm:10px;
+    }
+
+.navbar{
+      background:var(--surface);
+      padding:14px 4vw;
+      box-shadow:0 1px 6px rgba(22,35,63,0.06);
+}
+.Logo{ height:38px; }
+    .navbar-nav .nav-link{
+      font-weight:600;
+      color:var(--ink-soft);
+      padding:8px 16px !important;
+      border-radius:999px;
+      transition:background 0.2s ease, color 0.2s ease;
+}
+.navbar-nav .nav-link:hover{
+      background:var(--sky-tint);
+      color:var(--sky-dark);
+}
+
+.personalized-learning {
+  padding: 90px 8%;
+  background: #f7fbff;
+  text-align: center;
+}
+
+.personalized-header {
+  max-width: 700px;
+  margin: 0 auto 45px;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #5b8db8;
+  margin-bottom: 12px;
+}
+
+.personalized-header h2 {
+  font-family: "Poppins", sans-serif;
+  font-size: 42px;
+  color: #24445c;
+  margin: 0 0 10px;
+}
+
+.personalized-header p {
+  font-family: "Poppins", sans-serif;
+  color: #6f7f8c;
+  font-size: 16px;
+}
+
+/* OPTIONS */
+
+.learning-options {
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.learning-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  padding: 22px;
+  border: 2px solid transparent;
+  border-radius: 20px;
+
+  background: white;
+  text-align: left;
+  cursor: pointer;
+
+  transition: all 0.25s ease;
+  box-shadow: 0 5px 18px rgba(60, 90, 110, 0.08);
+}
+
+.learning-card:hover {
+  transform: translateY(-4px);
+  border-color: #9bc9e8;
+  box-shadow: 0 10px 25px rgba(60, 90, 110, 0.12);
+}
+
+.learning-card.selected {
+  border-color: #5b9dcc;
+  background: #eef8ff;
+}
+
+.learning-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 16px;
+  background: #e5f4fc;
+
+  font-size: 28px;
+}
+
+.learning-info h3 {
+  margin: 0 0 5px;
+
+  font-family: "Poppins", sans-serif;
+  font-size: 22px;
+  color: #294b63;
+}
+
+.learning-info p {
+  margin: 0;
+
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #7b8993;
+}
+
+.arrow {
+  margin-left: auto;
+  font-size: 24px;
+  color: #75a8c9;
+}
+
+
+.selected-learning {
+  margin: 35px auto 0;
+  max-width: 600px;
+
+  padding: 25px;
+  border-radius: 20px;
+
+  background: white;
+  box-shadow: 0 5px 20px rgba(60, 90, 110, 0.08);
+}
+
+#selection-message {
+  margin: 0 0 18px;
+
+  font-family: "Poppins", sans-serif;
+  color: #5f707d;
+}
+
+#start-learning {
+  border: none;
+  padding: 13px 25px;
+
+  border-radius: 30px;
+
+  background: #5b9dcc;
+  color: white;
+
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+#start-learning:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+#start-learning:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+@media (max-width: 700px) {
+
+  .personalized-header h2 {
+    font-size: 34px;
+  }
+
+  .learning-options {
+    grid-template-columns: 1fr;
+  }
+
+  .personalized-learning {
+    padding: 70px 5%;
+  }
+}
+</style>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top">  
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="#">
+        <img src="img/Logo.png" alt="Logo" class="Logo">
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="menu">
+
+        <ul class="navbar-nav align-items-center">
+          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="grammar__menu.html">Grammar</a></li>
+          <li class="nav-item"><a class="nav-link" href="vocabulary_home.html">Vocabulary</a></li>
+          <li class="nav-item">
+            <button id="calm-toggle" class="calm-toggle" type="button" aria-pressed="false">
+              <i class="bi bi-moon-stars" aria-hidden="true"></i>
+              <span>Calm mode</span>
+            </button>
+          </li>
+
+        </ul>
+
+      </div>
+    </div>
+  </nav>
+    
+<section class="personalized-learning" id="personalized-learning">
+  <div class="personalized-header">
+    <h2>What do you want to practice?</h2>
+    <p>
+      Choose what you want to improve and create your own learning path.
+    </p>
+  </div>
+
+  <div class="learning-options">
+
+    <button class="learning-card" data-topic="Speaking">
+      <div class="learning-icon">🗣️</div>
+      <div class="learning-info">
+        <h3>Speaking</h3>
+        <p>Practice conversations and express your ideas.</p>
+      </div>
+      <span class="arrow">→</span>
+    </button>
+
+    <button class="learning-card" data-topic="Listening">
+      <div class="learning-icon">🎧</div>
+      <div class="learning-info">
+        <h3>Listening</h3>
+        <p>Improve your understanding of spoken English.</p>
+      </div>
+      <span class="arrow">→</span>
+    </button>
+
+    <button class="learning-card" data-topic="Vocabulary">
+      <div class="learning-icon">📚</div>
+      <div class="learning-info">
+        <h3>Vocabulary</h3>
+        <p>Learn new words and expand your vocabulary.</p>
+      </div>
+      <span class="arrow">→</span>
+    </button>
+
+    <button class="learning-card" data-topic="Grammar">
+      <div class="learning-icon">✏️</div>
+      <div class="learning-info">
+        <h3>Grammar</h3>
+        <p>Practice grammar through fun activities.</p>
+      </div>
+      <span class="arrow">→</span>
+    </button>
+
+    <button class="learning-card" data-topic="Reading">
+      <div class="learning-icon">📖</div>
+      <div class="learning-info">
+        <h3>Reading</h3>
+        <p>Improve your reading comprehension.</p>
+      </div>
+      <span class="arrow">→</span>
+    </button>
+
+    <button class="learning-card" data-topic="Pronunciation">
+      <div class="learning-icon">🔊</div>
+      <div class="learning-info">
+        <h3>Pronunciation</h3>
+        <p>Practice sounds and speak more clearly.</p>
+      </div>
+      <span class="arrow">→</span>
+    </button>
+
+  </div>
+
+  <div class="selected-learning">
+    <p id="selection-message">Choose an option to start learning!</p>
+    <button id="start-learning" disabled>Start learning →</button>
+  </div>
+</section>
+
+<script>
+    // ================================
+// PERSONALIZED LEARNING
+// ================================
+
+const learningCards = document.querySelectorAll(".learning-card");
+const selectionMessage = document.getElementById("selection-message");
+const startButton = document.getElementById("start-learning");
+
+let selectedTopic = null;
+
+learningCards.forEach(card => {
+
+  card.addEventListener("click", () => {
+
+    // Remove selection from other cards
+    learningCards.forEach(item => {
+      item.classList.remove("selected");
+    });
+
+    // Select current card
+    card.classList.add("selected");
+
+    // Save selected topic
+    selectedTopic = card.dataset.topic;
+
+    // Update message
+    selectionMessage.textContent =
+      `Great choice! You chose ${selectedTopic}. Ready to practice?`;
+
+    // Enable button
+    startButton.disabled = false;
+
+  });
+
+});
+
+
+// Start learning button
+startButton.addEventListener("click", () => {
+
+  if (!selectedTopic) return;
+
+  // Here you can later redirect
+  // the student to the corresponding lesson.
+
+  if (selectedTopic === "Speaking") {
+    window.location.href = "speaking.html";
+  }
+
+  else if (selectedTopic === "Listening") {
+    window.location.href = "listening.html";
+  }
+
+  else if (selectedTopic === "Vocabulary") {
+    window.location.href = "vocabulary.html";
+  }
+
+  else if (selectedTopic === "Grammar") {
+    window.location.href = "grammar.html";
+  }
+
+  else if (selectedTopic === "Reading") {
+    window.location.href = "reading.html";
+  }
+
+  else if (selectedTopic === "Pronunciation") {
+    window.location.href = "pronunciation.html";
+  }
+
+});
+</script>
+</body>
+</html>

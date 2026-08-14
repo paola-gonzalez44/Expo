@@ -64,14 +64,13 @@
       body:not(.calm-mode) .course-card:hover{ transform:translateY(-6px); }
       body:not(.calm-mode) .main-btn:hover{ transform:translateY(-2px); }
     }
-    /* Calm Mode: turns off decorative blobs + shrinks motion further, for anyone
-       who wants a quieter screen regardless of their OS-level setting. */
+    
     body.calm-mode .hero-blob{ display:none; }
     body.calm-mode .info-card:hover,
     body.calm-mode .course-card:hover,
     body.calm-mode .main-btn:hover{ transform:none; }
 
-    /* ============ CALM MODE TOGGLE ============ */
+ 
     .calm-toggle{
       display:flex;
       align-items:center;
@@ -90,7 +89,7 @@
     .calm-toggle:hover{ background:var(--sky); color:white; }
     .calm-toggle[aria-pressed="true"]{ background:var(--navy); color:white; }
 
-    /* ============ NAVBAR ============ */
+  
     .navbar{
       background:var(--surface);
       padding:14px 4vw;
@@ -109,7 +108,7 @@
       color:var(--sky-dark);
     }
 
-    /* ============ HERO ============ */
+   
     .hero{
       position:relative;
       overflow:hidden;
