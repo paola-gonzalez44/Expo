@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A1 Topics - Beginner English Lessons</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #e2e8f0;
+            --text: #334155;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--gray);
+        }
+        .nav-links { 
+            display: flex; 
+            list-style: none; 
+            gap: 2.5rem;
+            margin-left: auto;
+        }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--secondary); 
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-links a:hover, .nav-links a.active { 
+            color: var(--primary);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { 
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(37, 99, 235, 0.85) 100%),
+                        url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            padding: 5rem 5%;
+            color: white;
+            text-align: center;
+        }
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            background: white;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid var(--gray);
+        }
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .breadcrumb a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+        .breadcrumb span {
+            color: var(--secondary);
+            margin: 0 0.5rem;
+        }
+        .breadcrumb .current {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .section-header p {
+            color: var(--secondary);
+            font-size: 1.15rem;
+            line-height: 1.7;
+        }
+        
+        /* Topics Grid */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+        
+        .topic-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray);
+            display: flex;
+            flex-direction: column;
+        }
+        .topic-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        }
+        
+        .topic-image-container {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+        .topic-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .topic-card:hover .topic-image {
+            transform: scale(1.08);
+        }
+        .topic-duration {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(15, 23, 42, 0.9);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .topic-content {
+            padding: 2rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .topic-category {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.75rem;
+        }
+        .topic-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .topic-content p {
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+        
+        .topic-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--gray);
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+        .meta-icon {
+            font-size: 1.1rem;
+        }
+        
+        .topic-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 0.9rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+            flex: 1;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Learning Path Section */
+        .learning-path {
+            background: white;
+            border-radius: 16px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--gray);
+        }
+        .learning-path h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .path-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .step-content h4 {
+            color: var(--dark);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .step-content p {
+            color: var(--secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 4rem 3rem;
+            border-radius: 16px;
+            text-align: center;
+            color: white;
+        }
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        .cta-section p {
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn-white {
+            background: white;
+            color: var(--primary);
+            padding: 1.2rem 3rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 5%;
+            margin-top: 5rem;
+        }
+        .footer p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.5rem; }
+            .topics-grid { grid-template-columns: 1fr; }
+            .section-header h2 { font-size: 2rem; }
+            .topic-actions { flex-direction: column; }
+            .learning-path { padding: 2rem; }
+            .path-steps { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links" style="margin-left: auto;">
+            <a href="index.html">Home</a>
+            <a href="levels.html">Levels</a>
+            <a href="videos.html">Videos</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">A1 Beginner Level</div>
+            <h1>Essential English Topics</h1>
+            <p>Master the fundamentals of English with our comprehensive A1 topics. Build a strong foundation for your language learning journey.</p>
+        </div>
+    </section>
+
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <a href="levels.html">Levels</a>
+            <span>/</span>
+            <span class="current">A1 Topics</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="section-header">
+            <h2>Core A1 Topics</h2>
+            <p>Each topic includes comprehensive lessons, practice exercises, interactive games, and video tutorials to ensure effective learning.</p>
+        </div>
+
+        <div class="topics-grid">
+            <!-- Topic 1: Simple Present -->
+            <div class="topic-card">
+                <div class="topic-image-container">
+                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Simple Present" class="topic-image">
+                    <span class="topic-duration">12 lessons</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-category">Grammar Fundamentals</div>
+                    <h3>Simple Present Tense</h3>
+                    <p>Master the most essential verb tense in English. Learn to talk about daily routines, habits, facts, and general truths with confidence.</p>
+                    <div class="topic-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon"></span>
+                            <span>12 lessons</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">🎮</span>
+                            <span>3 games</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon"></span>
+                            <span>5 videos</span>
+                        </div>
+                    </div>
+                    <div class="topic-actions">
+                        <a href="topic-simple-present.html" class="btn btn-primary">Start Learning</a>
+                        <a href="videos.html" class="btn btn-secondary">Watch Videos</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 2: Verb To Be -->
+            <div class="topic-card">
+                <div class="topic-image-container">
+                    <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Verb To Be" class="topic-image">
+                    <span class="topic-duration">10 lessons</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-category">Essential Grammar</div>
+                    <h3>Verb To Be - Am, Is, Are</h3>
+                    <p>Learn the most important verb in English. Master identity, descriptions, locations, and basic sentence structures.</p>
+                    <div class="topic-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📚</span>
+                            <span>10 lessons</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">🎮</span>
+                            <span>2 games</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon"></span>
+                            <span>4 videos</span>
+                        </div>
+                    </div>
+                    <div class="topic-actions">
+                        <a href="#" class="btn btn-primary">Start Learning</a>
+                        <a href="videos.html" class="btn btn-secondary">Watch Videos</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 3: Basic Vocabulary -->
+            <div class="topic-card">
+                <div class="topic-image-container">
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Vocabulary" class="topic-image">
+                    <span class="topic-duration">15 lessons</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-category">Vocabulary Building</div>
+                    <h3>Essential Vocabulary - 1000 Words</h3>
+                    <p>Build your foundation with the 1000 most frequently used English words. Cover numbers, colors, family, food, and everyday objects.</p>
+                    <div class="topic-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📚</span>
+                            <span>15 lessons</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">🎮</span>
+                            <span>5 games</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon"></span>
+                            <span>6 videos</span>
+                        </div>
+                    </div>
+                    <div class="topic-actions">
+                        <a href="#" class="btn btn-primary">Start Learning</a>
+                        <a href="videos.html" class="btn btn-secondary">Watch Videos</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 4: Questions -->
+            <div class="topic-card">
+                <div class="topic-image-container">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Questions" class="topic-image">
+                    <span class="topic-duration">8 lessons</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-category">Communication Skills</div>
+                    <h3>Wh- Questions & Interrogatives</h3>
+                    <p>Learn to ask and answer questions using who, what, where, when, why, and how. Essential for everyday conversations.</p>
+                    <div class="topic-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon"></span>
+                            <span>8 lessons</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">🎮</span>
+                            <span>2 games</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📹</span>
+                            <span>3 videos</span>
+                        </div>
+                    </div>
+                    <div class="topic-actions">
+                        <a href="#" class="btn btn-primary">Start Learning</a>
+                        <a href="videos.html" class="btn btn-secondary">Watch Videos</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 5: Articles -->
+            <div class="topic-card">
+                <div class="topic-image-container">
+                    <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Articles" class="topic-image">
+                    <span class="topic-duration">6 lessons</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-category">Grammar Rules</div>
+                    <h3>Articles - A, An, The</h3>
+                    <p>Master the correct use of definite and indefinite articles. Understand when to use a, an, the, or no article at all.</p>
+                    <div class="topic-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📚</span>
+                            <span>6 lessons</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">🎮</span>
+                            <span>2 games</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📹</span>
+                            <span>3 videos</span>
+                        </div>
+                    </div>
+                    <div class="topic-actions">
+                        <a href="#" class="btn btn-primary">Start Learning</a>
+                        <a href="videos.html" class="btn btn-secondary">Watch Videos</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topic 6: Daily Routines -->
+            <div class="topic-card">
+                <div class="topic-image-container">
+                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Daily Routines" class="topic-image">
+                    <span class="topic-duration">10 lessons</span>
+                </div>
+                <div class="topic-content">
+                    <div class="topic-category">Practical English</div>
+                    <h3>Daily Routines & Time</h3>
+                    <p>Describe your daily schedule, talk about what you do every day, and learn to tell time in English like a native speaker.</p>
+                    <div class="topic-meta">
+                        <div class="meta-item">
+                            <span class="meta-icon">📚</span>
+                            <span>10 lessons</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon"></span>
+                            <span>3 games</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-icon">📹</span>
+                            <span>4 videos</span>
+                        </div>
+                    </div>
+                    <div class="topic-actions">
+                        <a href="#" class="btn btn-primary">Start Learning</a>
+                        <a href="videos.html" class="btn btn-secondary">Watch Videos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Learning Path -->
+        <div class="learning-path">
+            <h2>Your A1 Learning Path</h2>
+            <div class="path-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Start with Basics</h4>
+                        <p>Begin with Verb To Be and essential vocabulary to build your foundation</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Learn Grammar</h4>
+                        <p>Master Simple Present tense and articles for correct sentence structure</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Practice Communication</h4>
+                        <p>Learn to ask questions and describe your daily routines</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Play & Reinforce</h4>
+                        <p>Use interactive games and watch videos to reinforce your learning</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2>Ready to Begin Your Journey?</h2>
+            <p>Choose a topic above and start learning today. Remember, consistent practice is the key to mastering English!</p>
+            <a href="topic-simple-present.html" class="btn-white">Start with Simple Present</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Professional English Learning Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Present Quiz - Interactive Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #e2e8f0;
+            --text: #334155;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--gray);
+        }
+        .nav-links { 
+            display: flex; 
+            list-style: none; 
+            gap: 2.5rem;
+            margin-left: auto;
+        }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--secondary); 
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-links a:hover, .nav-links a.active { 
+            color: var(--primary);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { 
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(37, 99, 235, 0.85) 100%),
+                        url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            padding: 4rem 5%;
+            color: white;
+            text-align: center;
+        }
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            background: white;
+            padding: 1.5rem 5%;
+            border-bottom: 1px solid var(--gray);
+        }
+        .breadcrumb-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .breadcrumb a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+        .breadcrumb span {
+            color: var(--secondary);
+            margin: 0 0.5rem;
+        }
+        .breadcrumb .current {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        /* Main Container */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        
+        /* Game Container */
+        .game-container {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--gray);
+        }
+        
+        /* Score Board */
+        .score-board {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 2rem;
+            display: flex;
+            justify-content: space-around;
+            color: white;
+        }
+        .score-item {
+            text-align: center;
+        }
+        .score-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .score-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Question Section */
+        .question-section {
+            padding: 3rem;
+        }
+        .question-header {
+            margin-bottom: 2rem;
+        }
+        .question-number {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--dark);
+            line-height: 1.4;
+            font-weight: 600;
+        }
+        
+        /* Answers Grid */
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+        .answer-btn {
+            padding: 1.5rem 2rem;
+            background: var(--light);
+            border: 2px solid var(--gray);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            color: var(--text);
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        .answer-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        .answer-btn:hover {
+            border-color: var(--primary);
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        }
+        .answer-btn:hover::before {
+            transform: scaleY(1);
+        }
+        .answer-btn.correct {
+            background: #d1fae5;
+            border-color: var(--success);
+            color: #065f46;
+        }
+        .answer-btn.correct::before {
+            background: var(--success);
+            transform: scaleY(1);
+        }
+        .answer-btn.wrong {
+            background: #fee2e2;
+            border-color: var(--error);
+            color: #991b1b;
+        }
+        .answer-btn.wrong::before {
+            background: var(--error);
+            transform: scaleY(1);
+        }
+        .answer-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        /* Feedback */
+        .feedback {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: none;
+            align-items: center;
+            gap: 1rem;
+        }
+        .feedback.show {
+            display: flex;
+        }
+        .feedback-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .feedback.correct {
+            background: #d1fae5;
+            border: 2px solid var(--success);
+        }
+        .feedback.correct .feedback-icon {
+            background: var(--success);
+            color: white;
+        }
+        .feedback.wrong {
+            background: #fee2e2;
+            border: 2px solid var(--error);
+        }
+        .feedback.wrong .feedback-icon {
+            background: var(--error);
+            color: white;
+        }
+        .feedback-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+        .feedback.correct h4 { color: #065f46; }
+        .feedback.wrong h4 { color: #991b1b; }
+        .feedback-content p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .feedback.correct p { color: #047857; }
+        .feedback.wrong p { color: #b91c1c; }
+        
+        /* Next Button */
+        .next-btn {
+            display: none;
+            width: 100%;
+            padding: 1.2rem;
+            margin-top: 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+        .next-btn.show {
+            display: block;
+        }
+        .next-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* Game Over */
+        .game-over {
+            padding: 4rem 3rem;
+            text-align: center;
+            display: none;
+        }
+        .game-over.show {
+            display: block;
+        }
+        .trophy-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin: 0 auto 2rem;
+            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
+        }
+        .game-over h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .final-score {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+        }
+        .final-score strong {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        .performance-message {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+        .game-over-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            padding: 0 3rem 2rem;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--gray);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 5%;
+            margin-top: 5rem;
+        }
+        .footer p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            .answers-grid { grid-template-columns: 1fr; }
+            .question-text { font-size: 1.4rem; }
+            .score-board { flex-direction: column; gap: 1.5rem; }
+            .question-section { padding: 2rem; }
+            .game-over { padding: 3rem 2rem; }
+            .game-over h2 { font-size: 2rem; }
+            .game-over-actions { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links" style="margin-left: auto;">
+            <a href="index.html">Home</a>
+            <a href="levels.html">Levels</a>
+            <a href="videos.html">Videos</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Interactive Quiz</div>
+            <h1>Simple Present Tense Challenge</h1>
+            <p>Test your knowledge of the Simple Present tense with this interactive quiz. Answer 10 questions and track your progress.</p>
+        </div>
+    </section>
+
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <a href="levels.html">Levels</a>
+            <span>/</span>
+            <a href="a1-topics.html">A1 Topics</a>
+            <span>/</span>
+            <a href="topic-simple-present.html">Simple Present</a>
+            <span>/</span>
+            <span class="current">Quiz</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="game-container">
+            <!-- Quiz Content -->
+            <div id="quiz-content">
+                <div class="score-board">
+                    <div class="score-item">
+                        <div class="score-label">Question</div>
+                        <div class="score-value"><span id="current">1</span>/10</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-label">Your Score</div>
+                        <div class="score-value" id="score">0</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 10%;"></div>
+                    </div>
+                </div>
+
+                <div class="question-section">
+                    <div class="question-header">
+                        <div class="question-number" id="questionNumber">Question 1 of 10</div>
+                        <div class="question-text" id="question">Loading question...</div>
+                    </div>
+
+                    <div class="answers-grid" id="answers"></div>
+
+                    <div class="feedback" id="feedback">
+                        <div class="feedback-icon" id="feedbackIcon"></div>
+                        <div class="feedback-content">
+                            <h4 id="feedbackTitle"></h4>
+                            <p id="feedbackText"></p>
+                        </div>
+                    </div>
+
+                    <button class="next-btn" id="nextBtn">Continue to Next Question →</button>
+                </div>
+            </div>
+
+            <!-- Game Over -->
+            <div class="game-over" id="gameOver">
+                <div class="trophy-icon">🏆</div>
+                <h2>Quiz Completed!</h2>
+                <p class="final-score">
+                    You scored <strong id="finalScore">0</strong> out of <strong>10</strong>
+                </p>
+                <p class="performance-message" id="message"></p>
+                <div class="game-over-actions">
+                    <button class="btn btn-primary" onclick="restartGame()">Play Again</button>
+                    <a href="topic-simple-present.html" class="btn btn-secondary">Back to Lesson</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Professional English Learning Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const questions = [
+            { 
+                question: "She _____ to work every day.", 
+                answers: ["go", "goes", "going", "gone"], 
+                correct: 1,
+                explanation: "With third person singular (he/she/it), we add -s or -es to the verb."
+            },
+            { 
+                question: "They _____ coffee in the morning.", 
+                answers: ["drinks", "drink", "drinking", "is drinking"], 
+                correct: 1,
+                explanation: "With plural subjects (they/we/you/I), we use the base form of the verb."
+            },
+            { 
+                question: "_____ you speak English?", 
+                answers: ["Does", "Is", "Do", "Are"], 
+                correct: 2,
+                explanation: "For questions with 'you', we use 'Do' as the auxiliary verb."
+            },
+            { 
+                question: "He _____ like vegetables.", 
+                answers: ["don't", "doesn't", "isn't", "not"], 
+                correct: 1,
+                explanation: "For negative sentences with third person singular, we use 'doesn't'."
+            },
+            { 
+                question: "My brother _____ soccer on weekends.", 
+                answers: ["play", "plays", "playing", "is playing"], 
+                correct: 1,
+                explanation: "'My brother' is third person singular, so we add -s to the verb."
+            },
+            { 
+                question: "We _____ in New York.", 
+                answers: ["lives", "live", "living", "are living"], 
+                correct: 1,
+                explanation: "With 'we', we use the base form of the verb without -s."
+            },
+            { 
+                question: "The sun _____ in the east.", 
+                answers: ["rise", "rises", "rising", "rose"], 
+                correct: 1,
+                explanation: "'The sun' is third person singular, and this is a general truth, so we use 'rises'."
+            },
+            { 
+                question: "_____ she work here?", 
+                answers: ["Do", "Is", "Does", "Are"], 
+                correct: 2,
+                explanation: "For questions with third person singular (she), we use 'Does'."
+            },
+            { 
+                question: "I _____ TV every evening.", 
+                answers: ["watch", "watches", "watching", "am watching"], 
+                correct: 0,
+                explanation: "With 'I', we use the base form of the verb without -s."
+            },
+            { 
+                question: "Water _____ at 100 degrees Celsius.", 
+                answers: ["boil", "boils", "boiling", "is boiling"], 
+                correct: 1,
+                explanation: "'Water' is third person singular, and this is a scientific fact, so we use 'boils'."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function loadQuestion() {
+            answered = false;
+            const q = questions[currentQuestion];
+            
+            // Update question display
+            document.getElementById('question').textContent = q.question;
+            document.getElementById('current').textContent = currentQuestion + 1;
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            
+            // Update progress bar
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Create answer buttons
+            const answersDiv = document.getElementById('answers');
+            answersDiv.innerHTML = '';
+            
+            q.answers.forEach((answer, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.textContent = answer;
+                btn.onclick = () => checkAnswer(index);
+                answersDiv.appendChild(btn);
+            });
+            
+            // Hide feedback and next button
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('nextBtn').classList.remove('show');
+        }
+
+        function checkAnswer(selected) {
+            if (answered) return;
+            answered = true;
+            
+            const q = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.answer-btn');
+            const feedback = document.getElementById('feedback');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackTitle = document.getElementById('feedbackTitle');
+            const feedbackText = document.getElementById('feedbackText');
+            
+            // Disable all buttons
+            buttons.forEach(btn => btn.disabled = true);
+            
+            if (selected === q.correct) {
+                score++;
+                document.getElementById('score').textContent = score;
+                buttons[selected].classList.add('correct');
+                
+                feedback.className = 'feedback correct show';
+                feedbackIcon.textContent = '✓';
+                feedbackTitle.textContent = 'Correct!';
+                feedbackText.textContent = q.explanation;
+            } else {
+                buttons[selected].classList.add('wrong');
+                buttons[q.correct].classList.add('correct');
+                
+                feedback.className = 'feedback wrong show';
+                feedbackIcon.textContent = '✗';
+                feedbackTitle.textContent = 'Incorrect';
+                feedbackText.textContent = q.explanation;
+            }
+            
+            document.getElementById('nextBtn').classList.add('show');
+        }
+
+        document.getElementById('nextBtn').onclick = () => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showGameOver();
+            }
+        };
+
+        function showGameOver() {
+            document.getElementById('quiz-content').style.display = 'none';
+            document.getElementById('gameOver').classList.add('show');
+            document.getElementById('finalScore').textContent = score;
+            
+            let message = '';
+            if (score === 10) {
+                message = 'Perfect score! You have mastered the Simple Present tense. Excellent work!';
+            } else if (score >= 8) {
+                message = 'Great job! You have a strong understanding of the Simple Present tense. Keep practicing to achieve perfection!';
+            } else if (score >= 6) {
+                message = 'Good effort! You understand the basics, but there\'s room for improvement. Review the lesson and try again.';
+            } else if (score >= 4) {
+                message = 'You\'re making progress! Go back to the lesson to review the rules and practice more.';
+            } else {
+                message = 'Don\'t worry! Learning takes time. Review the Simple Present lesson carefully and try the quiz again.';
+            }
+            
+            document.getElementById('message').textContent = message;
+        }
+
+        function restartGame() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').textContent = '0';
+            document.getElementById('quiz-content').style.display = 'block';
+            document.getElementById('gameOver').classList.remove('show');
+            loadQuestion();
+        }
+
+        // Start game
+        loadQuestion();
+    </script>
+</body>
+</html>

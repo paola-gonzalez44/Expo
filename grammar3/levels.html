@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Levels - Professional English Courses</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #64748b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --gray: #e2e8f0;
+            --text: #334155;
+            --a1-blue: #2563eb;
+            --b1-cyan: #06b6d4;
+            --b1-cyan-dark: #0891b2;
+            --b2-blue: #1e3a8a;
+            --b2-blue-dark: #1e2f6b;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--gray);
+        }
+        .nav-links { 
+            display: flex; 
+            list-style: none; 
+            gap: 2.5rem;
+            margin-left: auto;
+        }
+        .nav-links a { 
+            text-decoration: none; 
+            color: var(--secondary); 
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .nav-links a:hover, .nav-links a.active { 
+            color: var(--primary);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { 
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 64, 175, 0.85) 100%),
+                        url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            padding: 6rem 5%;
+            color: white;
+            text-align: center;
+        }
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+        
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+        
+        /* Level Detail Sections */
+        .level-section {
+            margin-bottom: 6rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--gray);
+        }
+        .level-section:last-child {
+            margin-bottom: 3rem;
+        }
+        
+        .level-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        .level-image-container {
+            position: relative;
+            height: 100%;
+            min-height: 500px;
+            overflow: hidden;
+        }
+        .level-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .level-section:hover .level-image {
+            transform: scale(1.05);
+        }
+        .level-badge-large {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            z-index: 10;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .level-badge-large.a1 { background: var(--a1-blue); }
+        .level-badge-large.b1 { background: var(--b1-cyan); }
+        .level-badge-large.b2 { background: var(--b2-blue); }
+        
+        .level-info {
+            padding: 3.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .level-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .level-subtitle {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .level-subtitle.a1 { color: var(--a1-blue); }
+        .level-subtitle.b1 { color: var(--b1-cyan-dark); }
+        .level-subtitle.b2 { color: var(--b2-blue); }
+        .level-description {
+            color: var(--text);
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+        .skill-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .skill-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .skill-icon.a1 { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+        .skill-icon.b1 { background: linear-gradient(135deg, #cffafe, #a5f3fc); }
+        .skill-icon.b2 { background: linear-gradient(135deg, #c7d2fe, #a5b4fc); }
+        .skill-content h4 {
+            color: var(--dark);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+        .skill-content p {
+            color: var(--secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .topics-list {
+            margin-bottom: 2.5rem;
+        }
+        .topics-list h3 {
+            color: var(--dark);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        .topics-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .topic-tag {
+            background: #f1f5f9;
+            color: var(--text);
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--gray);
+            transition: all 0.3s ease;
+        }
+        .topic-tag:hover {
+            transform: translateY(-2px);
+        }
+        .topic-tag.a1:hover { background: var(--a1-blue); color: white; border-color: var(--a1-blue); }
+        .topic-tag.b1 { background: #cffafe; color: var(--b1-cyan-dark); border-color: #67e8f9; }
+        .topic-tag.b1:hover { background: var(--b1-cyan); color: white; border-color: var(--b1-cyan); }
+        .topic-tag.b2 { background: #e0e7ff; color: var(--b2-blue); border-color: #a5b4fc; }
+        .topic-tag.b2:hover { background: var(--b2-blue); color: white; border-color: var(--b2-blue); }
+        
+        .level-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-primary {
+            color: white;
+            flex: 1;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+        .btn-primary.a1 { background: var(--a1-blue); }
+        .btn-primary.a1:hover { background: var(--primary-dark); }
+        .btn-primary.b1 { background: var(--b1-cyan); }
+        .btn-primary.b1:hover { background: var(--b1-cyan-dark); }
+        .btn-primary.b2 { background: var(--b2-blue); }
+        .btn-primary.b2:hover { background: var(--b2-blue-dark); }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid;
+            flex: 1;
+        }
+        .btn-secondary:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+        .btn-secondary.a1 { border-color: var(--a1-blue); color: var(--a1-blue); }
+        .btn-secondary.a1:hover { background: var(--a1-blue); }
+        .btn-secondary.b1 { border-color: var(--b1-cyan); color: var(--b1-cyan-dark); }
+        .btn-secondary.b1:hover { background: var(--b1-cyan); }
+        .btn-secondary.b2 { border-color: var(--b2-blue); color: var(--b2-blue); }
+        .btn-secondary.b2:hover { background: var(--b2-blue); }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 5rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            color: white;
+            margin-top: 4rem;
+        }
+        .cta-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn-white {
+            background: white;
+            color: var(--primary);
+            padding: 1.2rem 3rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 3rem 5%;
+            margin-top: 5rem;
+        }
+        .footer p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 968px) {
+            .level-header {
+                grid-template-columns: 1fr;
+            }
+            .level-image-container {
+                min-height: 350px;
+            }
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 { font-size: 2.5rem; }
+            .level-info h2 { font-size: 2rem; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .level-info { padding: 2rem; }
+            .level-actions { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links" style="margin-left: auto;">
+            <a href="index.html">Home</a>
+            <a href="levels.html" class="active">Levels</a>
+            <a href="videos.html">Videos</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Structured Learning Path</h1>
+            <p>Progress through carefully designed levels aligned with the Common European Framework of Reference for Languages (CEFR). Each level builds upon the previous one to ensure comprehensive skill development.</p>
+        </div>
+    </section>
+
+    <div class="main-container">
+        <!-- A1 Level -->
+        <div class="level-section">
+            <div class="level-header">
+                <div class="level-image-container">
+                    <span class="level-badge-large a1">A1</span>
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Beginner Learning" class="level-image">
+                </div>
+                <div class="level-info">
+                    <h2>Beginner Level</h2>
+                    <div class="level-subtitle a1">CEFR A1 - Foundation Building</div>
+                    <p class="level-description">
+                        Perfect for those starting their English journey. At this level, you'll develop essential communication skills for everyday situations, build a solid vocabulary foundation, and master basic grammar structures. You'll learn to introduce yourself, ask and answer simple questions, and interact in a straightforward manner.
+                    </p>
+                    
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-icon a1"></div>
+                            <div class="skill-content">
+                                <h4>Basic Communication</h4>
+                                <p>Introduce yourself and others, ask simple questions</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon a1">📝</div>
+                            <div class="skill-content">
+                                <h4>Essential Grammar</h4>
+                                <p>Present simple, basic verb tenses, articles</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon a1"></div>
+                            <div class="skill-content">
+                                <h4>Listening Skills</h4>
+                                <p>Understand slow, clear speech on familiar topics</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon a1"></div>
+                            <div class="skill-content">
+                                <h4>Reading Basics</h4>
+                                <p>Read short, simple texts and understand signs</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="topics-list">
+                        <h3>Key Topics Covered:</h3>
+                        <div class="topics-tags">
+                            <span class="topic-tag a1">Verb To Be</span>
+                            <span class="topic-tag a1">Simple Present</span>
+                            <span class="topic-tag a1">Basic Vocabulary</span>
+                            <span class="topic-tag a1">Numbers & Time</span>
+                            <span class="topic-tag a1">Daily Routines</span>
+                            <span class="topic-tag a1">Family & People</span>
+                            <span class="topic-tag a1">Places & Directions</span>
+                            <span class="topic-tag a1">Food & Shopping</span>
+                        </div>
+                    </div>
+                    
+                    <div class="level-actions">
+                        <a href="a1-topics.html" class="btn btn-primary a1">Explore A1 Topics</a>
+                        <a href="videos.html" class="btn btn-secondary a1">Watch A1 Lessons</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- B1 Level -->
+        <div class="level-section">
+            <div class="level-header">
+                <div class="level-image-container">
+                    <span class="level-badge-large b1">B1</span>
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Intermediate Learning" class="level-image">
+                </div>
+                <div class="level-info">
+                    <h2>Intermediate Level</h2>
+                    <div class="level-subtitle b1">CEFR B1 - Independent User</div>
+                    <p class="level-description">
+                        At the intermediate level, you'll gain confidence in handling most situations likely to arise in work, study, and social contexts. You'll develop the ability to express opinions, describe experiences, and understand the main points of complex texts. This level marks the transition from basic to independent language use.
+                    </p>
+                    
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-icon b1"></div>
+                            <div class="skill-content">
+                                <h4>Work & Business</h4>
+                                <p>Handle professional conversations and emails</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon b1">✈️</div>
+                            <div class="skill-content">
+                                <h4>Travel & Culture</h4>
+                                <p>Navigate travel situations and cultural exchanges</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon b1">🎯</div>
+                            <div class="skill-content">
+                                <h4>Complex Grammar</h4>
+                                <p>Perfect tenses, conditionals, modal verbs</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon b1">🗣️</div>
+                            <div class="skill-content">
+                                <h4>Fluent Speaking</h4>
+                                <p>Express ideas clearly on familiar topics</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="topics-list">
+                        <h3>Key Topics Covered:</h3>
+                        <div class="topics-tags">
+                            <span class="topic-tag b1">Present Perfect</span>
+                            <span class="topic-tag b1">Past Continuous</span>
+                            <span class="topic-tag b1">Future Forms</span>
+                            <span class="topic-tag b1">First & Second Conditional</span>
+                            <span class="topic-tag b1">Modal Verbs</span>
+                            <span class="topic-tag b1">Reported Speech</span>
+                            <span class="topic-tag b1">Business English</span>
+                            <span class="topic-tag b1">Idioms & Phrases</span>
+                        </div>
+                    </div>
+                    
+                    <div class="level-actions">
+                        <a href="b1-topics.html" class="btn btn-primary b1">Explore B1 Topics</a>
+                        <a href="videos.html" class="btn btn-secondary b1">Watch B1 Lessons</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- B2 Level -->
+        <div class="level-section">
+            <div class="level-header">
+                <div class="level-image-container">
+                    <span class="level-badge-large b2">B2</span>
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Advanced Learning" class="level-image">
+                </div>
+                <div class="level-info">
+                    <h2>Upper Intermediate Level</h2>
+                    <div class="level-subtitle b2">CEFR B2 - Advanced Proficiency</div>
+                    <p class="level-description">
+                        Achieve fluency and spontaneity that makes regular interaction with native speakers effortless. At this level, you'll master complex language structures, understand nuanced meanings, and communicate effectively in professional and academic contexts. You'll be able to produce clear, detailed text on a wide range of subjects.
+                    </p>
+                    
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-icon b2">🎓</div>
+                            <div class="skill-content">
+                                <h4>Academic English</h4>
+                                <p>Write essays, reports, and research papers</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon b2"></div>
+                            <div class="skill-content">
+                                <h4>Professional Communication</h4>
+                                <p>Negotiate, present, and lead meetings</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon b2">🎬</div>
+                            <div class="skill-content">
+                                <h4>Native-Level Understanding</h4>
+                                <p>Understand films, literature, and media</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon b2">✨</div>
+                            <div class="skill-content">
+                                <h4>Nuanced Expression</h4>
+                                <p>Use idioms, phrasal verbs, and subtle meanings</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="topics-list">
+                        <h3>Key Topics Covered:</h3>
+                        <div class="topics-tags">
+                            <span class="topic-tag b2">Third Conditional</span>
+                            <span class="topic-tag b2">Passive Voice (All Tenses)</span>
+                            <span class="topic-tag b2">Advanced Phrasal Verbs</span>
+                            <span class="topic-tag b2">Relative Clauses</span>
+                            <span class="topic-tag b2">Subjunctive Mood</span>
+                            <span class="topic-tag b2">Advanced Vocabulary</span>
+                            <span class="topic-tag b2">Formal Writing</span>
+                            <span class="topic-tag b2">Presentation Skills</span>
+                        </div>
+                    </div>
+                    
+                    <div class="level-actions">
+                        <a href="b2-topics.html" class="btn btn-primary b2">Explore B2 Topics</a>
+                        <a href="videos.html" class="btn btn-secondary b2">Watch B2 Lessons</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2>Ready to Start Your Learning Journey?</h2>
+            <p>Choose your level today and take the first step towards English fluency. Our expert instructors and comprehensive materials are here to support your success.</p>
+            <a href="index.html" class="btn-white">Get Started Now</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Professional English Learning Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+            }
+        });
+    </script>
+</body>
+</html>
