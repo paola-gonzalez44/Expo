@@ -1,273 +1,2138 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rompecabezas de Imagen - Vocabulario en Inglés</title>
+<meta name="description" content="Inclusive English vocabulary picture puzzle game for Oak English.">
+<title>Oak English · Picture Puzzle</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/puzzlet_game.css">
-</head>
-<body>
-<div class="app-shell">
-  <header>
-    <h1> Rompecabezas de Imagen</h1>
-    <p>Arma la imagen tocando dos piezas para intercambiarlas de lugar.</p>
-  </header>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <div class="controls-row">
-    <div class="segmented" role="group" aria-label="Nivel">
-      <button class="level-btn active" data-level="basico">Nivel básico</button>
-      <button class="level-btn" data-level="intermedio">Nivel intermedio</button>
-    </div>
-    <div class="segmented" role="group" aria-label="Dificultad">
-      <button class="grid-btn active" data-grid="2">Fácil (4 piezas)</button>
-      <button class="grid-btn" data-grid="3">Normal (9 piezas)</button>
-    </div>
-  </div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-  <section class="panel">
-    <h2>Instrucciones</h2>
-    <p class="instructions">
-      <ol>
-        <li>Tap one piece.</li>
-        <li>Tap another piece to swap them.</li>
-        <li>Pieces in the correct place tunr green.</li>
-        <li>Keep going until all the pieces are green.</li>
-        <li>When all the pieces are green, the picture is complete!</li>
-      </ol>
-    </p>
+<style>
+:root{
+  --bg:#f4f8fb;
+  --surface:#ffffff;
+  --surface-soft:#f7fafc;
 
-    <div class="word-banner" id="word-banner" style="display:none;">
-      <span class="word-text" id="word-text"></span>
-      <button class="speaker-btn" id="speak-btn" title="Escuchar la palabra" aria-label="Escuchar la palabra">🔊</button>
-    </div>
+  --primary:#4c7ea6;
+  --primary-dark:#244c70;
+  --primary-soft:#e9f3f9;
 
-    <div class="puzzle-board" id="puzzle-board"></div>
+  --border:#dbe8f0;
+  --text:#273746;
+  --muted:#667686;
 
-    <div class="feedback-msg" id="puzzle-feedback"></div>
+  --success:#5f9f76;
+  --success-bg:#eaf6ee;
 
-    <div class="action-row">
-      <button class="btn btn-secondary" id="reveal-btn">Ver la imagen completa</button>
-      <button class="btn btn-primary" id="next-btn">Nueva imagen</button>
-    </div>
-  </section>
-</div>
+  --warning:#c47b28;
+  --warning-bg:#fff6e7;
 
-<script>
-const VOCAB = {
-  basico: [
-    {en:"cat", emoji:"🐱"}, {en:"dog", emoji:"🐶"}, {en:"sun", emoji:"☀️"}, {en:"moon", emoji:"🌙"},
-    {en:"apple", emoji:"🍎"}, {en:"banana", emoji:"🍌"}, {en:"house", emoji:"🏠"}, {en:"book", emoji:"📖"},
-    {en:"water", emoji:"💧"}, {en:"milk", emoji:"🥛"}, {en:"fish", emoji:"🐟"}, {en:"bird", emoji:"🐦"},
-    {en:"star", emoji:"⭐"}, {en:"tree", emoji:"🌳"}, {en:"ball", emoji:"⚽"}, {en:"chair", emoji:"🪑"},
-    {en:"flower", emoji:"🌸"}, {en:"shoe", emoji:"👟"}, {en:"hat", emoji:"🧢"}, {en:"car", emoji:"🚗"},
-    {en:"bus", emoji:"🚌"}, {en:"boat", emoji:"⛵"}, {en:"egg", emoji:"🥚"}, {en:"bread", emoji:"🍞"},
-    {en:"cheese", emoji:"🧀"}, {en:"cake", emoji:"🎂"}, {en:"cookie", emoji:"🍪"}, {en:"orange", emoji:"🍊"},
-    {en:"grape", emoji:"🍇"}, {en:"strawberry", emoji:"🍓"}, {en:"carrot", emoji:"🥕"}, {en:"corn", emoji:"🌽"},
-    {en:"pizza", emoji:"🍕"}, {en:"rabbit", emoji:"🐰"}, {en:"horse", emoji:"🐴"}, {en:"cow", emoji:"🐮"},
-    {en:"pig", emoji:"🐷"}, {en:"sheep", emoji:"🐑"}, {en:"duck", emoji:"🦆"}, {en:"frog", emoji:"🐸"},
-    {en:"bee", emoji:"🐝"}, {en:"butterfly", emoji:"🦋"}, {en:"snake", emoji:"🐍"}, {en:"lion", emoji:"🦁"},
-    {en:"elephant", emoji:"🐘"}, {en:"monkey", emoji:"🐒"}, {en:"door", emoji:"🚪"}, {en:"window", emoji:"🪟"},
-    {en:"bed", emoji:"🛏️"}, {en:"clock", emoji:"🕐"}
-  ],
-  intermedio: [
-    {en:"happy", emoji:"😊"}, {en:"sad", emoji:"😢"}, {en:"angry", emoji:"😠"}, {en:"tired", emoji:"😴"},
-    {en:"scared", emoji:"😨"}, {en:"surprised", emoji:"😲"}, {en:"excited", emoji:"🤩"}, {en:"run", emoji:"🏃"},
-    {en:"jump", emoji:"🤸"}, {en:"swim", emoji:"🏊"}, {en:"dance", emoji:"💃"}, {en:"sing", emoji:"🎤"},
-    {en:"read", emoji:"📚"}, {en:"write", emoji:"✍️"}, {en:"draw", emoji:"🎨"}, {en:"listen", emoji:"👂"},
-    {en:"talk", emoji:"🗣️"}, {en:"walk", emoji:"🚶"}, {en:"fly", emoji:"✈️"}, {en:"climb", emoji:"🧗"},
-    {en:"build", emoji:"🧱"}, {en:"clean", emoji:"🧹"}, {en:"wash", emoji:"🚿"}, {en:"cook", emoji:"🍳"},
-    {en:"teacher", emoji:"👩‍🏫"}, {en:"doctor", emoji:"👨‍⚕️"}, {en:"nurse", emoji:"🩺"}, {en:"police officer", emoji:"👮"},
-    {en:"firefighter", emoji:"👨‍🚒"}, {en:"pilot", emoji:"👨‍✈️"}, {en:"chef", emoji:"👨‍🍳"}, {en:"artist", emoji:"👩‍🎨"},
-    {en:"scientist", emoji:"👩‍🔬"}, {en:"farmer", emoji:"👨‍🌾"}, {en:"rain", emoji:"🌧️"}, {en:"cloud", emoji:"☁️"},
-    {en:"snow", emoji:"❄️"}, {en:"wind", emoji:"💨"}, {en:"storm", emoji:"⛈️"}, {en:"rainbow", emoji:"🌈"},
-    {en:"hot", emoji:"🔥"}, {en:"cold", emoji:"🥶"}, {en:"morning", emoji:"🌅"}, {en:"night", emoji:"🌃"},
-    {en:"garden", emoji:"🌳"}, {en:"school", emoji:"🏫"}, {en:"kitchen", emoji:"🍽️"}, {en:"friend", emoji:"🤝"},
-    {en:"family", emoji:"👪"}, {en:"music", emoji:"🎵"}
-  ]
-};
+  --gold:#b57a11;
 
-let state = { level:"basico", gridSize:2, words:[], wordIndex:0 };
-
-function shuffle(arr){
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
-  return a;
+  --shadow:0 10px 28px rgba(36,76,112,.09);
+  --shadow-small:0 4px 11px rgba(36,76,112,.06);
 }
 
+
+/* =========================
+   RESET
+========================= */
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+
+  font-family:'Poppins',sans-serif;
+
+  color:var(--text);
+
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(185,217,238,.55),
+      transparent 26%
+    ),
+    linear-gradient(
+      180deg,
+      #f4f8fb 0%,
+      #ffffff 100%
+    );
+}
+
+button,
+a{
+  font-family:inherit;
+}
+
+button:focus-visible,
+a:focus-visible{
+  outline:3px solid var(--primary-dark);
+  outline-offset:3px;
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.app-shell{
+  width:min(850px,calc(100% - 28px));
+
+  margin:0 auto;
+
+  padding:18px 0 32px;
+}
+
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-container{
+  margin-bottom:13px;
+}
+
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+
+  gap:6px;
+
+  padding:7px 12px;
+
+  border:1px solid var(--border);
+  border-radius:999px;
+
+  background:rgba(255,255,255,.94);
+
+  color:var(--primary-dark);
+
+  font-size:.73rem;
+  font-weight:600;
+
+  text-decoration:none;
+
+  transition:.2s ease;
+}
+
+.back-btn:hover{
+  background:var(--primary-soft);
+
+  transform:translateX(-2px);
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  text-align:center;
+
+  margin-bottom:15px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+
+  gap:6px;
+
+  padding:5px 10px;
+
+  margin-bottom:7px;
+
+  border-radius:999px;
+
+  background:var(--primary-soft);
+
+  color:var(--primary-dark);
+
+  font-size:.64rem;
+  font-weight:700;
+}
+
+.hero h1{
+  color:var(--primary-dark);
+
+  font-size:clamp(1.55rem,4vw,2rem);
+
+  line-height:1.1;
+
+  margin-bottom:5px;
+}
+
+.hero p{
+  max-width:560px;
+
+  margin:auto;
+
+  color:var(--muted);
+
+  font-size:.76rem;
+
+  line-height:1.45;
+}
+
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings{
+  display:grid;
+
+  grid-template-columns:1fr 1fr;
+
+  gap:8px;
+
+  margin-bottom:10px;
+}
+
+.setting-card{
+  padding:8px;
+
+  border:1px solid var(--border);
+
+  border-radius:13px;
+
+  background:rgba(255,255,255,.95);
+
+  box-shadow:var(--shadow-small);
+}
+
+.setting-label{
+  display:block;
+
+  margin:0 0 5px 3px;
+
+  color:var(--muted);
+
+  font-size:.59rem;
+
+  font-weight:800;
+
+  letter-spacing:.06em;
+
+  text-transform:uppercase;
+}
+
+
+/* =========================
+   SEGMENTED BUTTONS
+========================= */
+
+.segmented{
+  display:flex;
+
+  gap:3px;
+
+  padding:3px;
+
+  border-radius:9px;
+
+  background:#f0f5f8;
+}
+
+.segmented button{
+  flex:1;
+
+  min-height:31px;
+
+  border:0;
+
+  border-radius:7px;
+
+  background:transparent;
+
+  color:var(--muted);
+
+  font-size:.67rem;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+}
+
+.segmented button:hover{
+  background:#e5eef4;
+
+  color:var(--primary-dark);
+}
+
+.segmented button.active{
+  background:var(--primary);
+
+  color:#fff;
+
+  box-shadow:
+    0 2px 6px rgba(76,126,166,.2);
+}
+
+
+/* =========================
+   GAME PANEL
+========================= */
+
+.game-panel{
+  padding:15px;
+
+  border:1px solid var(--border);
+
+  border-radius:17px;
+
+  background:rgba(255,255,255,.97);
+
+  box-shadow:var(--shadow);
+}
+
+
+/* =========================
+   INSTRUCTIONS HEADER
+========================= */
+
+.instructions-head{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  margin-bottom:7px;
+}
+
+.instructions-head h2{
+  color:var(--primary-dark);
+
+  font-size:.98rem;
+}
+
+.pace-pill{
+  display:inline-flex;
+
+  align-items:center;
+
+  gap:4px;
+
+  padding:4px 8px;
+
+  border-radius:999px;
+
+  background:var(--success-bg);
+
+  color:#417554;
+
+  font-size:.58rem;
+
+  font-weight:800;
+
+  white-space:nowrap;
+}
+
+
+/* =========================
+   INSTRUCTION CARDS
+========================= */
+
+.instructions{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:7px;
+
+  margin-bottom:8px;
+}
+
+.instruction{
+  min-height:72px;
+
+  padding:7px;
+
+  border:1px solid var(--border);
+
+  border-radius:10px;
+
+  background:var(--surface-soft);
+
+  transition:.2s ease;
+}
+
+.instruction:hover{
+  transform:translateY(-1px);
+
+  border-color:#bfd8e7;
+
+  box-shadow:var(--shadow-small);
+}
+
+.step{
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  width:20px;
+
+  height:20px;
+
+  margin-bottom:3px;
+
+  border-radius:50%;
+
+  background:var(--primary);
+
+  color:#fff;
+
+  font-size:.58rem;
+
+  font-weight:800;
+}
+
+.instruction strong{
+  display:block;
+
+  margin-bottom:1px;
+
+  color:var(--primary-dark);
+
+  font-size:.67rem;
+}
+
+.instruction span:last-child{
+  display:block;
+
+  color:var(--muted);
+
+  font-size:.59rem;
+
+  line-height:1.3;
+}
+
+
+/* =========================
+   HELPER
+========================= */
+
+.helper{
+  display:flex;
+
+  align-items:center;
+
+  gap:6px;
+
+  margin-bottom:9px;
+
+  padding:6px 8px;
+
+  border:1px dashed #c7dce9;
+
+  border-radius:8px;
+
+  background:#f8fbfd;
+
+  color:var(--muted);
+
+  font-size:.62rem;
+
+  line-height:1.3;
+}
+
+.helper i{
+  flex-shrink:0;
+
+  color:var(--primary);
+
+  font-size:.8rem;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  margin-bottom:10px;
+
+  padding:6px 9px;
+
+  border-radius:8px;
+
+  background:var(--surface-soft);
+}
+
+.progress-label{
+  color:var(--muted);
+
+  font-size:.59rem;
+
+  font-weight:800;
+
+  letter-spacing:.04em;
+}
+
+#puzzle-progress{
+  color:var(--gold);
+
+  font-size:.72rem;
+
+  font-weight:700;
+}
+
+
+/* =========================
+   WORD BANNER
+========================= */
+
+.word-banner{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:8px;
+
+  width:min(320px,100%);
+
+  margin:0 auto 11px;
+
+  padding:7px 11px;
+
+  border:1px solid #cfe2ee;
+
+  border-radius:10px;
+
+  background:var(--primary-soft);
+
+  color:var(--primary-dark);
+
+  animation:appear .3s ease;
+}
+
+.word-text{
+  font-size:.88rem;
+
+  font-weight:800;
+}
+
+.speaker-btn{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  width:28px;
+
+  height:28px;
+
+  border:0;
+
+  border-radius:50%;
+
+  background:var(--primary);
+
+  color:#fff;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+}
+
+.speaker-btn:hover{
+  background:var(--primary-dark);
+
+  transform:scale(1.05);
+}
+
+
+/* =========================
+   PUZZLE CONTAINER
+========================= */
+
+.puzzle-container{
+  width:min(500px,100%);
+
+  margin:0 auto;
+}
+
+
+/* =========================
+   PUZZLE BOARD
+========================= */
+
+.puzzle-board{
+  display:grid;
+
+  width:min(500px,100%);
+
+  aspect-ratio:1;
+
+  margin:0 auto;
+
+  overflow:hidden;
+
+  border:4px solid #fff;
+
+  border-radius:15px;
+
+  background:#eef5f8;
+
+  box-shadow:
+    0 7px 20px rgba(36,76,112,.12);
+
+  transition:.25s ease;
+}
+
+.puzzle-board.solved{
+  border-color:var(--success);
+
+  box-shadow:
+    0 7px 22px rgba(95,159,118,.18);
+}
+
+
+/* =========================
+   PUZZLE PIECES
+========================= */
+
+.puzzle-piece{
+  position:relative;
+
+  min-width:0;
+
+  min-height:0;
+
+  padding:0;
+
+  border:1px solid rgba(255,255,255,.9);
+
+  background-repeat:no-repeat;
+
+  cursor:pointer;
+
+  transition:
+    transform .18s ease,
+    filter .18s ease,
+    box-shadow .18s ease;
+}
+
+.puzzle-piece:hover{
+  filter:brightness(1.04);
+
+  z-index:2;
+}
+
+.puzzle-piece.selected{
+  z-index:3;
+
+  box-shadow:
+    inset 0 0 0 3px #d8a53e,
+    0 0 0 2px #d8a53e;
+
+  filter:brightness(1.05);
+}
+
+.puzzle-piece.correct-spot{
+  box-shadow:
+    inset 0 0 0 2px rgba(95,159,118,.75);
+}
+
+.puzzle-board.solved .puzzle-piece{
+  box-shadow:
+    inset 0 0 0 2px rgba(95,159,118,.65);
+
+  cursor:default;
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+.feedback-msg{
+  min-height:20px;
+
+  margin-top:9px;
+
+  text-align:center;
+
+  font-size:.69rem;
+
+  font-weight:700;
+}
+
+.feedback-msg.success{
+  color:#4e8c64;
+}
+
+.feedback-msg.retry{
+  color:var(--warning);
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.action-row{
+  display:flex;
+
+  justify-content:center;
+
+  flex-wrap:wrap;
+
+  gap:7px;
+
+  margin-top:8px;
+}
+
+.btn{
+  display:inline-flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:6px;
+
+  border:0;
+
+  border-radius:999px;
+
+  padding:7px 14px;
+
+  font-size:.68rem;
+
+  font-weight:700;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+}
+
+.btn-primary{
+  background:var(--primary);
+
+  color:#fff;
+
+  box-shadow:
+    0 3px 8px rgba(76,126,166,.2);
+}
+
+.btn-primary:hover{
+  background:var(--primary-dark);
+
+  transform:translateY(-1px);
+}
+
+.btn-secondary{
+  background:#eef5f8;
+
+  color:var(--primary-dark);
+
+  border:1px solid var(--border);
+}
+
+.btn-secondary:hover{
+  background:var(--primary-soft);
+
+  transform:translateY(-1px);
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  margin-top:32px;
+
+  padding:25px 5%;
+
+  background:#1e3a5f;
+
+  color:#fff;
+}
+
+.footer-content{
+  max-width:950px;
+
+  margin:auto;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(170px,1fr));
+
+  gap:18px;
+}
+
+.footer-section h4{
+  margin-bottom:7px;
+
+  font-size:.78rem;
+}
+
+.footer-section ul{
+  list-style:none;
+}
+
+.footer-section li{
+  margin-bottom:4px;
+}
+
+.footer-section a{
+  color:#b7c8d8;
+
+  text-decoration:none;
+
+  font-size:.68rem;
+}
+
+.footer-section a:hover{
+  color:#fff;
+}
+
+.social-links{
+  display:flex;
+
+  gap:7px;
+}
+
+.social-links a{
+  width:31px;
+
+  height:31px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,.1);
+
+  transition:.2s ease;
+}
+
+.social-links a:hover{
+  background:rgba(255,255,255,.2);
+}
+
+.footer-bottom{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:9px;
+
+  margin-top:18px;
+
+  padding-top:13px;
+
+  border-top:
+    1px solid rgba(255,255,255,.1);
+
+  color:#a0aec0;
+
+  font-size:.65rem;
+
+  text-align:center;
+}
+
+.Logo{
+  height:42px;
+
+  width:auto;
+}
+
+
+/* =========================
+   ANIMATION
+========================= */
+
+@keyframes appear{
+
+  from{
+    opacity:0;
+
+    transform:translateY(5px);
+  }
+
+  to{
+    opacity:1;
+
+    transform:translateY(0);
+  }
+
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media(max-width:700px){
+
+  .instructions{
+    grid-template-columns:1fr;
+  }
+
+  .instruction{
+    min-height:auto;
+
+    padding:8px;
+  }
+
+  .puzzle-board{
+    border-width:3px;
+
+    border-radius:13px;
+  }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:560px){
+
+  .app-shell{
+    width:min(100% - 18px,850px);
+
+    padding-top:14px;
+  }
+
+  .settings{
+    grid-template-columns:1fr;
+  }
+
+  .game-panel{
+    padding:13px;
+  }
+
+  .instructions-head{
+    align-items:flex-start;
+
+    flex-direction:column;
+
+    gap:5px;
+  }
+
+  .instructions{
+    gap:6px;
+  }
+
+  .helper{
+    align-items:flex-start;
+  }
+
+  .puzzle-board{
+    border-radius:11px;
+  }
+
+  .action-row{
+    flex-direction:column;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .footer-content{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media(max-width:390px){
+
+  .footer-content{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:1.55rem;
+  }
+
+  .hero p{
+    font-size:.7rem;
+  }
+
+  .word-text{
+    font-size:.82rem;
+  }
+
+  .puzzle-board{
+    border-width:3px;
+  }
+
+}
+
+
+/* =========================
+   REDUCED MOTION
+========================= */
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+
+    scroll-behavior:auto!important;
+
+    animation-duration:.01ms!important;
+
+    transition-duration:.01ms!important;
+
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<main class="app-shell">
+
+  <!-- BACK -->
+  <div class="back-container">
+    <a href="vocabulary_home.html" class="back-btn" aria-label="Back to vocabulary">
+      <i class="bi bi-arrow-left" aria-hidden="true"></i>
+      Back to Vocabulary
+    </a>
+  </div>
+
+
+  <!-- HERO -->
+  <header class="hero">
+
+    <div class="badge">
+      <i class="bi bi-puzzle" aria-hidden="true"></i>
+      Vocabulary practice
+    </div>
+
+    <h1>Picture Puzzle</h1>
+
+    <p>
+      Put the pieces in the correct place and discover the English word.
+      Learn at your own pace.
+    </p>
+
+  </header>
+
+
+  <!-- SETTINGS -->
+  <section class="settings" aria-label="Game settings">
+
+    <div class="setting-card">
+
+      <span class="setting-label">
+        Difficulty
+      </span>
+
+      <div class="segmented"
+           role="group"
+           aria-label="Choose difficulty level">
+
+        <button
+          class="level-btn active"
+          data-level="basico"
+          type="button">
+
+          Basic
+
+        </button>
+
+        <button
+          class="level-btn"
+          data-level="intermedio"
+          type="button">
+
+          Intermediate
+
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="setting-card">
+
+      <span class="setting-label">
+        Puzzle size
+      </span>
+
+      <div class="segmented"
+           role="group"
+           aria-label="Choose puzzle size">
+
+        <button
+          class="grid-btn active"
+          data-grid="2"
+          type="button">
+
+          Easy · 4 pieces
+
+        </button>
+
+        <button
+          class="grid-btn"
+          data-grid="3"
+          type="button">
+
+          Normal · 9 pieces
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- GAME -->
+  <section class="game-panel"
+           aria-labelledby="instructions-title">
+
+    <div class="instructions-head">
+
+      <h2 id="instructions-title">
+        How to play
+      </h2>
+
+      <span class="pace-pill">
+        <i class="bi bi-clock" aria-hidden="true"></i>
+        No time limit
+      </span>
+
+    </div>
+
+
+    <!-- INSTRUCTIONS -->
+    <div class="instructions">
+
+      <article class="instruction">
+
+        <span class="step">1</span>
+
+        <strong>Choose</strong>
+
+        <span>
+          Select your level and puzzle size.
+        </span>
+
+      </article>
+
+
+      <article class="instruction">
+
+        <span class="step">2</span>
+
+        <strong>Swap</strong>
+
+        <span>
+          Touch one piece and then another to exchange their places.
+        </span>
+
+      </article>
+
+
+      <article class="instruction">
+
+        <span class="step">3</span>
+
+        <strong>Complete</strong>
+
+        <span>
+          Correct pieces turn green. Keep going until the picture is complete.
+        </span>
+
+      </article>
+
+    </div>
+
+
+    <!-- HELPER -->
+    <p class="helper">
+
+      <i class="bi bi-heart" aria-hidden="true"></i>
+
+      <span>
+        <strong>Take your time.</strong>
+        There is no timer. You can use a mouse, touch screen,
+        or keyboard.
+      </span>
+
+    </p>
+
+
+    <!-- PROGRESS -->
+    <div class="progress"
+         aria-label="Puzzle progress">
+
+      <span class="progress-label">
+        PUZZLE PROGRESS
+      </span>
+
+      <span id="puzzle-progress"
+            aria-live="polite">
+
+        0 / 4
+
+      </span>
+
+    </div>
+
+
+    <!-- WORD -->
+    <div class="word-banner"
+         id="word-banner"
+         style="display:none;">
+
+      <span class="word-text"
+            id="word-text">
+      </span>
+
+      <button
+        class="speaker-btn"
+        id="speak-btn"
+        type="button"
+        title="Listen to the word"
+        aria-label="Listen to the word">
+
+        <i class="bi bi-volume-up-fill"
+           aria-hidden="true"></i>
+
+      </button>
+
+    </div>
+
+
+    <!-- PUZZLE -->
+    <div class="puzzle-container">
+
+      <div
+        class="puzzle-board"
+        id="puzzle-board"
+        aria-label="Picture puzzle">
+      </div>
+
+    </div>
+
+
+    <!-- FEEDBACK -->
+    <div
+      class="feedback-msg"
+      id="puzzle-feedback"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true">
+    </div>
+
+
+    <!-- BUTTONS -->
+    <div class="action-row">
+
+      <button
+        class="btn btn-secondary"
+        id="reveal-btn"
+        type="button">
+
+        <i class="bi bi-eye"
+           aria-hidden="true"></i>
+
+        Show complete picture
+
+      </button>
+
+
+      <button
+        class="btn btn-primary"
+        id="next-btn"
+        type="button">
+
+        <i class="bi bi-arrow-right"
+           aria-hidden="true"></i>
+
+        New Picture
+
+      </button>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- FOOTER -->
+<footer>
+
+  <div class="footer-content">
+
+    <div class="footer-section">
+
+      <h4>Skills</h4>
+
+      <ul>
+        <li><a href="#">Reading</a></li>
+        <li><a href="#">Listening</a></li>
+        <li><a href="#">Writing</a></li>
+        <li><a href="#">Speaking</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-section">
+
+      <h4>Vocabulary</h4>
+
+      <ul>
+        <li><a href="#">A1 - A2 Vocabulary</a></li>
+        <li><a href="#">B1 - B2 Vocabulary</a></li>
+        <li><a href="#">Interactive Games</a></li>
+        <li><a href="#">Play with Words</a></li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-section">
+
+      <h4>Grammar</h4>
+
+      <ul>
+        <li>
+          <a href="grammar-games.html">
+            A1 - A2 Grammar
+          </a>
+        </li>
+
+        <li>
+          <a href="b1-b2-grammar.html">
+            B1 - B2 Grammar
+          </a>
+        </li>
+      </ul>
+
+    </div>
+
+
+    <div class="footer-section">
+
+      <h4>Connect with us</h4>
+
+      <div class="social-links"
+           aria-label="Social media">
+
+        <a href="#"
+           aria-label="Facebook">
+
+          <i class="bi bi-facebook"></i>
+
+        </a>
+
+        <a href="#"
+           aria-label="Twitter">
+
+          <i class="bi bi-twitter-x"></i>
+
+        </a>
+
+        <a href="#"
+           aria-label="Instagram">
+
+          <i class="bi bi-instagram"></i>
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer-bottom">
+
+    <img
+      src="img/Logo2.png"
+      alt="Oak English logo"
+      class="Logo">
+
+    <span>
+      &copy; 2026 Oak English. All rights reserved.
+    </span>
+
+  </div>
+
+</footer>
+
+
+<script>
+
+
+const VOCAB = {
+
+  basico: [
+
+    {en:"cat", emoji:"🐱"},
+    {en:"dog", emoji:"🐶"},
+    {en:"sun", emoji:"☀️"},
+    {en:"moon", emoji:"🌙"},
+    {en:"apple", emoji:"🍎"},
+    {en:"banana", emoji:"🍌"},
+    {en:"house", emoji:"🏠"},
+    {en:"book", emoji:"📖"},
+    {en:"water", emoji:"💧"},
+    {en:"milk", emoji:"🥛"},
+    {en:"fish", emoji:"🐟"},
+    {en:"bird", emoji:"🐦"},
+    {en:"star", emoji:"⭐"},
+    {en:"tree", emoji:"🌳"},
+    {en:"ball", emoji:"⚽"},
+    {en:"chair", emoji:"🪑"},
+    {en:"flower", emoji:"🌸"},
+    {en:"shoe", emoji:"👟"},
+    {en:"hat", emoji:"🧢"},
+    {en:"car", emoji:"🚗"},
+    {en:"bus", emoji:"🚌"},
+    {en:"boat", emoji:"⛵"},
+    {en:"egg", emoji:"🥚"},
+    {en:"bread", emoji:"🍞"},
+    {en:"cheese", emoji:"🧀"},
+    {en:"cake", emoji:"🎂"},
+    {en:"cookie", emoji:"🍪"},
+    {en:"orange", emoji:"🍊"},
+    {en:"grape", emoji:"🍇"},
+    {en:"strawberry", emoji:"🍓"},
+    {en:"carrot", emoji:"🥕"},
+    {en:"corn", emoji:"🌽"},
+    {en:"pizza", emoji:"🍕"},
+    {en:"rabbit", emoji:"🐰"},
+    {en:"horse", emoji:"🐴"},
+    {en:"cow", emoji:"🐮"},
+    {en:"pig", emoji:"🐷"},
+    {en:"sheep", emoji:"🐑"},
+    {en:"duck", emoji:"🦆"},
+    {en:"frog", emoji:"🐸"},
+    {en:"bee", emoji:"🐝"},
+    {en:"butterfly", emoji:"🦋"},
+    {en:"snake", emoji:"🐍"},
+    {en:"lion", emoji:"🦁"},
+    {en:"elephant", emoji:"🐘"},
+    {en:"monkey", emoji:"🐒"},
+    {en:"door", emoji:"🚪"},
+    {en:"window", emoji:"🪟"},
+    {en:"bed", emoji:"🛏️"},
+    {en:"clock", emoji:"🕐"}
+
+  ],
+
+  intermedio: [
+
+    {en:"happy", emoji:"😊"},
+    {en:"sad", emoji:"😢"},
+    {en:"angry", emoji:"😠"},
+    {en:"tired", emoji:"😴"},
+    {en:"scared", emoji:"😨"},
+    {en:"surprised", emoji:"😲"},
+    {en:"excited", emoji:"🤩"},
+    {en:"run", emoji:"🏃"},
+    {en:"jump", emoji:"🤸"},
+    {en:"swim", emoji:"🏊"},
+    {en:"dance", emoji:"💃"},
+    {en:"sing", emoji:"🎤"},
+    {en:"read", emoji:"📚"},
+    {en:"write", emoji:"✍️"},
+    {en:"draw", emoji:"🎨"},
+    {en:"listen", emoji:"👂"},
+    {en:"talk", emoji:"🗣️"},
+    {en:"walk", emoji:"🚶"},
+    {en:"fly", emoji:"✈️"},
+    {en:"climb", emoji:"🧗"},
+    {en:"build", emoji:"🧱"},
+    {en:"clean", emoji:"🧹"},
+    {en:"wash", emoji:"🚿"},
+    {en:"cook", emoji:"🍳"},
+    {en:"teacher", emoji:"👩‍🏫"},
+    {en:"doctor", emoji:"👨‍⚕️"},
+    {en:"nurse", emoji:"🩺"},
+    {en:"police officer", emoji:"👮"},
+    {en:"firefighter", emoji:"👨‍🚒"},
+    {en:"pilot", emoji:"👨‍✈️"},
+    {en:"chef", emoji:"👨‍🍳"},
+    {en:"artist", emoji:"👩‍🎨"},
+    {en:"scientist", emoji:"👩‍🔬"},
+    {en:"farmer", emoji:"👨‍🌾"},
+    {en:"rain", emoji:"🌧️"},
+    {en:"cloud", emoji:"☁️"},
+    {en:"snow", emoji:"❄️"},
+    {en:"wind", emoji:"💨"},
+    {en:"storm", emoji:"⛈️"},
+    {en:"rainbow", emoji:"🌈"},
+    {en:"hot", emoji:"🔥"},
+    {en:"cold", emoji:"🥶"},
+    {en:"morning", emoji:"🌅"},
+    {en:"night", emoji:"🌃"},
+    {en:"garden", emoji:"🌳"},
+    {en:"school", emoji:"🏫"},
+    {en:"kitchen", emoji:"🍽️"},
+    {en:"friend", emoji:"🤝"},
+    {en:"family", emoji:"👪"},
+    {en:"music", emoji:"🎵"}
+
+  ]
+
+};
+
+
+let state = {
+
+  level:"basico",
+  gridSize:2,
+  words:[],
+  wordIndex:0
+
+};
+
+
+let puzzleState = {
+
+  pieces:[],
+  imageURL:"",
+  selectedIndex:null,
+  solved:false
+
+};
+
+
+
+function shuffle(arr){
+
+  const a = [...arr];
+
+  for(let i=a.length-1;i>0;i--){
+
+    const j = Math.floor(Math.random()*(i+1));
+
+    [a[i],a[j]] = [a[j],a[i]];
+
+  }
+
+  return a;
+
+}
+
+
 document.querySelectorAll('.level-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active'); state.level = btn.dataset.level;
+
+  btn.addEventListener('click',()=>{
+
+    document
+      .querySelectorAll('.level-btn')
+      .forEach(b=>b.classList.remove('active'));
+
+    btn.classList.add('active');
+
+    state.level = btn.dataset.level;
+
     startNewSet();
+
   });
-});
-document.querySelectorAll('.grid-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.grid-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active'); state.gridSize = parseInt(btn.dataset.grid,10);
-    loadPuzzle();
-  });
+
 });
 
+
+document.querySelectorAll('.grid-btn').forEach(btn=>{
+
+  btn.addEventListener('click',()=>{
+
+    document
+      .querySelectorAll('.grid-btn')
+      .forEach(b=>b.classList.remove('active'));
+
+    btn.classList.add('active');
+
+    state.gridSize =
+      parseInt(btn.dataset.grid,10);
+
+    loadPuzzle();
+
+  });
+
+});
+
+
 function startNewSet(){
+
   state.words = shuffle(VOCAB[state.level]);
+
   state.wordIndex = 0;
+
   loadPuzzle();
+
 }
 
 function buildImageForWord(word){
-  const size = 280;
-  const canvas = document.createElement('canvas');
-  canvas.width = size; canvas.height = size;
+
+  const size = 500;
+
+  const canvas =
+    document.createElement('canvas');
+
+  canvas.width = size;
+  canvas.height = size;
+
   const ctx = canvas.getContext('2d');
 
-  
+
+  /* Background */
+
   ctx.fillStyle = '#EAF2F0';
-  ctx.fillRect(0,0,size,size);
+
+  ctx.fillRect(
+    0,
+    0,
+    size,
+    size
+  );
+
+
+  /* Circle */
+
   ctx.fillStyle = '#F7FAF7';
+
   ctx.beginPath();
-  ctx.arc(size/2, size/2, size/2 - 10, 0, Math.PI*2);
+
+  ctx.arc(
+    size/2,
+    size/2,
+    size/2 - 18,
+    0,
+    Math.PI * 2
+  );
+
   ctx.fill();
 
-  ctx.font = `${size*0.55}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
+
+  /* Emoji */
+
+  ctx.font =
+    `${size * 0.55}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
+
   ctx.textAlign = 'center';
+
   ctx.textBaseline = 'middle';
-  ctx.fillText(word.emoji, size/2, size/2 + size*0.03);
+
+  ctx.fillText(
+    word.emoji,
+    size/2,
+    size/2 + size*0.03
+  );
+
 
   return canvas.toDataURL('image/png');
-}
 
-let puzzleState = { pieces:[], imageURL:'', selectedIndex:null, solved:false };
+}
 
 function loadPuzzle(){
-  const word = state.words[state.wordIndex];
-  puzzleState.imageURL = buildImageForWord(word);
-  const n = state.gridSize;
-  const total = n*n;
 
-  let correctOrder = Array.from({length: total}, (_, i) => i);
-  let order = shuffle(correctOrder);
+  const word =
+    state.words[state.wordIndex];
+
+
+  if(!word) return;
+
+
+  puzzleState.imageURL =
+    buildImageForWord(word);
+
+
+  const n =
+    state.gridSize;
+
+
+  const total =
+    n * n;
+
+
+  const correctOrder =
+    Array.from(
+      {length:total},
+      (_,i)=>i
+    );
+
+
+  let order =
+    shuffle(correctOrder);
+
 
   let tries = 0;
-  while(order.every((v,i)=>v===i) && tries < 5){ order = shuffle(correctOrder); tries++; }
+
+
+  while(
+    order.every((v,i)=>v===i)
+    &&
+    tries < 5
+  ){
+
+    order =
+      shuffle(correctOrder);
+
+    tries++;
+
+  }
+
 
   puzzleState.pieces = order;
+
   puzzleState.selectedIndex = null;
+
   puzzleState.solved = false;
 
-  document.getElementById('word-banner').style.display = 'none';
-  document.getElementById('puzzle-feedback').textContent = '';
-  document.getElementById('puzzle-feedback').className = 'feedback-msg';
+
+  document
+    .getElementById('word-banner')
+    .style.display = 'none';
+
+
+  const feedback =
+    document.getElementById('puzzle-feedback');
+
+  feedback.textContent = '';
+
+  feedback.className =
+    'feedback-msg';
+
+
+  updateProgress();
 
   renderBoard();
+
 }
 
+
 function renderBoard(){
-  const n = state.gridSize;
-  const board = document.getElementById('puzzle-board');
-  board.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
-  board.classList.toggle('solved', puzzleState.solved);
+
+  const n =
+    state.gridSize;
+
+  const board =
+    document.getElementById('puzzle-board');
+
+
+  board.style.gridTemplateColumns =
+    `repeat(${n},1fr)`;
+
+
+  board.classList.toggle(
+    'solved',
+    puzzleState.solved
+  );
+
+
   board.innerHTML = '';
 
-  puzzleState.pieces.forEach((correctIndex, currentIndex) => {
-    const col = correctIndex % n;
-    const row = Math.floor(correctIndex / n);
-    const posX = n === 1 ? 0 : (col / (n-1)) * 100;
-    const posY = n === 1 ? 0 : (row / (n-1)) * 100;
 
-    const piece = document.createElement('button');
-    piece.className = 'puzzle-piece';
-    piece.style.backgroundImage = `url(${puzzleState.imageURL})`;
-    piece.style.backgroundSize = `${n*100}% ${n*100}%`;
-    piece.style.backgroundPosition = `${posX}% ${posY}%`;
-    piece.setAttribute('aria-label', `Pieza en posición ${currentIndex + 1}`);
+  puzzleState.pieces.forEach(
+    (correctIndex,currentIndex)=>{
 
-    if(!puzzleState.solved && currentIndex === correctIndex){
-      piece.classList.add('correct-spot');
+      const col =
+        correctIndex % n;
+
+      const row =
+        Math.floor(correctIndex/n);
+
+
+      const posX =
+        n === 1
+          ? 0
+          : (col/(n-1))*100;
+
+
+      const posY =
+        n === 1
+          ? 0
+          : (row/(n-1))*100;
+
+
+      const piece =
+        document.createElement('button');
+
+
+      piece.className =
+        'puzzle-piece';
+
+
+      piece.type =
+        'button';
+
+
+      piece.style.backgroundImage =
+        `url(${puzzleState.imageURL})`;
+
+
+      piece.style.backgroundSize =
+        `${n*100}% ${n*100}%`;
+
+
+      piece.style.backgroundPosition =
+        `${posX}% ${posY}%`;
+
+
+      piece.setAttribute(
+        'aria-label',
+        `Puzzle piece ${currentIndex+1}`
+      );
+
+
+      if(
+        !puzzleState.solved &&
+        currentIndex === correctIndex
+      ){
+
+        piece.classList.add(
+          'correct-spot'
+        );
+
+      }
+
+
+      if(
+        puzzleState.selectedIndex ===
+        currentIndex
+      ){
+
+        piece.classList.add(
+          'selected'
+        );
+
+      }
+
+
+      piece.addEventListener(
+        'click',
+        ()=>onPieceClick(currentIndex)
+      );
+
+
+      board.appendChild(piece);
+
     }
-    if(puzzleState.selectedIndex === currentIndex){
-      piece.classList.add('selected');
-    }
-    piece.addEventListener('click', () => onPieceClick(currentIndex));
-    board.appendChild(piece);
-  });
+  );
+
 }
 
 function onPieceClick(currentIndex){
-  if(puzzleState.solved) return;
 
-  if(puzzleState.selectedIndex === null){
-    puzzleState.selectedIndex = currentIndex;
-    renderBoard();
+  if(puzzleState.solved)
     return;
-  }
-  if(puzzleState.selectedIndex === currentIndex){
-    puzzleState.selectedIndex = null;
-    renderBoard();
-    return;
-  }
-  const a = puzzleState.selectedIndex;
-  const b = currentIndex;
-  [puzzleState.pieces[a], puzzleState.pieces[b]] = [puzzleState.pieces[b], puzzleState.pieces[a]];
-  puzzleState.selectedIndex = null;
 
-  const isSolved = puzzleState.pieces.every((val, idx) => val === idx);
+
+  if(
+    puzzleState.selectedIndex === null
+  ){
+
+    puzzleState.selectedIndex =
+      currentIndex;
+
+    renderBoard();
+
+    return;
+
+  }
+
+
+  if(
+    puzzleState.selectedIndex ===
+    currentIndex
+  ){
+
+    puzzleState.selectedIndex =
+      null;
+
+    renderBoard();
+
+    return;
+
+  }
+
+
+  const a =
+    puzzleState.selectedIndex;
+
+  const b =
+    currentIndex;
+
+
+  [
+    puzzleState.pieces[a],
+    puzzleState.pieces[b]
+  ] = [
+    puzzleState.pieces[b],
+    puzzleState.pieces[a]
+  ];
+
+
+  puzzleState.selectedIndex =
+    null;
+
+
+  const isSolved =
+    puzzleState.pieces.every(
+      (val,idx)=>val===idx
+    );
+
+
   if(isSolved){
+
     puzzleState.solved = true;
+
     onPuzzleSolved();
+
   }
+
+
+  updateProgress();
+
   renderBoard();
+
 }
+
+
+function updateProgress(){
+
+  const total =
+    state.gridSize * state.gridSize;
+
+
+  const correct =
+    puzzleState.pieces
+      ? puzzleState.pieces.filter(
+          (value,index)=>value===index
+        ).length
+      : 0;
+
+
+  document.getElementById(
+    'puzzle-progress'
+  ).textContent =
+    `${correct} / ${total}`;
+
+}
+
 
 function onPuzzleSolved(){
-  const word = state.words[state.wordIndex];
-  const feedback = document.getElementById('puzzle-feedback');
-  feedback.textContent = '¡Excelente! Completaste la imagen. ';
-  feedback.className = 'feedback-msg success';
 
-  document.getElementById('word-text').textContent = word.en;
-  document.getElementById('word-banner').style.display = 'flex';
+  const word =
+    state.words[state.wordIndex];
+
+
+  const feedback =
+    document.getElementById(
+      'puzzle-feedback'
+    );
+
+
+  feedback.textContent =
+    'Excellent! You completed the picture. 🎉';
+
+
+  feedback.className =
+    'feedback-msg success';
+
+
+  document.getElementById(
+    'word-text'
+  ).textContent =
+    word.en;
+
+
+  document.getElementById(
+    'word-banner'
+  ).style.display =
+    'flex';
+
+
+  speak(word.en);
+
 }
+
 
 function speak(text){
-  if(!('speechSynthesis' in window)) return;
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'en-US';
-  utter.rate = 0.85;
+
+  if(!('speechSynthesis' in window))
+    return;
+
+
+  const utter =
+    new SpeechSynthesisUtterance(text);
+
+
+  utter.lang =
+    'en-US';
+
+
+  utter.rate =
+    0.85;
+
+
   window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utter);
+
+  window.speechSynthesis.speak(
+    utter
+  );
+
 }
-document.getElementById('speak-btn').addEventListener('click', () => {
-  speak(state.words[state.wordIndex].en);
-});
 
-document.getElementById('reveal-btn').addEventListener('click', () => {
-  const wasSolved = puzzleState.solved;
-  puzzleState.solved = true;
-  renderBoard();
-  if(!wasSolved){
-    const feedback = document.getElementById('puzzle-feedback');
-    feedback.textContent = 'Así se ve la imagen completa. Toca "Nueva imagen" para seguir practicando.';
-    feedback.className = 'feedback-msg';
-  }
-});
+document
+  .getElementById('speak-btn')
+  .addEventListener('click',()=>{
 
-document.getElementById('next-btn').addEventListener('click', () => {
-  state.wordIndex = (state.wordIndex + 1) % state.words.length;
-  loadPuzzle();
-});
+    speak(
+      state.words[state.wordIndex].en
+    );
 
-const urlParams = new URLSearchParams(window.location.search);
-const nivelFromUrl = urlParams.get('nivel');
-if(nivelFromUrl === 'basico' || nivelFromUrl === 'intermedio'){
-  state.level = nivelFromUrl;
-  document.querySelectorAll('.level-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.level === nivelFromUrl);
   });
+
+
+document
+  .getElementById('reveal-btn')
+  .addEventListener('click',()=>{
+
+    const wasSolved =
+      puzzleState.solved;
+
+
+    puzzleState.solved =
+      true;
+
+
+    renderBoard();
+
+
+    updateProgress();
+
+
+    if(!wasSolved){
+
+      const feedback =
+        document.getElementById(
+          'puzzle-feedback'
+        );
+
+
+      feedback.textContent =
+        'This is the complete picture. Try a new picture to keep practicing.';
+
+
+      feedback.className =
+        'feedback-msg';
+
+    }
+
+  });
+
+
+document
+  .getElementById('next-btn')
+  .addEventListener('click',()=>{
+
+    state.wordIndex =
+      (
+        state.wordIndex + 1
+      )
+      %
+      state.words.length;
+
+
+    loadPuzzle();
+
+  });
+
+const urlParams =
+  new URLSearchParams(
+    window.location.search
+  );
+
+
+const nivelFromUrl =
+  urlParams.get('nivel');
+
+
+if(
+  nivelFromUrl === 'basico' ||
+  nivelFromUrl === 'intermedio'
+){
+
+  state.level =
+    nivelFromUrl;
+
+
+  document
+    .querySelectorAll('.level-btn')
+    .forEach(b=>{
+
+      b.classList.toggle(
+        'active',
+        b.dataset.level ===
+        nivelFromUrl
+      );
+
+    });
+
 }
+
 startNewSet();
+
 </script>
+
 </body>
 </html>

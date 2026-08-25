@@ -1,567 +1,624 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Juego de Memoria - Vocabulario en Inglés</title>
+<meta name="description" content="Inclusive English vocabulary memory game for learning at your own pace.">
+<title>Oak English · Memory Match</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 <style>
-  :root{
-  --bg:#F1F6FA;
-  --surface:#FFFFFF;
-  --primary:#4C7EA6;
-  --primary-dark:#153A63;
-  --secondary:#9DC7E4;
-  --light:#E7F1F8;
-
-  --ink:#2C3A4A;
-  --ink-soft:#647180;
-
-  --success:#7BBE86;
-  --warning:#E3A54A;
-
-  --ring:#BFD9EC;
-
-  --radius-lg:22px;
-  --radius-md:16px;
-  --radius-sm:10px;
+:root {
+  --bg: #f4f8fb;
+  --surface: #ffffff;
+  --surface-soft: #f7fafc;
+  --primary: #4c7ea6;
+  --primary-dark: #244c70;
+  --primary-soft: #e9f3f9;
+  --border: #dbe8f0;
+  --text: #273746;
+  --muted: #667686;
+  --success: #5f9f76;
+  --success-bg: #eaf6ee;
+  --warning: #c47b28;
+  --shadow: 0 12px 35px rgba(36, 76, 112, .10);
+  --shadow-small: 0 5px 14px rgba(36, 76, 112, .08);
+  --radius: 20px;
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-body{
-    font-family:'Poppins', sans-serif;
-    background:linear-gradient(180deg,#EEF5FA 0%,#F8FBFD 100%);
-    color:var(--ink);
+html {
+  scroll-behavior: smooth;
 }
 
-/*Container*/
-
-.app-shell{
-    max-width:900px;
-    margin:40px auto;
-    padding:20px;
+body {
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(185, 217, 238, .55), transparent 26%),
+    linear-gradient(180deg, #f4f8fb 0%, #ffffff 100%);
 }
 
-.back-container{
-    margin-bottom:20px;
+button,
+a {
+  font-family: inherit;
 }
 
-.back-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:12px 22px;
-    background:white;
-    color:var(--primary-dark);
-    border:2px solid var(--secondary);
-    border-radius:999px;
-    font-family:'Poppins',sans-serif;
-    font-weight:600;
-    text-decoration:none;
-    transition:.25s;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--primary-dark);
+  outline-offset: 3px;
 }
 
-.back-btn:hover{
-    background:var(--primary);
-    color:white;
-    border-color:var(--primary);
-    transform:translateY(-2px);
+.app-shell {
+  width: min(900px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 22px 0 38px;
 }
 
-header{
-    font-family: 'Poppins', sans-serif;
-    text-align:center;
-    margin-bottom:35px;
+/* Top navigation */
+.back-container {
+  margin-bottom: 17px;
 }
 
-header h1{
-    font-family: 'Poppins', sans-serif;
-    font-size:2.4rem;
-    font-weight:700;
-    color:var(--primary-dark);
-    margin-bottom:10px;
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 13px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(255,255,255,.94);
+  color: var(--primary-dark);
+  font-size: .8rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: .2s ease;
 }
 
-header p{
-    font-family: 'Poppins', sans-serif;
-    font-size:1rem;
-    color:var(--ink-soft);
+.back-btn:hover {
+  background: var(--primary-soft);
+  transform: translateX(-2px);
 }
 
-
-.controls-row{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:18px;
-    margin-bottom:30px;
+/* Hero */
+.hero {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-.segmented{
-    display:flex;
-    background:white;
-    border-radius:999px;
-    padding:6px;
-    box-shadow:0 8px 20px rgba(0,0,0,.08);
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  margin-bottom: 9px;
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  font-size: .7rem;
+  font-weight: 700;
 }
 
-.segmented button{
-    border:none;
-    background:none;
-    padding:12px 22px;
-    border-radius:999px;
-    font-family:'Poppins',sans-serif;
-    font-size:.95rem;
-    font-weight:600;
-    color:var(--ink-soft);
-    cursor:pointer;
-    transition:.25s;
+.hero h1 {
+  color: var(--primary-dark);
+  font-size: clamp(1.7rem, 4vw, 2.15rem);
+  line-height: 1.1;
+  margin-bottom: 7px;
 }
 
-.segmented button:hover{
-    color:var(--primary-dark);
+.hero p {
+  max-width: 600px;
+  margin: auto;
+  color: var(--muted);
+  font-size: .88rem;
+  line-height: 1.55;
 }
 
-.segmented button.active{
-    background:var(--primary);
-    color:white;
+/* Settings */
+.settings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+  margin-bottom: 13px;
 }
 
-/* Panel */
-
-.panel{
-    background:white;
-    border-radius:24px;
-    padding:35px;
-    box-shadow:0 15px 35px rgba(0,0,0,.08);
+.setting-card {
+  padding: 11px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255,255,255,.95);
+  box-shadow: var(--shadow-small);
 }
 
-.panel h2{
-    font-family: 'Poppins', sans-serif;
-    color:var(--primary-dark);
-    font-size:1.6rem;
-    margin-bottom:15px;
+.setting-label {
+  display: block;
+  margin: 0 0 7px 3px;
+  color: var(--muted);
+  font-size: .67rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
 }
 
-.instructions{
-    font-family: 'Poppins', sans-serif;
-    color:var(--ink-soft);
-    line-height:1.7;
-    margin-bottom:25px;
+.segmented {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 11px;
+  background: #f0f5f8;
 }
 
-/*Stars*/
-
-.stars-row{
-    font-family: 'Poppins', sans-serif;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    margin-bottom:25px;
-    color:#F2C94C;
-    font-size:1.3rem;
+.segmented button {
+  flex: 1;
+  min-height: 36px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-size: .75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s ease;
 }
 
-.label{
-    font-family: 'Poppins', sans-serif;
-    color:var(--ink-soft);
-    font-size:.95rem;
-    font-weight:500;
+.segmented button:hover {
+  background: #e5eef4;
+  color: var(--primary-dark);
 }
 
-/*Game grid */
-
-.card-grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:18px;
-    margin-top:25px;
+.segmented button.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 3px 8px rgba(76,126,166,.25);
 }
 
-/* Card */
-
-.memory-card{
-    aspect-ratio:1;
-    border:none;
-    border-radius:18px;
-    background:var(--secondary);
-    color:var(--primary-dark);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-family: 'Poppins', sans-serif;
-    font-size:2rem;
-    font-weight:700;
-    cursor:pointer;
-    transition:.25s;
-    box-shadow:0 6px 14px rgba(0,0,0,.08);
+/* Main game */
+.game-panel {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(255,255,255,.97);
+  box-shadow: var(--shadow);
 }
 
-.memory-card:hover:not(.matched):not(.flipped){
-    transform:translateY(-5px);
+.instructions-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 11px;
 }
 
-.memory-card.hidden-content{
-    background:var(--secondary);
-    color:white;
-    font-size:1.8rem;
+.instructions-head h2 {
+  color: var(--primary-dark);
+  font-size: 1.12rem;
 }
 
-.memory-card.flipped{
-    background:white;
-    border:3px solid var(--secondary);
+.pace-pill {
+  flex-shrink: 0;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: var(--success-bg);
+  color: #417554;
+  font-size: .65rem;
+  font-weight: 800;
 }
 
-.memory-card.matched{
-    background:#E9F7F1;
-    border:3px solid var(--success);
-    color:var(--success);
+.instructions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin-bottom: 10px;
 }
 
-.memory-card.small-text{
-    font-family: 'Poppins', sans-serif;
-    font-size:1rem;
-    padding:8px;
-    text-align:center;
+.instruction {
+  min-height: 92px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--surface-soft);
+  transition: .2s ease;
 }
 
-/*Feedback*/
-
-.feedback-msg{
-    font-family: 'Poppins', sans-serif;
-    min-height:24px;
-    margin-top:25px;
-    font-weight:600;
-    text-align:center;
+.instruction:hover {
+  transform: translateY(-2px);
+  border-color: #bfd8e7;
+  box-shadow: var(--shadow-small);
 }
 
-.feedback-msg.success{
-    font-family: 'Poppins', sans-serif;
-    color:var(--success);
+.step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 5px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  font-size: .68rem;
+  font-weight: 800;
 }
 
-.feedback-msg.retry{
-    color:#D9822B;
+.instruction strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--primary-dark);
+  font-size: .76rem;
 }
 
-/* Button */
-
-.action-row{
-    display:flex;
-    justify-content:center;
-    margin-top:30px;
+.instruction span {
+  display: block;
+  color: var(--muted);
+  font-size: .69rem;
+  line-height: 1.4;
 }
 
-.btn{
-    border:none;
-    padding:14px 30px;
-    border-radius:999px;
-    font-family:'Poppins',sans-serif;
-    font-size:1rem;
-    font-weight:600;
-    cursor:pointer;
-    transition:.25s;
+.helper {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 13px;
+  padding: 8px 10px;
+  border: 1px dashed #c7dce9;
+  border-radius: 10px;
+  background: #f8fbfd;
+  color: var(--muted);
+  font-size: .72rem;
+  line-height: 1.4;
 }
 
-.btn-primary{
-    background:var(--primary);
-    color:white;
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 9px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--surface-soft);
 }
 
-.btn-primary:hover{
-    background:var(--primary-dark);
-    transform:translateY(-2px);
+.progress-label {
+  color: var(--muted);
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .04em;
 }
 
-/* Responsive */
-
-@media(max-width:768px){
-
-.card-grid{
-    grid-template-columns:repeat(3,1fr);
+#memoria-stars {
+  color: #ad7616;
+  font-size: .83rem;
+  font-weight: 700;
 }
 
-header h1{
-    font-family: 'Poppins', sans-serif;
-    font-size:2rem;
+/* Cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(55px, 1fr));
+  gap: 9px;
+  width: min(650px, 100%);
+  margin: 0 auto;
 }
 
-.panel{
-    padding:25px;
+.memory-card {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 5px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #a9d0e7, #8fbad6);
+  color: white;
+  font-family: inherit;
+  font-size: 1.28rem;
+  font-weight: 800;
+  line-height: 1.1;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: 0 4px 9px rgba(36,76,112,.10);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
 }
 
+.memory-card.hidden-content {
+  font-size: 0;
 }
 
-@media(max-width:480px){
-
-.card-grid{
-    grid-template-columns:repeat(2,1fr);
+.memory-card.hidden-content::before {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 2px solid rgba(255,255,255,.4);
+  border-radius: 7px;
+  transform: rotate(45deg);
 }
 
-.segmented{
-    flex-direction:column;
-    border-radius:18px;
+.memory-card.hidden-content::after {
+  content: "?";
+  position: absolute;
+  font-size: 1rem;
+  color: white;
 }
 
-.segmented button{
-    width:100%;
+.memory-card:hover:not(.matched):not(.flipped),
+.memory-card:focus-visible:not(.matched):not(.flipped) {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(36,76,112,.17);
 }
 
-header h1{
-    font-family: 'Poppins', sans-serif;
-    font-size:1.8rem;
+.memory-card.flipped {
+  background: white;
+  border-color: var(--secondary);
+  color: var(--primary-dark);
 }
 
+.memory-card.matched {
+  background: var(--success-bg);
+  border-color: var(--success);
+  color: #4e8c64;
+}
+
+.memory-card.small-text {
+  font-size: .66rem;
+  overflow-wrap: anywhere;
+}
+
+/* Feedback */
+.feedback-msg {
+  min-height: 22px;
+  margin-top: 9px;
+  text-align: center;
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.feedback-msg.success { color: #4e8c64; }
+.feedback-msg.retry { color: #b46d24; }
+
+.action-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 11px;
+}
+
+.btn {
+  border: 0;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 10px rgba(76,126,166,.2);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
 }
 
 /* Footer */
-        footer {
-            background-color: #1e3a5f;
-            color: white;
-            padding: 3rem 5%;
-            margin-top: 5rem;
-        }
+footer {
+  margin-top: 42px;
+  padding: 28px 5%;
+  background: #1e3a5f;
+  color: white;
+}
 
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
+.footer-content {
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap: 20px;
+}
 
-        .footer-section h4 {
-            margin-bottom: 1rem;
-        }
+.footer-section h4 { margin-bottom: 9px; font-size: .85rem; }
+.footer-section ul { list-style: none; }
+.footer-section li { margin-bottom: 5px; }
+.footer-section a { color: #b7c8d8; text-decoration: none; font-size: .76rem; }
+.footer-section a:hover { color: white; }
 
-        .footer-section ul {
-            list-style: none;
-        }
+.social-links { display: flex; gap: 8px; }
+.social-links a {
+  width: 34px; height: 34px; display:flex; align-items:center; justify-content:center;
+  border-radius:50%; background:rgba(255,255,255,.1);
+}
 
-        .footer-section ul li {
-            margin-bottom: 0.5rem;
-        }
+.footer-bottom {
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  margin-top:22px; padding-top:16px; border-top:1px solid rgba(255,255,255,.1);
+  color:#a0aec0; font-size:.72rem; text-align:center;
+}
 
-        .footer-section a {
-            color: #a0aec0;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
+.Logo { height:48px; width:auto; }
 
-        .footer-section a:hover {
-            color: white;
-        }
+/* Accessibility and responsive behavior */
+@media (max-width: 700px) {
+  .card-grid { grid-template-columns: repeat(5,minmax(52px,1fr)); }
+}
 
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
+@media (max-width: 560px) {
+  .app-shell { width:min(100% - 18px, 900px); padding-top:16px; }
+  .settings { grid-template-columns:1fr; }
+  .instructions { grid-template-columns:1fr; }
+  .instruction { min-height:auto; }
+  .game-panel { padding:15px; }
+  .card-grid { grid-template-columns:repeat(4,minmax(50px,1fr)); gap:7px; }
+  .memory-card { border-radius:10px; font-size:1.15rem; }
+  .memory-card.small-text { font-size:.61rem; }
+  .footer-content { grid-template-columns:1fr 1fr; }
+}
 
-        .social-links a {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.3s;
-        }
-
-        .social-links a:hover {
-            background-color: rgba(255,255,255,0.2);
-        }
-
-        .footer-bottom {
-            font-family: 'Poppins', sans-serif;
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #a0aec0;
-        }
-
-        .Logo{
-        height:70px;
-        width:auto;
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .levels {
-                grid-template-columns: 1fr;
-            }
-        }
-   
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior:auto !important;
+    animation-duration:.01ms !important;
+    transition-duration:.01ms !important;
+  }
+}
 </style>
 </head>
+
 <body>
-<div class="app-shell">
+<main class="app-shell">
 
-    <div class="back-container">
-    <a href="vocabulary_home.html" class="back-btn">
-        ← Back to Vocabulary
+  <div class="back-container">
+    <a href="vocabulary_home.html" class="back-btn" aria-label="Back to vocabulary">
+      <i class="bi bi-arrow-left" aria-hidden="true"></i>
+      Back to Vocabulary
     </a>
-</div>
+  </div>
 
-    <header>
-        <h1> Memory Game</h1>
-        <p>Match each picture with its English word.</p>
-    </header>
+  <header class="hero">
+    <div class="badge"><i class="bi bi-lightbulb" aria-hidden="true"></i> Vocabulary practice</div>
+    <h1>Memory Match</h1>
+    <p>Connect each picture with its English word and learn at your own pace.</p>
+  </header>
 
-    <div class="controls-row">
+  <section class="settings" aria-label="Game settings">
 
-      
-
-        <div class="segmented" role="group" aria-label="Level">
-
-            <button class="level-btn active" data-level="basico">
-                Basic
-            </button>
-
-            <button class="level-btn" data-level="intermedio">
-                Intermediate
-            </button>
-
-        </div>
-
-     
-
-        <div class="segmented" role="group" aria-label="Words">
-
-            <button class="size-btn active" data-size="6">
-                6 Words
-            </button>
-
-            <button class="size-btn" data-size="10">
-                10 Words
-            </button>
-
-            <button class="size-btn" data-size="15">
-                15 Words
-            </button>
-
-        </div>
-
+    <div class="setting-card">
+      <span class="setting-label">Difficulty</span>
+      <div class="segmented" role="group" aria-label="Choose difficulty level">
+        <button class="level-btn active" data-level="basico" type="button">Basic</button>
+        <button class="level-btn" data-level="intermedio" type="button">Intermediate</button>
+      </div>
     </div>
 
+    <div class="setting-card">
+      <span class="setting-label">Number of words</span>
+      <div class="segmented" role="group" aria-label="Choose number of words">
+        <button class="size-btn active" data-size="6" type="button">6 Words</button>
+        <button class="size-btn" data-size="10" type="button">10 Words</button>
+        <button class="size-btn" data-size="15" type="button">15 Words</button>
+      </div>
+    </div>
 
+  </section>
 
-    <section class="panel">
+  <section class="game-panel" aria-labelledby="instructions-title">
 
-        <h2>Instructions</h2>
+    <div class="instructions-head">
+      <h2 id="instructions-title">How to play</h2>
+      <span class="pace-pill"><i class="bi bi-clock" aria-hidden="true"></i> No time limit</span>
+    </div>
 
-        <p class="instructions">
+    <div class="instructions">
+      <article class="instruction">
+        <span class="step">1</span>
+        <strong>Choose</strong>
+        <span>Select a level and the number of words you want to practice.</span>
+      </article>
 
-            Flip over two cards.
-            Match each picture with its English word.
-            If the cards match, they stay face up.
-            If they don't, they flip back over.
-            There is no time limit, so learn at your own pace.
+      <article class="instruction">
+        <span class="step">2</span>
+        <strong>Find a pair</strong>
+        <span>Open two cards and look for the matching picture and English word.</span>
+      </article>
 
-        </p>
+      <article class="instruction">
+        <span class="step">3</span>
+        <strong>Keep learning</strong>
+        <span>A correct pair stays open. If they do not match, try again.</span>
+      </article>
+    </div>
 
-        <div class="stars-row">
+    <p class="helper">
+      <i class="bi bi-heart" aria-hidden="true"></i>
+      <span><strong>Take your time.</strong> There is no timer. You can play with a mouse, touch screen, or keyboard.</span>
+    </p>
 
-            <span class="label">
-                Matched Pairs:
-            </span>
+    <div class="progress" aria-label="Game progress">
+      <span class="progress-label">YOUR PROGRESS</span>
+      <span id="memoria-stars" aria-live="polite"></span>
+    </div>
 
-            <span id="memoria-stars"></span>
+    <div class="card-grid" id="memoria-grid" role="group" aria-label="Memory game cards"></div>
 
-        </div>
+    <div
+      class="feedback-msg"
+      id="memoria-feedback"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true">
+    </div>
 
-        <div
-            class="card-grid"
-            id="memoria-grid">
-        </div>
+    <div class="action-row">
+      <button class="btn btn-primary" id="memoria-reset" type="button">
+        <i class="bi bi-arrow-repeat" aria-hidden="true"></i>
+        New Game
+      </button>
+    </div>
 
-        <div
-            class="feedback-msg"
-            id="memoria-feedback">
-        </div>
+  </section>
+</main>
 
-        <div class="action-row">
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>Skills</h4>
+      <ul>
+        <li><a href="#">Reading</a></li>
+        <li><a href="#">Listening</a></li>
+        <li><a href="#">Writing</a></li>
+        <li><a href="#">Speaking</a></li>
+      </ul>
+    </div>
 
-            <button
-                class="btn btn-primary"
-                id="memoria-reset">
+    <div class="footer-section">
+      <h4>Vocabulary</h4>
+      <ul>
+        <li><a href="#">A1 - A2 Vocabulary</a></li>
+        <li><a href="#">B1 - B2 Vocabulary</a></li>
+        <li><a href="#">Interactive Games</a></li>
+        <li><a href="#">Play with Words</a></li>
+      </ul>
+    </div>
 
-                New Game
+    <div class="footer-section">
+      <h4>Grammar</h4>
+      <ul>
+        <li><a href="grammar-games.html">A1 - A2 Grammar</a></li>
+        <li><a href="b1-b2-grammar.html">B1 - B2 Grammar</a></li>
+      </ul>
+    </div>
 
-            </button>
+    <div class="footer-section">
+      <h4>Connect with us</h4>
+      <div class="social-links" aria-label="Social media">
+        <a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+        <a href="#" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+        <a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+      </div>
+    </div>
+  </div>
 
-        </div>
-
-    </section>
-
-</div>
-
-<!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Skills</h4>
-                <ul>
-                    <li><a href="#">Reading</a></li>
-                    <li><a href="#">Listening</a></li>
-                    <li><a href="#">Writing</a></li>
-                    <li><a href="#">Speaking</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Vocabulary</h4>
-                <ul>
-                    <li><a href="#">A1 - A2 Vocabulary</a></li>
-                    <li><a href="#">B1 - B2 Vocabulary</a></li>
-                    <li><a href="#">Interactive Games</a></li>
-                    <li><a href="#">Play with Words</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Grammar</h4>
-                <ul>
-                    <li><a href="grammar-games.html">A1 - A2 Grammar</a></li>
-                    <li><a href="b1-b2-grammar.html">B1 - B2 Grammar</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Connect with us</h4>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <img src="img/Logo2.png" alt="Logo" class="Logo"><p>&copy; 2026 All rights reserved.</p>
-        </div>
-    </footer>
+  <div class="footer-bottom">
+    <img src="img/Logo2.png" alt="Oak English logo" class="Logo">
+    <span>&copy; 2026 Oak English. All rights reserved.</span>
+  </div>
+</footer>
 
 <script>
 const VOCAB = {
@@ -596,111 +653,204 @@ const VOCAB = {
     {en:"family", emoji:"👪"}, {en:"music", emoji:"🎵"}
   ]
 };
+
+/*
+ * The game logic below intentionally keeps the original behavior:
+ * - Basic / Intermediate levels
+ * - 6 / 10 / 15 words
+ * - one emoji card + one English-word card per vocabulary item
+ * - shuffled deck
+ * - two-card matching
+ * - matched pairs remain visible
+ * - unmatched cards turn back after 1.1 seconds
+ * - progress counter
+ * - New Game button
+ * - URL parameter ?nivel=basico or ?nivel=intermedio
+ */
+
 let state = { level:"basico", size:6 };
 
 function shuffle(arr){
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  const a = [...arr];
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
   return a;
 }
+
 function getWordSet(){
   const list = VOCAB[state.level];
   return shuffle(list).slice(0, Math.min(state.size, list.length));
 }
-function starsHTML(n){ return "⭐".repeat(n); }
 
-document.querySelectorAll('.level-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.level-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active'); state.level = btn.dataset.level; initMemoria();
+function starsHTML(n){
+  return "⭐".repeat(n);
+}
+
+document.querySelectorAll('.level-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.level = btn.dataset.level;
+    initMemoria();
   });
 });
-document.querySelectorAll('.size-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.size-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active'); state.size = parseInt(btn.dataset.size,10); initMemoria();
+
+document.querySelectorAll('.size-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    state.size = parseInt(btn.dataset.size, 10);
+    initMemoria();
   });
 });
 
-let memoriaState = { cards:[], flipped:[], matchedCount:0, lock:false };
+let memoriaState = {
+  cards: [],
+  flipped: [],
+  matchedCount: 0,
+  lock: false
+};
 
 function initMemoria(){
   const words = getWordSet();
-  let deck=[];
-  words.forEach((w,idx)=>{
-    deck.push({pairId:idx, type:'emoji', content:w.emoji});
-    deck.push({pairId:idx, type:'word', content:w.en});
+  let deck = [];
+
+  words.forEach((w, idx) => {
+    deck.push({ pairId:idx, type:'emoji', content:w.emoji });
+    deck.push({ pairId:idx, type:'word', content:w.en });
   });
+
   deck = shuffle(deck);
-  memoriaState = { cards:deck, flipped:[], matchedCount:0, lock:false };
+
+  memoriaState = {
+    cards:deck,
+    flipped:[],
+    matchedCount:0,
+    lock:false
+  };
 
   const grid = document.getElementById('memoria-grid');
-  grid.innerHTML='';
-  deck.forEach((card,i)=>{
+  grid.innerHTML = '';
+
+  deck.forEach((card, i) => {
     const el = document.createElement('button');
-    el.className='memory-card hidden-content';
-    el.setAttribute('aria-label','Carta tapada');
-    el.textContent='?';
-    el.addEventListener('click', ()=>onMemoriaCardClick(i));
+
+    el.type = 'button';
+    el.className = 'memory-card hidden-content';
+    el.setAttribute('aria-pressed', 'false');
+    el.setAttribute('aria-label', `Card ${i + 1}, hidden. Select to reveal.`);
+    el.textContent = '?';
+
+    el.addEventListener('click', () => onMemoriaCardClick(i));
     grid.appendChild(el);
   });
-  document.getElementById('memoria-feedback').textContent='';
-  document.getElementById('memoria-feedback').className='feedback-msg';
+
+  const feedback = document.getElementById('memoria-feedback');
+  feedback.textContent = '';
+  feedback.className = 'feedback-msg';
+
   updateMemoriaStars(words.length);
 }
+
 function updateMemoriaStars(total){
-  document.getElementById('memoria-stars').textContent = starsHTML(memoriaState.matchedCount)+` (${memoriaState.matchedCount}/${total})`;
+  document.getElementById('memoria-stars').textContent =
+    starsHTML(memoriaState.matchedCount) +
+    ` (${memoriaState.matchedCount}/${total})`;
 }
+
 function onMemoriaCardClick(i){
   if(memoriaState.lock) return;
+
   const cardData = memoriaState.cards[i];
   const cardEl = document.querySelectorAll('#memoria-grid .memory-card')[i];
+
   if(cardEl.classList.contains('flipped') || cardEl.classList.contains('matched')) return;
 
   cardEl.classList.remove('hidden-content');
   cardEl.classList.add('flipped');
-  cardEl.textContent = cardData.content;
-  if(cardData.type==='word') cardEl.classList.add('small-text');
-  memoriaState.flipped.push({i, cardData, el:cardEl});
+  cardEl.setAttribute('aria-pressed', 'true');
 
-  if(memoriaState.flipped.length===2){
+  if(cardData.type === 'word'){
+    cardEl.classList.add('small-text');
+    cardEl.setAttribute('aria-label', `Word card: ${cardData.content}`);
+  } else {
+    cardEl.setAttribute('aria-label', `Picture card: ${cardData.content}`);
+  }
+
+  cardEl.textContent = cardData.content;
+
+  memoriaState.flipped.push({ i, cardData, el:cardEl });
+
+  if(memoriaState.flipped.length === 2){
     memoriaState.lock = true;
+
     const [a,b] = memoriaState.flipped;
     const feedback = document.getElementById('memoria-feedback');
-    if(a.cardData.pairId===b.cardData.pairId && a.cardData.type!==b.cardData.type){
-      a.el.classList.add('matched'); b.el.classList.add('matched');
-      a.el.classList.remove('flipped'); b.el.classList.remove('flipped');
+
+    if(
+      a.cardData.pairId === b.cardData.pairId &&
+      a.cardData.type !== b.cardData.type
+    ){
+      a.el.classList.add('matched');
+      b.el.classList.add('matched');
+      a.el.classList.remove('flipped');
+      b.el.classList.remove('flipped');
+
       memoriaState.matchedCount++;
-      const total = memoriaState.cards.length/2;
+
+      const total = memoriaState.cards.length / 2;
       updateMemoriaStars(total);
-      feedback.textContent='¡Muy bien! Es una pareja. 🎉';
-      feedback.className='feedback-msg success';
-      memoriaState.flipped=[]; memoriaState.lock=false;
-      if(memoriaState.matchedCount===total){
-        feedback.textContent='¡Completaste el juego! 🌟 Puedes empezar uno nuevo.';
+
+      feedback.textContent = 'Great match! You found a pair. 🎉';
+      feedback.className = 'feedback-msg success';
+
+      memoriaState.flipped = [];
+      memoriaState.lock = false;
+
+      if(memoriaState.matchedCount === total){
+        feedback.textContent = 'Amazing! You completed the game. 🌟';
       }
+
     } else {
-      feedback.textContent='Casi. Vuelve a intentarlo.';
-      feedback.className='feedback-msg retry';
-      setTimeout(()=>{
-        a.el.classList.remove('flipped'); a.el.classList.add('hidden-content'); a.el.classList.remove('small-text'); a.el.textContent='?';
-        b.el.classList.remove('flipped'); b.el.classList.add('hidden-content'); b.el.classList.remove('small-text'); b.el.textContent='?';
-        memoriaState.flipped=[]; memoriaState.lock=false;
-        feedback.textContent='';
+      feedback.textContent = 'Good try! Look closely and try another pair. 💙';
+      feedback.className = 'feedback-msg retry';
+
+      setTimeout(() => {
+        [a,b].forEach(card => {
+          card.el.classList.remove('flipped');
+          card.el.classList.add('hidden-content');
+          card.el.classList.remove('small-text');
+          card.el.textContent = '?';
+          card.el.setAttribute('aria-pressed', 'false');
+          card.el.setAttribute(
+            'aria-label',
+            `Card ${card.i + 1}, hidden. Select to reveal.`
+          );
+        });
+
+        memoriaState.flipped = [];
+        memoriaState.lock = false;
+        feedback.textContent = '';
       }, 1100);
     }
   }
 }
+
 document.getElementById('memoria-reset').addEventListener('click', initMemoria);
 
 const urlParams = new URLSearchParams(window.location.search);
 const nivelFromUrl = urlParams.get('nivel');
+
 if(nivelFromUrl === 'basico' || nivelFromUrl === 'intermedio'){
   state.level = nivelFromUrl;
+
   document.querySelectorAll('.level-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.level === nivelFromUrl);
   });
 }
+
 initMemoria();
 </script>
 </body>

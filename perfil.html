@@ -1,0 +1,857 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mi Perfil | Oak English</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Baloo+2:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- CSS principal de Oak English -->
+    <link rel="stylesheet" href="estilos.css">
+
+    <style>
+        /* =====================================================
+           PERFIL OAK ENGLISH
+           ===================================================== */
+
+        .profile-page {
+            min-height: 100vh;
+            padding: 30px 20px 60px;
+        }
+
+        .profile-container {
+            width: min(1100px, 100%);
+            margin: 0 auto;
+        }
+
+        /* BOTÓN VOLVER */
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #315b72;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: .2s ease;
+        }
+
+        .back-button:hover {
+            transform: translateX(-4px);
+        }
+
+        /* CABECERA */
+
+        .profile-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 28px;
+            padding: 35px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 10px 30px rgba(52, 86, 103, .10);
+            border: 1px solid rgba(112, 169, 191, .18);
+            margin-bottom: 25px;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background: #dff3f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 65px;
+            border: 5px solid #ffffff;
+            box-shadow: 0 6px 20px rgba(70, 120, 140, .18);
+        }
+
+        .edit-avatar {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 50%;
+            background: #5d9eb5;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,.15);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h1 {
+            margin: 0;
+            font-family: "Baloo 2", sans-serif;
+            font-size: 2.4rem;
+            color: #315b72;
+        }
+
+        .username {
+            margin: 2px 0 12px;
+            color: #78909c;
+            font-size: .95rem;
+        }
+
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 14px;
+            background: #e7f5f8;
+            color: #3f7488;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: .9rem;
+        }
+
+        .edit-profile-btn {
+            border: none;
+            background: #5d9eb5;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-family: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .edit-profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(93,158,181,.25);
+        }
+
+        /* GRID */
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 25px;
+        }
+
+        .profile-card {
+            background: rgba(255,255,255,.95);
+            border-radius: 24px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(52,86,103,.08);
+            border: 1px solid rgba(112,169,191,.15);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0 0 22px;
+            color: #315b72;
+            font-family: "Baloo 2", sans-serif;
+            font-size: 1.35rem;
+        }
+
+        .card-title i {
+            color: #5d9eb5;
+        }
+
+        /* ESTADÍSTICAS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 18px 10px;
+            border-radius: 18px;
+            background: #f2fafb;
+        }
+
+        .stat i {
+            color: #5d9eb5;
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+        }
+
+        .stat strong {
+            display: block;
+            font-family: "Baloo 2", sans-serif;
+            color: #315b72;
+            font-size: 1.4rem;
+        }
+
+        .stat span {
+            color: #78909c;
+            font-size: .82rem;
+        }
+
+        /* BARRA DE PROGRESO */
+
+        .progress-item {
+            margin-bottom: 20px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 7px;
+            font-size: .9rem;
+            font-weight: 600;
+            color: #496b78;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            border-radius: 20px;
+            background: #e6f0f2;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #74b8ca, #5d9eb5);
+            transition: width .5s ease;
+        }
+
+        /* LOGROS */
+
+        .achievements {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .achievement {
+            min-height: 100px;
+            padding: 15px 8px;
+            border-radius: 18px;
+            background: #f4fafb;
+            text-align: center;
+            opacity: .45;
+            filter: grayscale(1);
+            transition: .2s ease;
+        }
+
+        .achievement.unlocked {
+            opacity: 1;
+            filter: none;
+            background: #eaf7f9;
+        }
+
+        .achievement i {
+            font-size: 28px;
+            color: #e5b84b;
+            margin-bottom: 6px;
+        }
+
+        .achievement strong {
+            display: block;
+            font-size: .78rem;
+            color: #496b78;
+        }
+
+        /* OBJETIVO */
+
+        .goal-box {
+            background: linear-gradient(135deg, #eaf7f9, #f7fcfd);
+            padding: 20px;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .goal-icon {
+            font-size: 35px;
+            color: #e5b84b;
+            margin-bottom: 5px;
+        }
+
+        .goal-box h3 {
+            margin: 3px 0;
+            color: #315b72;
+        }
+
+        .goal-box p {
+            color: #78909c;
+            margin: 5px 0 0;
+            font-size: .9rem;
+        }
+
+        /* MODAL */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(25, 55, 68, .45);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: min(450px, 100%);
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,.2);
+            animation: modalIn .25s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: #315b72;
+            font-family: "Baloo 2", sans-serif;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            color: #496b78;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 14px;
+            border: 2px solid #e0edf0;
+            border-radius: 12px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #76b5c5;
+        }
+
+        .avatar-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .avatar-option {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            background: #edf7f9;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .avatar-option.selected {
+            border-color: #5d9eb5;
+            background: #dff3f8;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .cancel-btn,
+        .save-btn {
+            padding: 11px 18px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+        }
+
+        .cancel-btn {
+            background: #edf2f3;
+            color: #607d86;
+        }
+
+        .save-btn {
+            background: #5d9eb5;
+            color: white;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .edit-profile-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .profile-page {
+                padding: 20px 12px 40px;
+            }
+
+            .profile-header {
+                padding: 25px 18px;
+            }
+
+            .profile-info h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .achievements {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="profile-page">
+
+        <div class="profile-container">
+
+            <a href="index.html" class="back-button">
+                <i class="fa-solid fa-arrow-left"></i>
+                Volver a Oak English
+            </a>
+
+            <!-- PERFIL PRINCIPAL -->
+
+            <section class="profile-header">
+
+                <div class="avatar-wrapper">
+
+                    <div class="profile-avatar" id="profileAvatar">
+                        👩🏻‍🎓
+                    </div>
+
+                    <button class="edit-avatar"
+                            id="editAvatarButton"
+                            title="Editar avatar">
+                        <i class="fa-solid fa-camera"></i>
+                    </button>
+
+                </div>
+
+                <div class="profile-info">
+
+                    <h1 id="profileName">
+                        María José
+                    </h1>
+
+                    <p class="username" id="profileUsername">
+                        @student
+                    </p>
+
+                    <span class="level-badge">
+                        <i class="fa-solid fa-seedling"></i>
+                        Nivel <span id="profileLevel">A1</span>
+                    </span>
+
+                </div>
+
+                <button class="edit-profile-btn" id="editProfileButton">
+                    <i class="fa-solid fa-pen"></i>
+                    Editar perfil
+                </button>
+
+            </section>
+
+
+            <div class="profile-grid">
+
+                <!-- COLUMNA IZQUIERDA -->
+
+                <div>
+
+                    <!-- ESTADÍSTICAS -->
+
+                    <section class="profile-card">
+
+                        <h2 class="card-title">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            Mi progreso
+                        </h2>
+
+                        <div class="stats-grid">
+
+                            <div class="stat">
+                                <i class="fa-solid fa-star"></i>
+                                <strong id="xpValue">0</strong>
+                                <span>XP</span>
+                            </div>
+
+                            <div class="stat">
+                                <i class="fa-solid fa-fire"></i>
+                                <strong id="streakValue">0</strong>
+                                <span>días de racha</span>
+                            </div>
+
+                            <div class="stat">
+                                <i class="fa-solid fa-book-open"></i>
+                                <strong id="lessonsValue">0</strong>
+                                <span>lecciones</span>
+                            </div>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- HABILIDADES -->
+
+                    <section class="profile-card" style="margin-top:25px;">
+
+                        <h2 class="card-title">
+                            <i class="fa-solid fa-language"></i>
+                            Mis habilidades
+                        </h2>
+
+                        <div class="progress-item">
+
+                            <div class="progress-info">
+                                <span>📚 Vocabulary</span>
+                                <span id="vocabularyText">0%</span>
+                            </div>
+
+                            <div class="progress-bar">
+                                <div class="progress-fill"
+                                     id="vocabularyProgress"></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-item">
+
+                            <div class="progress-info">
+                                <span>✏️ Grammar</span>
+                                <span id="grammarText">0%</span>
+                            </div>
+
+                            <div class="progress-bar">
+                                <div class="progress-fill"
+                                     id="grammarProgress"></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-item">
+
+                            <div class="progress-info">
+                                <span>🗣️ Speaking</span>
+                                <span id="speakingText">0%</span>
+                            </div>
+
+                            <div class="progress-bar">
+                                <div class="progress-fill"
+                                     id="speakingProgress"></div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="progress-item" style="margin-bottom:0;">
+
+                            <div class="progress-info">
+                                <span>🎧 Listening</span>
+                                <span id="listeningText">0%</span>
+                            </div>
+
+                            <div class="progress-bar">
+                                <div class="progress-fill"
+                                     id="listeningProgress"></div>
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+
+                <!-- COLUMNA DERECHA -->
+
+                <div>
+
+                    <!-- OBJETIVO -->
+
+                    <section class="profile-card">
+
+                        <h2 class="card-title">
+                            <i class="fa-solid fa-bullseye"></i>
+                            Mi objetivo
+                        </h2>
+
+                        <div class="goal-box">
+
+                            <div class="goal-icon">
+                                🎯
+                            </div>
+
+                            <h3 id="goalText">
+                                Aprender inglés
+                            </h3>
+
+                            <p>
+                                Sigue practicando para alcanzar tu meta.
+                            </p>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- LOGROS -->
+
+                    <section class="profile-card" style="margin-top:25px;">
+
+                        <h2 class="card-title">
+                            <i class="fa-solid fa-trophy"></i>
+                            Mis logros
+                        </h2>
+
+                        <div class="achievements">
+
+                            <div class="achievement" id="achievementFirst">
+                                <i class="fa-solid fa-seedling"></i>
+                                <strong>Primera lección</strong>
+                            </div>
+
+                            <div class="achievement" id="achievementStreak">
+                                <i class="fa-solid fa-fire"></i>
+                                <strong>7 días seguidos</strong>
+                            </div>
+
+                            <div class="achievement" id="achievementXP">
+                                <i class="fa-solid fa-star"></i>
+                                <strong>1,000 XP</strong>
+                            </div>
+
+                            <div class="achievement" id="achievementLessons">
+                                <i class="fa-solid fa-book"></i>
+                                <strong>10 lecciones</strong>
+                            </div>
+
+                            <div class="achievement" id="achievementVocabulary">
+                                <i class="fa-solid fa-book-open"></i>
+                                <strong>Vocabulary 50%</strong>
+                            </div>
+
+                            <div class="achievement" id="achievementPerfect">
+                                <i class="fa-solid fa-bullseye"></i>
+                                <strong>Primer objetivo</strong>
+                            </div>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         MODAL EDITAR PERFIL
+         ===================================================== -->
+
+    <div class="modal" id="profileModal">
+
+        <div class="modal-content">
+
+            <h2>Editar mi perfil ✨</h2>
+
+            <div class="form-group">
+
+                <label for="nameInput">
+                    Nombre
+                </label>
+
+                <input
+                    type="text"
+                    id="nameInput"
+                    placeholder="Escribe tu nombre"
+                    maxlength="30"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Elige tu avatar
+                </label>
+
+                <div class="avatar-options">
+
+                    <button class="avatar-option"
+                            data-avatar="👩🏻‍🎓">
+                        👩🏻‍🎓
+                    </button>
+
+                    <button class="avatar-option"
+                            data-avatar="👨🏻‍🎓">
+                        👨🏻‍🎓
+                    </button>
+
+                    <button class="avatar-option"
+                            data-avatar="🧑🏻‍💻">
+                        🧑🏻‍💻
+                    </button>
+
+                    <button class="avatar-option"
+                            data-avatar="👩🏻‍💻">
+                        👩🏻‍💻
+                    </button>
+
+                    <button class="avatar-option"
+                            data-avatar="🧑🏻‍🎨">
+                        🧑🏻‍🎨
+                    </button>
+
+                    <button class="avatar-option"
+                            data-avatar="🦊">
+                        🦊
+                    </button>
+
+                    <button class="avatar-option"
+                            data-avatar="🐶">
+                        🐶
+                    </button>
+
+                    <button class="avatar-option"
+                            data-avatar="🐱">
+                        🐱
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="levelInput">
+                    Nivel de inglés
+                </label>
+
+                <select id="levelInput">
+
+                    <option value="A1">A1 – Beginner</option>
+                    <option value="A2">A2 – Elementary</option>
+                    <option value="B1">B1 – Intermediate</option>
+                    <option value="B2">B2 – Upper Intermediate</option>
+                    <option value="C1">C1 – Advanced</option>
+                    <option value="C2">C2 – Proficient</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="goalInput">
+                    Mi objetivo
+                </label>
+
+                <input
+                    type="text"
+                    id="goalInput"
+                    placeholder="Ej. Hablar inglés con fluidez"
+                    maxlength="60"
+                >
+
+            </div>
+
+
+            <div class="modal-buttons">
+
+                <button class="cancel-btn" id="cancelButton">
+                    Cancelar
+                </button>
+
+                <button class="save-btn" id="saveButton">
+                    <i class="fa-solid fa-check"></i>
+                    Guardar
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="perfil.js"></script>
+
+</body>
+</html>
+```
