@@ -3,231 +3,546 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mis Videos - Galería YouTube</title>
+<title>My Videos - YouTube Gallery</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a1929;
-    --bg-gradient: linear-gradient(135deg, #0a1929 0%, #1a365d 50%, #2c5282 100%);
-    --card-bg: rgba(23, 27, 36, 0.8);
-    --border: rgba(99, 179, 237, 0.3);
-    --text: #eceff3;
-    --text-dim: #8a92a3;
-    --accent: #4299e1;
-    --accent-light: #63b3ed;
+  :root{
+    --navy:#16233F;
+    --navy-2:#233B75;
+    --sky:#5B8DEF;
+    --sky-dark:#3E6FD1;
+    --sky-tint:#E7F0FD;
+    --pink-tint:#FDEAF0;
+    --bg:#F3F8FB;
+    --surface:#FFFFFF;
+    --ink:#2C3A4A;
+    --ink-soft:#647180;
+    --ring:#BFE0F0;
+    --radius-lg:26px;
+    --radius-md:16px;
+    --radius-sm:10px;
+    --warn:#D98243;
+    --warn-tint:#FCEEE1;
   }
-  
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  body {
-    background: var(--bg-gradient);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    padding: 40px 20px;
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+    padding:60px 6vw;
   }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
+  h1,h2,h3,h4,h5,.main-btn,.learn-btn{ font-family:'Poppins', sans-serif; }
+  a{ text-decoration:none; }
+  img{ max-width:100%; }
+
+  a:focus-visible,
+  button:focus-visible{
+    outline:3px solid var(--sky-dark);
+    outline-offset:3px;
+    border-radius:6px;
   }
-  
-  header {
-    text-align: center;
-    margin-bottom: 50px;
+
+  .gallery-wrap{ max-width:1180px; margin:0 auto; }
+
+  header.gallery-header{
+    text-align:center;
+    margin-bottom:48px;
   }
-  
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    background: linear-gradient(90deg, var(--accent-light), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 10px;
+  .section-eyebrow{
+    display:block;
+    color:var(--sky-dark);
+    font-weight:700;
+    font-size:0.85rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    margin-bottom:10px;
   }
-  
-  .subtitle {
-    color: var(--text-dim);
-    font-size: 1.1rem;
+  .gallery-header h2{
+    color:var(--navy);
+    font-weight:800;
+    font-size:clamp(1.7rem, 3vw, 2.3rem);
+    margin-bottom:12px;
   }
-  
-  .videos-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 30px;
+  .gallery-header p{
+    color:var(--ink-soft);
+    font-size:1.05rem;
+    max-width:520px;
+    margin:0 auto;
+    line-height:1.6;
   }
-  
-  .video-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  .videos-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+    gap:30px;
   }
-  
-  .video-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(66, 153, 225, 0.3);
-    border-color: var(--accent);
+
+  /* ---------- video card, matching .course-card ---------- */
+  .video-card{
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow:0 8px 24px rgba(22,35,63,0.08);
+    cursor:pointer;
   }
-  
-  .video-container {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    height: 0;
-    overflow: hidden;
-    background: #000;
+  @media (prefers-reduced-motion: no-preference){
+    body:not(.calm-mode) .video-card{
+      transition:transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    body:not(.calm-mode) .video-card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 16px 34px rgba(22,35,63,0.14);
+    }
   }
-  
-  .video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
+  body.calm-mode .video-card:hover{ box-shadow:0 16px 34px rgba(22,35,63,0.14); }
+
+  .video-thumb{
+    position:relative;
+    padding-bottom:56.25%;
+    height:0;
+    overflow:hidden;
+    background:var(--navy);
   }
-  
-  .video-info {
-    padding: 18px 20px;
+  .video-thumb img{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
   }
-  
-  .video-number {
-    font-size: 12px;
-    color: var(--accent-light);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 6px;
-    font-weight: 600;
+  .thumb-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(22,35,63,0.28);
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
-  
-  .video-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text);
+  .big-play{
+    width:58px; height:58px;
+    border-radius:50%;
+    background:var(--sky);
+    color:white;
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px;
+    box-shadow:0 8px 20px rgba(22,35,63,0.3);
   }
-  
-  .play-hint {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--text-dim);
+  @media (prefers-reduced-motion: no-preference){
+    body:not(.calm-mode) .big-play{ transition:transform 0.2s ease, background 0.2s ease; }
+    body:not(.calm-mode) .video-card:hover .big-play{ transform:scale(1.08); background:var(--sky-dark); }
   }
-  
-  .play-icon {
-    width: 20px;
-    height: 20px;
-    background: var(--accent);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
+
+  .checkpoint-pill{
+    position:absolute;
+    top:12px; right:12px;
+    background:var(--pink-tint);
+    color:#B85C7E;
+    font-family:'Poppins', sans-serif;
+    font-size:11px;
+    font-weight:700;
+    padding:4px 12px;
+    border-radius:999px;
   }
-  
-  @media (max-width: 768px) {
-    h1 { font-size: 1.8rem; }
-    .videos-grid { grid-template-columns: 1fr; }
+
+  .video-info{ padding:22px 24px 26px; }
+  .video-number{
+    font-size:12px;
+    color:var(--sky-dark);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .video-title{
+    color:var(--navy);
+    font-weight:700;
+    font-size:1.15rem;
+    margin-bottom:8px;
+  }
+  .play-hint{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:0.9rem;
+    color:var(--ink-soft);
+  }
+  .play-hint .dot{
+    width:20px; height:20px;
+    border-radius:50%;
+    background:var(--sky-tint);
+    color:var(--sky-dark);
+    display:flex; align-items:center; justify-content:center;
+    font-size:9px;
+  }
+
+  /* ---------- modal: single video, full screen ---------- */
+  .modal-backdrop{
+    position:fixed;
+    inset:0;
+    background:rgba(22,35,63,0.75);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    z-index:1000;
+  }
+  .modal-backdrop.active{ display:flex; }
+
+  .modal-player{
+    position:relative;
+    width:100%;
+    max-width:920px;
+    background:var(--surface);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow:0 24px 70px rgba(22,35,63,0.35);
+  }
+
+  .modal-close{
+    position:absolute;
+    top:14px; right:14px;
+    z-index:20;
+    width:36px; height:36px;
+    border-radius:50%;
+    background:var(--surface);
+    border:none;
+    color:var(--navy);
+    font-size:16px;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 4px 14px rgba(22,35,63,0.2);
+  }
+  .modal-close:hover{ background:var(--sky); color:white; }
+
+  .modal-video-wrap{
+    position:relative;
+    padding-bottom:56.25%;
+    height:0;
+    background:#000;
+  }
+  #modal-yt-player{ position:absolute; inset:0; width:100%; height:100%; }
+
+  .modal-title-bar{
+    padding:16px 24px;
+    color:var(--navy);
+    font-weight:700;
+    font-family:'Poppins', sans-serif;
+    font-size:1rem;
+    border-top:1px solid var(--ring);
+  }
+
+  /* question overlay sitting on top of the modal video */
+  .question-overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(22,35,63,0.82);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    opacity:0;
+    pointer-events:none;
+    z-index:10;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .question-overlay{ transition:opacity 0.25s ease; }
+  }
+  .question-overlay.active{ opacity:1; pointer-events:all; }
+
+  .question-card{
+    background:var(--surface);
+    border-radius:var(--radius-md);
+    padding:26px 26px;
+    width:100%;
+    max-width:420px;
+  }
+  .question-tag{
+    display:block;
+    font-family:'Poppins', sans-serif;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--warn);
+    background:var(--warn-tint);
+    width:fit-content;
+    padding:4px 12px;
+    border-radius:999px;
+    margin-bottom:14px;
+  }
+  .question-text{
+    color:var(--navy);
+    font-weight:700;
+    font-size:1.1rem;
+    line-height:1.4;
+    margin-bottom:18px;
+  }
+  .q-options{ display:flex; flex-direction:column; gap:10px; }
+  .q-option{
+    text-align:left;
+    background:var(--sky-tint);
+    border:none;
+    color:var(--navy);
+    padding:12px 16px;
+    border-radius:var(--radius-sm);
+    font-family:'Inter', sans-serif;
+    font-size:0.95rem;
+    font-weight:500;
+    cursor:pointer;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .q-option{ transition:background 0.15s ease, color 0.15s ease; }
+  }
+  .q-option:hover{ background:var(--sky); color:white; }
+  .q-option.correct{ background:var(--sky-dark); color:white; }
+  .q-option.wrong{ background:var(--warn-tint); color:var(--warn); }
+
+  .q-feedback{
+    margin-top:14px;
+    font-size:0.88rem;
+    color:var(--ink-soft);
+    min-height:18px;
+  }
+
+  @media (max-width:768px){
+    body{ padding:40px 5vw; }
+    .videos-grid{ grid-template-columns:1fr; }
   }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <header>
-    <h1>🎬 Mi Galería de Videos</h1>
-    <p class="subtitle">Haz clic en cualquier video para reproducirlo aquí mismo</p>
+<div class="gallery-wrap">
+  <header class="gallery-header">
+    <span class="section-eyebrow">Video lessons</span>
+    <h2>Grammar A1-A2</h2>
+    <p>Click any video to watch it full screen. Some videos include a checkpoint question you need to answer to keep watching.</p>
   </header>
 
-  <div class="videos-grid">
-    
-    <!-- Video 1 -->
-    <div class="video-card">
-      <div class="video-container">
-        <iframe 
-          src="https://www.youtube.com/embed/VJzqOdKgdq4?rel=0&modestbranding=1" 
-          title="Video 1"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
-      </div>
-      <div class="video-info">
-        <div class="video-number">Video 1</div>
-        <div class="video-title">Mi Primer Video</div>
-        <div class="play-hint">
-          <div class="play-icon">▶</div>
-          <span>Clic para reproducir</span>
+  <div class="videos-grid" id="videosGrid"></div>
+</div>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-player">
+    <button class="modal-close" id="modalClose" aria-label="Close video">✕</button>
+    <div class="modal-video-wrap">
+      <div id="modal-yt-player"></div>
+      <div class="question-overlay" id="questionOverlay">
+        <div class="question-card">
+          <span class="question-tag">Checkpoint · answer to continue</span>
+          <div class="question-text" id="questionText"></div>
+          <div class="q-options" id="qOptions"></div>
+          <div class="q-feedback" id="qFeedback"></div>
         </div>
       </div>
     </div>
-
-    <!-- Video 2 -->
-    <div class="video-card">
-      <div class="video-container">
-        <iframe 
-          src="https://www.youtube.com/embed/-Kmpd4EZAGM?rel=0&modestbranding=1" 
-          title="Video 2"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
-      </div>
-      <div class="video-info">
-        <div class="video-number">Video 2</div>
-        <div class="video-title">Mi Segundo Video</div>
-        <div class="play-hint">
-          <div class="play-icon">▶</div>
-          <span>Clic para reproducir</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Video 3 -->
-    <div class="video-card">
-      <div class="video-container">
-        <iframe 
-          src="https://www.youtube.com/embed/xaIeqK5jZHw?rel=0&modestbranding=1" 
-          title="Video 3"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
-      </div>
-      <div class="video-info">
-        <div class="video-number">Video 3</div>
-        <div class="video-title">Mi Tercer Video</div>
-        <div class="play-hint">
-          <div class="play-icon">▶</div>
-          <span>Clic para reproducir</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Video 4 -->
-    <div class="video-card">
-      <div class="video-container">
-        <iframe 
-          src="https://www.youtube.com/embed/_pWh761n6qQ?rel=0&modestbranding=1" 
-          title="Video 4"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
-      </div>
-      <div class="video-info">
-        <div class="video-number">Video 4</div>
-        <div class="video-title">Mi Cuarto Video</div>
-        <div class="play-hint">
-          <div class="play-icon">▶</div>
-          <span>Clic para reproducir</span>
-        </div>
-      </div>
-    </div>
-
+    <div class="modal-title-bar" id="modalTitleBar"></div>
   </div>
 </div>
+
+<script>
+  
+  const videos = [
+    {
+      id: 'VJzqOdKgdq4',
+      title: 'Prepositional phrases',
+      checkpoint: {
+        time: 20,
+        question: 'What topic is explained right before this point in the video?',
+        options: [
+          { text: 'Prepositional  phrases', correct: true },
+          { text: 'Adjectives', correct: false },
+          { text: 'Modal verbs', correct: false }
+        ]
+      }
+    },
+    {
+      id: '-Kmpd4EZAGM',
+      title: 'Articles',
+      checkpoint: null // no question, plays normally
+    },
+    {
+      id: 'xaIeqK5jZHw',
+      title: 'Possessive adjectives',
+      checkpoint: {
+        time: 15,
+        question: 'What is the main idea of this section?',
+        options: [
+          { text: 'Option A', correct: false },
+          { text: 'Option B', correct: true },
+          { text: 'Option C', correct: false }
+        ]
+      }
+    },
+    {
+      id: '_pWh761n6qQ',
+      title: 'Simple past',
+      checkpoint: null
+    }
+  ];
+
+  const grid = document.getElementById('videosGrid');
+
+  videos.forEach((v, i) => {
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.innerHTML = `
+      <div class="video-thumb">
+        <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}">
+        <div class="thumb-overlay">
+          <div class="big-play">▶</div>
+        </div>
+        ${v.checkpoint ? '<div class="checkpoint-pill">Has a question</div>' : ''}
+      </div>
+      <div class="video-info">
+        <div class="video-number">Video ${i + 1}</div>
+        <div class="video-title">${v.title}</div>
+        <div class="play-hint">
+          <span class="dot">▶</span>
+          <span>Click to watch full screen</span>
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => openModal(v));
+    grid.appendChild(card);
+  });
+
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const modalClose = document.getElementById('modalClose');
+  const modalTitleBar = document.getElementById('modalTitleBar');
+  const questionOverlay = document.getElementById('questionOverlay');
+  const questionText = document.getElementById('questionText');
+  const qOptions = document.getElementById('qOptions');
+  const qFeedback = document.getElementById('qFeedback');
+
+  let ytPlayer = null;
+  let ytApiReady = false;
+  let pollTimer = null;
+  let currentVideo = null;
+  let cleared = false;
+  let questionShown = false;
+
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+
+  window.onYouTubeIframeAPIReady = function () {
+    ytApiReady = true;
+  };
+
+  function openModal(video) {
+    currentVideo = video;
+    cleared = false;
+    questionShown = false;
+    modalTitleBar.textContent = video.title;
+    questionOverlay.classList.remove('active');
+    modalBackdrop.classList.add('active');
+
+    if (!ytApiReady) {
+      setTimeout(() => openModal(video), 200);
+      return;
+    }
+
+    if (ytPlayer) {
+      ytPlayer.loadVideoById(video.id);
+    } else {
+      ytPlayer = new YT.Player('modal-yt-player', {
+        videoId: video.id,
+        playerVars: { rel: 0, modestbranding: 1, autoplay: 1 },
+        events: {
+          onStateChange: onPlayerStateChange,
+          onError: onPlayerError
+        }
+      });
+    }
+
+    clearInterval(pollTimer);
+    pollTimer = setInterval(checkCheckpoint, 300);
+  }
+
+  function closeModal() {
+    modalBackdrop.classList.remove('active');
+    clearInterval(pollTimer);
+    if (ytPlayer && ytPlayer.stopVideo) ytPlayer.stopVideo();
+    questionOverlay.classList.remove('active');
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modalBackdrop.addEventListener('click', (e) => {
+    if (e.target === modalBackdrop) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modalBackdrop.classList.contains('active')) closeModal();
+  });
+
+  function checkCheckpoint() {
+    if (!ytPlayer || !ytPlayer.getCurrentTime || !currentVideo || !currentVideo.checkpoint) return;
+    const t = ytPlayer.getCurrentTime();
+    const cp = currentVideo.checkpoint;
+
+    if (!cleared && !questionShown && t >= cp.time) {
+      ytPlayer.pauseVideo();
+      showQuestion(cp);
+      questionShown = true;
+    }
+  }
+
+  function onPlayerStateChange(e) {
+    if (!currentVideo || !currentVideo.checkpoint) return;
+    const cp = currentVideo.checkpoint;
+    if (!cleared && e.data === YT.PlayerState.PLAYING) {
+      if (ytPlayer.getCurrentTime() > cp.time + 0.5) {
+        ytPlayer.seekTo(cp.time, true);
+      }
+    }
+  }
+
+  
+  function onPlayerError(e) {
+    const reasons = {
+      2: 'Invalid video ID.',
+      5: 'This video cannot be played in the HTML5 player.',
+      100: 'Video not found (removed or private).',
+      101: 'The video owner disabled embedding on other websites.',
+      150: 'The video owner disabled embedding on other websites.'
+    };
+    console.error('YouTube player error for video', currentVideo && currentVideo.id, '-', reasons[e.data] || e.data);
+    modalTitleBar.textContent = (currentVideo ? currentVideo.title + ' — ' : '') + 'this video could not be loaded (' + (reasons[e.data] || 'unknown error') + ')';
+  }
+
+  function showQuestion(cp) {
+    questionText.textContent = cp.question;
+    qOptions.innerHTML = '';
+    qFeedback.textContent = '';
+    cp.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'q-option';
+      btn.textContent = opt.text;
+      btn.onclick = () => handleAnswer(opt, btn);
+      qOptions.appendChild(btn);
+    });
+    questionOverlay.classList.add('active');
+  }
+
+  function handleAnswer(opt, btn) {
+    if (opt.correct) {
+      btn.classList.add('correct');
+      qFeedback.textContent = 'Correct! Resuming the video...';
+      cleared = true;
+      setTimeout(() => {
+        questionOverlay.classList.remove('active');
+        ytPlayer.playVideo();
+      }, 700);
+    } else {
+      btn.classList.add('wrong');
+      qFeedback.textContent = "That's not it. Try again.";
+      setTimeout(() => btn.classList.remove('wrong'), 600);
+    }
+  }
+</script>
 
 </body>
 </html>
