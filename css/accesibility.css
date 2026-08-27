@@ -1,0 +1,250 @@
+/* ========================================================
+   OAK ENGLISH - MENÚ Y SISTEMA DE ACCESIBILIDAD
+   ======================================================== */
+
+/* --- 1. BOTÓN FLOTANTE DISPARADOR --- */
+#accessibilityToggle,
+.accessibility-trigger-btn {
+  position: fixed !important;
+  bottom: 25px !important;
+  right: 25px !important;
+  z-index: 999999 !important;
+  background-color: #233b75 !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 50% !important;
+  width: 55px !important;
+  height: 55px !important;
+  font-size: 22px !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: transform 0.2s ease, background-color 0.2s ease !important;
+}
+
+#accessibilityToggle:hover {
+  transform: scale(1.08) !important;
+  background-color: #1a2d5a !important;
+}
+
+/* --- 2. CONTENEDOR PRINCIPAL DEL PANEL FLOTANTE --- */
+#accessibilityMenu {
+  display: none;
+  position: fixed !important;
+  bottom: 90px !important;
+  right: 25px !important;
+  z-index: 999998 !important;
+  width: 340px !important;
+  max-width: 90vw !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 16px !important;
+  padding: 20px !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18) !important;
+  font-family: system-ui, -apple-system, sans-serif !important;
+}
+
+#accessibilityMenu.show {
+  display: block !important;
+}
+
+/* Encabezados dentro del panel */
+#accessibilityMenu h3,
+#accessibilityMenu h4 {
+  color: #1e293b !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  margin: 14px 0 8px 0 !important;
+}
+
+#accessibilityMenu h3:first-of-type {
+  margin-top: 0 !important;
+}
+
+/* --- 3. ESTILIZACIÓN DE BOTONES DEL MENÚ --- */
+#accessibilityMenu button {
+  background-color: #f8fafc !important;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.15s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin: 3px !important;
+}
+
+#accessibilityMenu button:hover {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  border-color: #94a3b8 !important;
+}
+
+/* Indicador de botón encendido/activo */
+#accessibilityMenu button.active {
+  background-color: #e0e7ff !important;
+  color: #3730a3 !important;
+  border-color: #6366f1 !important;
+  font-weight: 600 !important;
+}
+
+/* Botón para cerrar (X) */
+#accessibilityMenu .close-btn {
+  float: right !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 16px !important;
+  color: #64748b !important;
+  padding: 4px 8px !important;
+}
+
+#accessibilityMenu .close-btn:hover {
+  color: #0f172a !important;
+}
+
+/* --- 4. REGLAS DE ACCESIBILIDAD GLOBALES --- */
+html {
+  transition: font-size 0.2s ease;
+}
+
+/* Resaltar enlaces */
+body.highlight-links a {
+  text-decoration: underline 3px #FFE600 !important;
+  font-weight: bold !important;
+  background-color: rgba(255, 230, 0, 0.2) !important;
+  color: #000000 !important;
+  padding: 2px 4px !important;
+  border-radius: 4px !important;
+}
+
+/* Modo Calma */
+body.calm-mode {
+  filter: sepia(15%) saturate(80%) !important;
+}
+
+body.calm-mode *,
+body.calm-mode *::before,
+body.calm-mode *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* ========================================================
+   MODO OSCURO COMPLETO (APLICA A TODAS LAS TARJETAS Y HERO)
+   ======================================================== */
+
+/* 1. Fondo principal de la página */
+body.accessibility-dark {
+  background-color: #0d1527 !important;
+  color: #ffffff !important;
+}
+
+/* 2. Todos los contenedores, secciones y fondos claros del sitio */
+body.accessibility-dark main,
+body.accessibility-dark section,
+body.accessibility-dark header,
+body.accessibility-dark nav,
+body.accessibility-dark .hero,
+body.accessibility-dark .container,
+body.accessibility-dark .container-fluid,
+body.accessibility-dark [class*="bg-light"],
+body.accessibility-dark [class*="bg-white"] {
+  background-color: #0d1527 !important;
+}
+
+/* 3. TODAS las tarjetas (Hero, Cursos, Info, etc.) */
+body.accessibility-dark .card,
+body.accessibility-dark .info-card,
+body.accessibility-dark .course-card,
+body.accessibility-dark .feature-card,
+body.accessibility-dark .suggestion-box,
+body.accessibility-dark div[class*="card"] {
+  background-color: #162238 !important;
+  border: 1px solid #2a3b5c !important;
+}
+
+/* 4. Textos en blanco para todas las tarjetas */
+body.accessibility-dark h1,
+body.accessibility-dark h2,
+body.accessibility-dark h3,
+body.accessibility-dark h4,
+body.accessibility-dark h5,
+body.accessibility-dark h6,
+body.accessibility-dark p,
+body.accessibility-dark span,
+body.accessibility-dark li,
+body.accessibility-dark label,
+body.accessibility-dark strong,
+body.accessibility-dark a:not(.btn) {
+  color: #ffffff !important;
+}
+
+/* 5. Botones secundarios (como "Learn more") en modo oscuro */
+body.accessibility-dark .btn-light,
+body.accessibility-dark .btn-outline-primary,
+body.accessibility-dark button:not(#accessibilityToggle):not(.main-btn) {
+  background-color: #233352 !important;
+  color: #ffffff !important;
+  border-color: #3b517a !important;
+}
+
+/* 6. Badges (como "Learn at your own pace") */
+body.accessibility-dark .badge,
+body.accessibility-dark .eyebrow {
+  background-color: #ffffff !important;
+  color: #0d1527 !important;
+}
+
+/* Modo Alto Contraste */
+body.high-contrast {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+body.high-contrast *,
+body.high-contrast h1,
+body.high-contrast h2,
+body.high-contrast h3,
+body.high-contrast h4,
+body.high-contrast p,
+body.high-contrast a,
+body.high-contrast button {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+body.high-contrast h1,
+body.high-contrast h2,
+body.high-contrast h3,
+body.high-contrast h4,
+body.high-contrast .accent {
+  color: #ffff00 !important;
+}
+
+/* BOTÓN FLOTANTE QUE SIGUE EL SCROLL DE LA PÁGINA */
+#accessibilityToggle,
+.accessibility-trigger-btn {
+  position: fixed !important; /* Mantiene el botón fijo respecto a la ventana del navegador */
+  bottom: 25px !important;    /* Distancia desde el borde inferior */
+  right: 25px !important;     /* Distancia desde el borde derecho */
+  z-index: 999999 !important; /* Capa superior para que nunca quede tapado por otros elementos */
+  
+  /* Opcional: Para mantener el menú flotante pegado al botón cuando esté abierto */
+}
+
+#accessibilityMenu {
+  position: fixed !important; /* Asegura que el panel flotante también acompañe el scroll */
+  bottom: 90px !important;
+  right: 25px !important;
+  z-index: 999998 !important;
+}

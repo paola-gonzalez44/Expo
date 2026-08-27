@@ -13,6 +13,8 @@
       --radius-lg:26px;
       --radius-md:16px;
       --radius-sm:10px;
+      --card-bg: #ffffff;
+      --card-text: #1e293b;
     }
     *{box-sizing:border-box;}
     html{scroll-behavior:smooth;}
@@ -29,66 +31,6 @@
     a{ text-decoration:none; }
     img{ max-width:100%; }
 
-    /* ============ ACCESSIBILITY BASICS ============ */
-    .skip-link{
-      position:absolute;
-      left:-999px;
-      top:auto;
-      background:var(--navy);
-      color:white;
-      padding:12px 20px;
-      border-radius:0 0 12px 0;
-      font-weight:700;
-      z-index:1000;
-    }
-    .skip-link:focus{
-      left:0;
-      top:0;
-    }
-    a:focus-visible,
-    button:focus-visible,
-    .nav-link:focus-visible{
-      outline:3px solid var(--sky-dark);
-      outline-offset:3px;
-      border-radius:6px;
-    }
-    /* Hover-driven motion only runs if the user hasn't asked for reduced motion,
-       AND the person hasn't turned on Calm Mode below. */
-    @media (prefers-reduced-motion: no-preference){
-      body:not(.calm-mode) .info-card,
-      body:not(.calm-mode) .course-card,
-      body:not(.calm-mode) .main-btn{
-        transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-      }
-      body:not(.calm-mode) .info-card:hover{ transform:translateY(-6px); }
-      body:not(.calm-mode) .course-card:hover{ transform:translateY(-6px); }
-      body:not(.calm-mode) .main-btn:hover{ transform:translateY(-2px); }
-    }
-    /* Calm Mode: turns off decorative blobs + shrinks motion further, for anyone
-       who wants a quieter screen regardless of their OS-level setting. */
-    body.calm-mode .hero-blob{ display:none; }
-    body.calm-mode .info-card:hover,
-    body.calm-mode .course-card:hover,
-    body.calm-mode .main-btn:hover{ transform:none; }
-
-    /* ============ CALM MODE TOGGLE ============ */
-    .calm-toggle{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      background:var(--sky-tint);
-      color:var(--sky-dark);
-      border:none;
-      padding:8px 16px;
-      border-radius:999px;
-      font-weight:700;
-      font-size:0.85rem;
-      font-family:'Poppins', sans-serif;
-      cursor:pointer;
-      margin-left:8px;
-    }
-    .calm-toggle:hover{ background:var(--sky); color:white; }
-    .calm-toggle[aria-pressed="true"]{ background:var(--navy); color:white; }
 
     /* ============ NAVBAR ============ */
     .navbar{
@@ -319,6 +261,17 @@
       border-radius:20px;
       box-shadow:0 12px 28px rgba(22,35,63,0.14);
     }
+
+
+body.accessibility-dark {
+    --card-bg: #1e293b;
+    --card-text: #e2e8f0;
+}
+
+body.high-contrast {
+    --card-bg: #000000;
+    --card-text: #ffffff;
+}
 
     footer{
       margin-top:110px;

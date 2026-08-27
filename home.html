@@ -18,6 +18,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
   <link rel="stylesheet" href="css/home.css">
+     <!-- Accesibility -->
+<link rel="stylesheet" href="css/accesibility.css">
+   
 
 </head>
 <body> 
@@ -28,7 +31,7 @@
 }
   </script>
 
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+<a class="skip-link visually-hidden-focusable" href="#main">Skip to main content</a>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg sticky-top">  
@@ -49,13 +52,6 @@
           <li class="nav-item"><a class="nav-link" href="#">Skills</a></li>
           <li class="nav-item"><a class="nav-link" href="grammar__menu.html">Grammar</a></li>
           <li class="nav-item"><a class="nav-link" href="vocabulary_home.html">Vocabulary</a></li>
-          <li class="nav-item">
-            <button id="calm-toggle" class="calm-toggle" type="button" aria-pressed="false">
-              <i class="bi bi-moon-stars" aria-hidden="true"></i>
-              <span>Calm mode</span>
-            </button>
-          </li>
-
         </ul>
 
       </div>
@@ -287,6 +283,113 @@
 
   </div>
 
+  <!-- Accessibility -->
+<div class="accessibility-container">
+
+    <button
+        id="accessibilityToggle"
+        class="accessibility-toggle"
+        type="button"
+        aria-label="Open accessibility menu"
+        aria-expanded="false"
+    >
+        🔊
+    </button>
+
+    <div
+        id="accessibilityMenu"
+        class="accessibility-menu"
+        aria-hidden="true"
+    >
+
+        <div class="accessibility-header">
+            <strong>Accessibility</strong>
+
+            <button
+                id="closeAccessibility"
+                type="button"
+                aria-label="Close menu"
+            >
+                ×
+            </button>
+        </div>
+
+        <div class="accessibility-section">
+
+            <h3>Reading</h3>
+
+            <button id="btnRead" type="button">
+                🔊 Read page
+            </button>
+
+            <button id="btnPause" type="button">
+                ⏸️ Pause
+            </button>
+
+            <button id="btnResume" type="button">
+                ▶️ Resume
+            </button>
+
+            <button id="btnStop" type="button">
+                ⏹️ Stop
+            </button>
+
+        </div>
+
+        <div class="accessibility-section">
+
+            <h3>Text size</h3>
+
+            <div class="text-size-controls">
+
+                <button id="decreaseText" type="button">
+                    A−
+                </button>
+
+                <span id="textSizeValue">100%</span>
+
+                <button id="increaseText" type="button">
+                    A+
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="accessibility-section">
+
+            <h3>Visual</h3>
+
+            <button id="highContrast" type="button">
+                 High contrast
+            </button>
+
+            <button id="highlightLinks" type="button">
+                 Highlight links
+            </button>
+
+            <button id="darkMode" type="button">
+                 Dark mode
+            </button>
+            <button id="calmMode" type="button" aria-pressed="false">
+    
+                 <span>Calm mode</span>
+            </button>
+
+        </div>
+
+        <button
+            id="resetAccessibility"
+            class="accessibility-reset"
+            type="button"
+        >
+            ↻ Reset settings
+        </button>
+
+    </div>
+
+<script src="JS/accesibility.js"></script>
+
 <!-- Footer -->
     <footer>
         <div class="footer-inner">
@@ -349,26 +452,8 @@
         </div>
     </footer>
 
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
- <script>
-
-   // Calm Mode: lets the person turn off decorative motion/shapes,
-   // independent of their system-level "reduce motion" setting.
-   const calmBtn = document.getElementById('calm-toggle');
-   const CALM_KEY = 'oakEnglishCalmMode';
-
-   function setCalmMode(on){
-     document.body.classList.toggle('calm-mode', on);
-     calmBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
-     localStorage.setItem(CALM_KEY, on ? '1' : '0');
-   }
-
-   if(calmBtn){
-     setCalmMode(localStorage.getItem(CALM_KEY) === '1');
-     calmBtn.addEventListener('click', () => {
-       setCalmMode(!document.body.classList.contains('calm-mode'));
-     });
-   }
- </script>
+ <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" src="JS/accesibility.js" ></script>
+ 
+  
 </body>
 </html>
