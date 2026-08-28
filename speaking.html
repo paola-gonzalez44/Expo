@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speaking A2 · Steady Oak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#152B54;
+    --navy-2:#0F2247;
+    --link:#5B7FB5;
+    --border:#E3E6EC;
+    --text-dim:#5B6470;
+    --bg:#FFFFFF;
+    --footer:#0B2A55;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--navy);font-family:'Inter',sans-serif;}
+  h1,h2,h3{font-family:'Baloo 2',sans-serif; margin:0;}
+
+  nav{display:flex; align-items:center; justify-content:space-between; padding:22px 56px;}
+  .brand{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#1B3A66,#2E5590); display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;}
+  .nav-links{display:flex; gap:40px;}
+  .nav-links a{color:var(--link); text-decoration:none; font-size:0.98rem; font-weight:500;}
+  .login-btn{background:var(--navy); color:#fff; border:none; padding:10px 26px; border-radius:100px; font-weight:600; cursor:pointer; font-size:0.95rem;}
+
+  .page-title{text-align:center; font-size:3.4rem; font-weight:800; color:var(--navy); margin:34px 0 46px; letter-spacing:-0.01em;}
+
+  .cards{max-width:1120px; margin:0 auto; display:flex; flex-direction:column; gap:44px; padding:0 40px 90px;}
+  .card{border:1px solid var(--border); border-radius:6px; padding:44px; display:flex; align-items:center; gap:48px;}
+  .card-img{
+    width:400px; min-width:280px; height:230px; border-radius:6px;
+    display:flex; align-items:center; justify-content:center; color:#fff; font-size:3.4rem;
+    background-size:cover; background-position:center;
+  }
+  .card-body h3{font-size:1.7rem; font-weight:700; color:var(--navy); margin-bottom:14px;}
+  .card-body p{color:var(--text-dim); font-size:1.02rem; margin:0 0 24px; line-height:1.5;}
+  .practice-btn{background:var(--navy); color:#fff; border:none; padding:14px 30px; border-radius:100px; font-weight:600; font-size:1rem; cursor:pointer;}
+  .practice-btn:hover{background:var(--navy-2);}
+
+  footer{background:var(--footer); color:#fff; padding:64px 56px 40px; margin-top:20px;}
+  .foot-grid{max-width:1120px; margin:0 auto; display:flex; gap:90px; flex-wrap:wrap;}
+  .foot-col h4{font-family:'Baloo 2',sans-serif; font-size:1.15rem; margin-bottom:14px;}
+  .foot-col a, .foot-col span{display:block; color:#CBD8EC; text-decoration:none; font-size:0.95rem; margin-bottom:8px;}
+  .foot-bottom{max-width:1120px; margin:50px auto 0; display:flex; align-items:center; gap:14px; color:#CBD8EC; font-size:0.9rem; border-top:1px solid rgba(255,255,255,0.15); padding-top:26px;}
+  .foot-logo{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.12);}
+
+  /* MODAL */
+  .overlay{position:fixed; inset:0; background:rgba(15,34,71,0.55); display:none; align-items:center; justify-content:center; z-index:100; padding:20px;}
+  .overlay.open{display:flex;}
+  .modal{background:#fff; border-radius:14px; max-width:560px; width:100%; padding:36px; position:relative; max-height:90vh; overflow-y:auto;}
+  .modal-close{position:absolute; top:18px; right:20px; background:none; border:none; font-size:1.3rem; cursor:pointer; color:var(--text-dim);}
+  .modal .level-tag{font-size:0.8rem; color:var(--link); font-weight:600; text-transform:uppercase; letter-spacing:0.03em;}
+  .modal h3{font-size:1.5rem; color:var(--navy); margin-top:6px;}
+  .modal .task{background:#F3F6FB; border-radius:10px; padding:16px 18px; margin:16px 0; font-size:0.96rem; line-height:1.5; color:var(--navy-2);}
+
+  .mic-zone{display:flex; flex-direction:column; align-items:center; gap:14px; margin:22px 0;}
+  .mic-btn{width:82px; height:82px; border-radius:50%; border:none; cursor:pointer; background:var(--navy); color:#fff; font-size:1.6rem; display:flex; align-items:center; justify-content:center; transition:transform .15s, background .2s;}
+  .mic-btn:hover{transform:scale(1.05);}
+  .mic-btn.recording{background:#C0433A; box-shadow:0 0 0 8px rgba(192,67,58,0.15);}
+  .mic-status{font-size:0.85rem; color:var(--text-dim);}
+  canvas#waveCanvas{width:100%; height:60px; border-radius:8px; background:#F3F6FB;}
+
+  .transcript-box{min-height:56px; background:#F3F6FB; border-radius:10px; padding:14px 16px; font-size:0.95rem; color:var(--navy-2); line-height:1.5;}
+  .transcript-box .placeholder{color:var(--text-dim); font-style:italic;}
+
+  .finish-btn{width:100%; background:var(--navy); color:#fff; border:none; padding:13px; border-radius:100px; font-weight:600; cursor:pointer; margin-top:16px;}
+  .finish-btn:disabled{opacity:0.4; cursor:not-allowed;}
+
+  .results{display:none; margin-top:22px; border-top:1px solid var(--border); padding-top:22px;}
+  .results.open{display:block;}
+  .score-row{display:flex; align-items:center; gap:20px;}
+  .score-num{font-family:'Baloo 2',sans-serif; font-size:2.1rem; font-weight:800; color:var(--navy);}
+  .metric{display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px dashed var(--border); font-size:0.9rem; color:var(--navy-2);}
+  .feedback-note{font-size:0.88rem; color:var(--text-dim); margin-top:14px; line-height:1.5; background:#F3F6FB; padding:12px 14px; border-radius:10px;}
+  .warn{font-size:0.8rem; color:#C0433A; margin-top:10px;}
+
+  @media(max-width:800px){
+    .card{flex-direction:column; padding:26px;}
+    .card-img{width:100%;}
+    .page-title{font-size:2.2rem;}
+    nav{padding:16px 20px;}
+    .nav-links{display:none;}
+    .foot-grid{gap:40px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">🌳</div>
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <a href="#">Skills</a>
+    <a href="#">Grammar</a>
+    <a href="#">Vocabulary</a>
+  </div>
+  <button class="login-btn">Login</button>
+</nav>
+
+<h1 class="page-title">Speaking&nbsp;&nbsp;A2</h1>
+
+<div class="cards" id="cardsGrid"></div>
+
+<footer>
+  <div class="foot-grid">
+    <div class="foot-col"><h4>Skills</h4><a href="#">Reading</a><a href="#">Listening</a><a href="#">Speaking</a><a href="#">Writing</a></div>
+    <div class="foot-col"><h4>Vocabulary</h4><a href="#">A1 – A2 Vocabulary</a><a href="#">B1 – B2 Vocabulary</a><a href="#">Interactive Games</a></div>
+    <div class="foot-col"><h4>Grammar</h4><a href="#">A1 – A2 Vocabulary</a><a href="#">B1 – B2 Vocabulary</a></div>
+    <div class="foot-col"><h4>Connect with us</h4><a href="#">Our Mission</a><a href="#">Privacy Policy</a></div>
+  </div>
+  <div class="foot-bottom"><div class="foot-logo"></div>Steady Oak © 2026</div>
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="level-tag" id="mLevel">A2 · Speaking</div>
+    <h3 id="mTitle"></h3>
+    <div class="task" id="mTask"></div>
+
+    <div class="mic-zone">
+      <button class="mic-btn" id="micBtn" onclick="toggleRecording()">🎤</button>
+      <div class="mic-status" id="micStatus">Pulsa para empezar a grabar</div>
+      <canvas id="waveCanvas" width="480" height="60"></canvas>
+    </div>
+
+    <div class="transcript-box" id="transcriptBox"><span class="placeholder">Tu transcripción aparecerá aquí mientras hablas…</span></div>
+    <div id="micWarn" class="warn" style="display:none;"></div>
+
+    <button class="finish-btn" id="finishBtn" disabled onclick="evaluateSpeech()">Evaluar mi respuesta</button>
+
+    <div class="results" id="resultsBox">
+      <div class="score-row">
+        <div class="score-num" id="scoreNum">0%</div>
+        <div style="font-size:0.82rem;color:var(--text-dim)">puntuación general</div>
+      </div>
+      <div style="margin-top:16px;">
+        <div class="metric"><span>Cobertura de contenido</span><b id="mContent">–</b></div>
+        <div class="metric"><span>Ritmo (palabras/min)</span><b id="mPace">–</b></div>
+        <div class="metric"><span>Muletillas detectadas</span><b id="mFillers">–</b></div>
+        <div class="metric"><span>Duración</span><b id="mDur">–</b></div>
+      </div>
+      <div class="feedback-note" id="feedbackNote"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const exercises = [
+  {
+    icon:"🍽️", grad:"linear-gradient(135deg,#1B3A66,#3E6DA8)",
+    title:"A dinner with friends",
+    desc:"Describe the last dinner you had with friends: who was there, what you talked about, and how you felt.",
+    keywords:["dinner","friends","talked","food","felt","evening","fun","together"]
+  },
+  {
+    icon:"💼", grad:"linear-gradient(135deg,#2E5590,#5B87C4)",
+    title:"Who is in the office?",
+    desc:"Describe two coworkers: what they look like, their job, and one thing you like about working with them.",
+    keywords:["coworker","office","job","works","looks","team","desk","colleague"]
+  },
+  {
+    icon:"🎙️", grad:"linear-gradient(135deg,#17325B,#40679E)",
+    title:"The Interview Summary",
+    desc:"Imagine you just finished a job interview. Summarize in three sentences what you were asked and how you answered.",
+    keywords:["interview","asked","answered","job","experience","questions","summary","position"]
+  }
+];
+
+const grid = document.getElementById('cardsGrid');
+exercises.forEach((ex,i)=>{
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.innerHTML = `
+    <div class="card-img" style="background:${ex.grad}">${ex.icon}</div>
+    <div class="card-body">
+      <h3>${ex.title}</h3>
+      <p>${ex.desc}</p>
+      <button class="practice-btn" onclick="openModal(${i})">Practice now</button>
+    </div>
+  `;
+  grid.appendChild(div);
+});
+
+let currentEx=null, recognition=null, recognizing=false, finalTranscript="", startTime=null;
+let audioCtx, analyser, source, waveAnim, micStream=null;
+
+function openModal(i){
+  currentEx = exercises[i];
+  document.getElementById('mTitle').textContent = currentEx.title;
+  document.getElementById('mTask').textContent = currentEx.desc;
+  document.getElementById('transcriptBox').innerHTML = '<span class="placeholder">Tu transcripción aparecerá aquí mientras hablas…</span>';
+  document.getElementById('resultsBox').classList.remove('open');
+  document.getElementById('finishBtn').disabled = true;
+  document.getElementById('micWarn').style.display = 'none';
+  finalTranscript = "";
+  document.getElementById('overlay').classList.add('open');
+}
+function closeModal(){
+  document.getElementById('overlay').classList.remove('open');
+  stopRecording();
+}
+
+const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+async function toggleRecording(){
+  if(recognizing){ stopRecording(); return; }
+  const warnEl = document.getElementById('micWarn');
+  warnEl.style.display='none';
+
+  if(!SpeechRecognitionAPI){
+    warnEl.textContent = "Tu navegador no soporta reconocimiento de voz. Prueba en Chrome o Edge de escritorio.";
+    warnEl.style.display='block';
+    return;
+  }
+  try{
+    micStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(err){
+    warnEl.textContent = "No se pudo acceder al micrófono (permiso bloqueado en este entorno). Descarga el HTML y ábrelo en una pestaña propia del navegador para probar la grabación real.";
+    warnEl.style.display='block';
+    return;
+  }
+
+  audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  source = audioCtx.createMediaStreamSource(micStream);
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 256;
+  source.connect(analyser);
+  drawWave();
+
+  recognition = new SpeechRecognitionAPI();
+  recognition.lang = 'en-US';
+  recognition.continuous = true;
+  recognition.interimResults = true;
+
+  recognition.onresult = (e)=>{
+    let interim = "";
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      if(e.results[i].isFinal) finalTranscript += e.results[i][0].transcript + " ";
+      else interim += e.results[i][0].transcript;
+    }
+    document.getElementById('transcriptBox').innerHTML = (finalTranscript + interim) || '<span class="placeholder">Escuchando…</span>';
+    document.getElementById('finishBtn').disabled = finalTranscript.trim().length === 0;
+  };
+  recognition.onerror = ()=>{};
+  recognition.onend = ()=>{ if(recognizing) recognition.start(); };
+
+  recognition.start();
+  recognizing = true;
+  startTime = Date.now();
+  document.getElementById('micBtn').classList.add('recording');
+  document.getElementById('micBtn').textContent = '⏹';
+  document.getElementById('micStatus').textContent = 'Grabando… pulsa para terminar';
+}
+
+function stopRecording(){
+  recognizing = false;
+  if(recognition){ try{recognition.stop();}catch(e){} }
+  if(micStream){ micStream.getTracks().forEach(t=>t.stop()); }
+  if(audioCtx){ audioCtx.close(); }
+  cancelAnimationFrame(waveAnim);
+  document.getElementById('micBtn').classList.remove('recording');
+  document.getElementById('micBtn').textContent = '🎤';
+  document.getElementById('micStatus').textContent = 'Pulsa para grabar de nuevo';
+}
+
+function drawWave(){
+  const canvas = document.getElementById('waveCanvas');
+  const ctx = canvas.getContext('2d');
+  const data = new Uint8Array(analyser.frequencyBinCount);
+  function loop(){
+    waveAnim = requestAnimationFrame(loop);
+    analyser.getByteTimeDomainData(data);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.beginPath();
+    const slice = canvas.width/data.length;
+    let x=0;
+    for(let i=0;i<data.length;i++){
+      const v = data[i]/128.0;
+      const y = v*canvas.height/2;
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+      x += slice;
+    }
+    ctx.strokeStyle = '#152B54';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+  loop();
+}
+
+function evaluateSpeech(){
+  stopRecording();
+  const transcript = finalTranscript.trim().toLowerCase();
+  const durationSec = Math.max(1, (Date.now()-startTime)/1000);
+  const words = transcript.split(/\s+/).filter(Boolean);
+  const wpm = Math.round(words.length / (durationSec/60));
+
+  const matched = currentEx.keywords.filter(k => transcript.includes(k));
+  const contentPct = Math.round((matched.length / currentEx.keywords.length) * 100);
+
+  const fillerList = ["um","uh","erm","like i said","you know"];
+  let fillerCount = 0;
+  fillerList.forEach(f=>{
+    const re = new RegExp(`\\b${f}\\b`,'g');
+    const m = transcript.match(re);
+    if(m) fillerCount += m.length;
+  });
+
+  let paceScore = 100;
+  if(wpm < 90) paceScore = Math.max(30, 100 - (90-wpm)*1.5);
+  if(wpm > 150) paceScore = Math.max(30, 100 - (wpm-150)*1.5);
+  if(words.length < 5) paceScore = 20;
+
+  const fluencyScore = Math.max(0, 100 - fillerCount*12);
+  const overall = Math.round(contentPct*0.5 + fluencyScore*0.3 + paceScore*0.2);
+
+  document.getElementById('resultsBox').classList.add('open');
+  document.getElementById('scoreNum').textContent = overall + '%';
+  document.getElementById('mContent').textContent = matched.length + '/' + currentEx.keywords.length + ' ideas clave';
+  document.getElementById('mPace').textContent = words.length < 5 ? '—' : wpm;
+  document.getElementById('mFillers').textContent = fillerCount;
+  document.getElementById('mDur').textContent = Math.round(durationSec) + 's';
+
+  let note = "";
+  if(words.length < 5) note = "Casi no se registró audio. Intenta hablar un poco más cerca del micrófono y responde con al menos 2-3 frases.";
+  else if(overall >= 75) note = "Muy buena respuesta: cubriste la mayoría de las ideas clave con un ritmo natural.";
+  else if(overall >= 50) note = "Vas bien. Intenta mencionar más detalles de la situación (" + currentEx.keywords.slice(0,3).join(', ') + ") y reduce las pausas largas.";
+  else note = "Te faltó cubrir varias ideas clave. Vuelve a leer la tarea, piensa 2 frases antes de grabar, y evita muletillas como 'um' o 'uh'.";
+  document.getElementById('feedbackNote').textContent = note;
+}
+</script>
+</body>
+</html>
