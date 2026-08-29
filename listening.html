@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listening A2 - Steady Oak</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #1a1a2e;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav{
+            max-width:1200px;
+            margin:auto;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:20px 40px;
+        }
+
+        .logo-img{ width:60px; }
+
+        .nav-links{
+            display:flex;
+            list-style:none;
+            gap:55px;
+        }
+
+        .nav-links a{
+            text-decoration:none;
+            color:#21467b;
+            font-weight:500;
+            font-size:18px;
+        }
+
+        .auth-buttons{
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
+
+        .btn-signup{
+            background:white;
+            color:#21467b;
+            border:2px solid #21467b;
+            padding:10px 22px;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:600;
+            transition:.3s;
+        }
+
+        .btn-signup:hover{ background:#21467b; color:white; }
+
+        .btn-login{
+            background:#21467b;
+            color:white;
+            padding:10px 22px;
+            border-radius:10px;
+            text-decoration:none;
+            font-weight:600;
+            transition:.3s;
+        }
+
+        .btn-login:hover{ background:#16335c; }
+
+        .section {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            animation: fadeIn 0.5s;
+        }
+
+        .section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title{ text-align:center; margin:60px 0; }
+        .page-title h1{ font-size:65px; color:#121c57; font-weight:800; }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .activity-card img { width: 100%; height: 200px; object-fit: cover; }
+        .activity-card-content { padding: 25px; }
+        .activity-card h3 { font-size: 24px; margin-bottom: 10px; color: #1a1a2e; }
+        .activity-card p { color: #666; margin-bottom: 20px; }
+
+        .activity-level {
+            display: inline-block;
+            background-color: #0d3b66;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .practice-area {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .practice-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .practice-header h2 { font-size: 32px; color: #1a1a2e; margin-bottom: 10px; }
+
+        .step-label{
+            font-size:13px;
+            font-weight:700;
+            color:#21467b;
+            text-transform:uppercase;
+            letter-spacing:0.04em;
+            margin-bottom:10px;
+        }
+
+        .practice-instructions {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #0d3b66;
+        }
+
+        .practice-instructions h3 { margin-bottom: 10px; color: #0d3b66; }
+
+        .tts-btn{
+            background:#f0f0f0;
+            color:#0d3b66;
+            border:none;
+            padding:10px 18px;
+            border-radius:100px;
+            font-size:14px;
+            font-weight:600;
+            cursor:pointer;
+            margin-top:12px;
+        }
+        .tts-btn:hover{ background:#e2e2e2; }
+
+        .audio-block{
+            margin: 30px 0;
+            padding: 30px;
+            background:#f9f9f9;
+            border-radius:10px;
+            text-align:center;
+        }
+
+        .play-btn{
+            width:70px;
+            height:70px;
+            border-radius:50%;
+            border:none;
+            background:#0d3b66;
+            color:white;
+            font-size:26px;
+            cursor:pointer;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            margin:0 auto 14px;
+            transition: background .3s, transform .2s;
+        }
+        .play-btn:hover{ background:#1a5276; transform:scale(1.05); }
+        .play-btn.playing{ background:#c0433a; }
+
+        .audio-status{ font-size:14px; color:#666; margin-bottom:16px; }
+
+        .transcript-toggle{
+            background:none;
+            border:1px dashed #999;
+            color:#666;
+            padding:8px 16px;
+            border-radius:100px;
+            font-size:13px;
+            cursor:pointer;
+        }
+
+        .transcript-box{
+            display:none;
+            margin-top:16px;
+            padding:16px 18px;
+            background:white;
+            border-radius:8px;
+            border:1px solid #e0e0e0;
+            font-size:15px;
+            color:#333;
+            text-align:left;
+            line-height:1.6;
+        }
+        .transcript-box.show{ display:block; }
+
+        .quiz-question{
+            margin-bottom:26px;
+            padding-bottom:22px;
+            border-bottom:1px solid #f0f0f0;
+        }
+        .quiz-question:last-child{ border-bottom:none; }
+        .quiz-question p.q-text{ font-weight:600; margin-bottom:12px; font-size:17px; color:#1a1a2e; }
+
+        .quiz-options{ display:flex; flex-direction:column; gap:10px; }
+        .option-label{
+            display:flex;
+            align-items:center;
+            gap:10px;
+            padding:12px 14px;
+            border:2px solid #e0e0e0;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:15px;
+            transition: border-color .2s, background .2s;
+        }
+        .option-label:hover{ border-color:#0d3b66; }
+        .option-label input{ accent-color:#0d3b66; width:18px; height:18px; }
+
+        .option-label.correct-answer{ border-color:#28a745; background:#eaf7ee; }
+        .option-label.wrong-answer{ border-color:#c0433a; background:#fbeceb; }
+
+        .btn-submit {
+            background-color: #0d3b66;
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-submit:hover { background-color: #1a5276; }
+        .btn-submit:disabled{ opacity:0.5; cursor:not-allowed; }
+
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #1a1a2e;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+        .btn-secondary:hover { background-color: #e0e0e0; }
+
+        .quiz-feedback{
+            display:none;
+            margin-top:30px;
+            padding:24px;
+            border-radius:8px;
+            animation: slideIn 0.5s;
+        }
+        .quiz-feedback.show{ display:block; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .quiz-feedback.success { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .quiz-feedback.partial { background-color: #fff3cd; border: 1px solid #ffe08a; color: #7a5c00; }
+        .quiz-feedback h3{ margin-bottom:10px; }
+        .quiz-feedback ul{ margin-top:12px; margin-left:20px; }
+        .quiz-feedback li{ margin-bottom:6px; }
+
+        footer {
+            background-color: #0d3b66;
+            color: white;
+            padding: 50px 40px 30px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 { margin-bottom: 20px; font-size: 20px; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section a { color: white; text-decoration: none; transition: opacity 0.3s; }
+        .footer-section a:hover { opacity: 0.8; }
+
+        .social-links { display: flex; gap: 15px; margin-top: 15px; }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        .social-links a:hover { background-color: rgba(255,255,255,0.2); }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { gap: 15px; font-size: 14px; }
+            .activities-grid { grid-template-columns: 1fr; }
+            .practice-area { padding: 20px; }
+        }
+
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .mt-20 { margin-top: 20px; }
+        .mb-20 { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <!-- header -->
+    <header>
+        <nav>
+            <a href="#" class="logo" onclick="showSection('home')">
+                <img src="logo.png" class="logo-img">
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="#" onclick="showSection('home')">Home</a></li>
+                <li><a href="#" onclick="showSection('skills')">Skills</a></li>
+                <li><a href="#" onclick="showSection('grammar')">Grammar</a></li>
+                <li><a href="#" onclick="showSection('vocabulary')">Vocabulary</a></li>
+            </ul>
+
+            <div class="auth-buttons">
+                <a href="#" class="btn-signup" onclick="alert('Aquí irá el formulario de registro')">Sign Up</a>
+                <a href="#" class="btn-login" onclick="alert('Aquí irá el formulario de login')">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- home -->
+    <section id="home" class="section active">
+        <div class="page-title"><h1>Listening A2</h1></div>
+
+        <div class="text-center mb-20">
+            <h2 style="font-size: 32px; margin-bottom: 10px;">Why Practice With Us?</h2>
+            <p style="color: #666; font-size: 18px;">Listen at your own pace, as many times as you need, then answer simple questions.</p>
+        </div>
+
+        <div class="activities-grid" id="activities-home"></div>
+    </section>
+
+    <section id="activities" class="section">
+        <div class="practice-area">
+            <div class="practice-header">
+                <h2 id="activity-title">Activity Title</h2>
+                <p id="activity-description">Activity description goes here</p>
+            </div>
+
+            <div class="step-label">Paso 1 de 3 · Lee las instrucciones</div>
+            <div class="practice-instructions">
+                <h3>Instructions:</h3>
+                <ul id="instructions-list">
+                    <li>Press play to listen to the audio</li>
+                    <li>You can listen as many times as you want</li>
+                    <li>Then answer the questions below</li>
+                </ul>
+                <button class="tts-btn" onclick="speakInstructions()">🔊 Escuchar instrucciones</button>
+            </div>
+
+            <div class="step-label">Paso 2 de 3 · Escucha el audio</div>
+            <div class="audio-block">
+                <button class="play-btn" id="playBtn" onclick="toggleAudio()">▶</button>
+                <div class="audio-status" id="audioStatus">Sin límite de tiempo. Pulsa play cuando estés listo.</div>
+                <button class="transcript-toggle" id="transcriptToggleBtn" onclick="toggleTranscript()">Mostrar transcripción</button>
+                <div class="transcript-box" id="transcriptBox"></div>
+            </div>
+
+            <div class="step-label">Paso 3 de 3 · Responde las preguntas</div>
+            <div id="quiz-container"></div>
+
+            <div class="text-center mt-20">
+                <button type="button" class="btn-submit" id="checkAnswersBtn" onclick="checkAnswers()">Verificar respuestas</button>
+                <button type="button" class="btn-secondary" onclick="showSection('home')">Back to Home</button>
+            </div>
+
+            <div class="quiz-feedback" id="feedback">
+                <h3 id="feedback-title"></h3>
+                <p id="feedback-message"></p>
+                <ul id="feedback-details"></ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <h1 style="text-align: center; margin-bottom: 40px;">Skills</h1>
+        <div class="activities-grid">
+            <div class="activity-card"><div class="activity-card-content"><h3>Reading</h3><p>Practice your reading comprehension</p></div></div>
+            <div class="activity-card"><div class="activity-card-content"><h3>Listening</h3><p>Improve your listening skills</p></div></div>
+            <div class="activity-card"><div class="activity-card-content"><h3>Writing</h3><p>Enhance your writing abilities</p></div></div>
+            <div class="activity-card"><div class="activity-card-content"><h3>Speaking</h3><p>Practice your speaking skills</p></div></div>
+        </div>
+    </section>
+
+    <section id="grammar" class="section">
+        <h1 style="text-align: center; margin-bottom: 40px;">Grammar</h1>
+        <div class="practice-area"><p>Grammar exercises and lessons will go here</p></div>
+    </section>
+
+    <section id="vocabulary" class="section">
+        <h1 style="text-align: center; margin-bottom: 40px;">Vocabulary</h1>
+        <div class="practice-area"><p>Vocabulary exercises and word lists will go here</p></div>
+    </section>
+
+<footer>
+        <div class="footer-inner">
+            <div class="footer-top">
+
+                <div class="footer-brand">
+                    <img src="img/Logo2.png" alt="Oak English logo" class="Logo">
+                    <p>A calm, inclusive space to learn English at your own pace — no pressure, no rush.</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Skills</h4>
+                        <ul>
+                            <li><a href="#">Reading</a></li>
+                            <li><a href="#">Listening</a></li>
+                            <li><a href="#">Writing</a></li>
+                            <li><a href="#">Speaking</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>Vocabulary</h4>
+                        <ul>
+                            <li><a href="#">A1 - A2 Vocabulary</a></li>
+                            <li><a href="#">B1 - B2 Vocabulary</a></li>
+                            <li><a href="#">Interactive Games</a></li>
+                            <li><a href="#">Play with Words</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>Grammar</h4>
+                        <ul>
+                            <li><a href="grammar-games.html">A1 - A2 Grammar</a></li>
+                            <li><a href="b1-b2-grammar.html">B1 - B2 Grammar</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <span class="footer-social-label">Connect with us</span>
+                        <div class="social-links">
+                            <a href="#" aria-label="Oak English on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Oak English on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                            <a href="#" aria-label="Oak English on Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Oak English. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const activities = [
+            {
+                id: 1,
+                title: "A dinner with friends",
+                description: "Listen to a group of friends talking about their jobs.",
+                image: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?w=400&h=300&fit=crop",
+                level: "A2",
+                instructions: ["Press play to listen to the conversation", "You can listen as many times as you want", "Then choose the correct answer for each question"],
+                script: "Anna: So, how is your new job going? Marco: It's great! I work as a chef in a small restaurant downtown. Anna: That sounds fun. Do you like it? Marco: Yes, I love cooking for people. What about you? Anna: I'm still working as a teacher at the same school.",
+                questions: [
+                    { q:"What is Marco's job?", options:["Teacher","Chef","Driver"], correct:1 },
+                    { q:"Does Marco like his job?", options:["Yes, he loves it","No, he doesn't","He didn't say"], correct:0 },
+                    { q:"What does Anna do?", options:["She is a chef","She is a teacher","She is a student"], correct:1 }
+                ]
+            },
+            {
+                id: 2,
+                title: "Who is in the office?",
+                description: "Listen to two coworkers talking in the office.",
+                image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=300&fit=crop",
+                level: "A2",
+                instructions: ["Press play to listen to the conversation", "You can listen as many times as you want", "Then choose the correct answer for each question"],
+                script: "Tom: Good morning! Are you new here? Laura: Yes, I started yesterday. I work in the marketing team. Tom: Nice to meet you. I'm Tom, I work in sales. Laura: Nice to meet you too. Where is the meeting room? Tom: It's on the second floor, next to the kitchen.",
+                questions: [
+                    { q:"When did Laura start working?", options:["Today","Yesterday","Last week"], correct:1 },
+                    { q:"What team does Laura work in?", options:["Sales","Marketing","IT"], correct:1 },
+                    { q:"Where is the meeting room?", options:["First floor","Second floor","Third floor"], correct:1 }
+                ]
+            },
+            {
+                id: 3,
+                title: "The Interview Summary",
+                description: "Listen to a short part of a job interview.",
+                image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&h=300&fit=crop",
+                level: "A2",
+                instructions: ["Press play to listen to the interview", "You can listen as many times as you want", "Then choose the correct answer for each question"],
+                script: "Interviewer: Can you tell me about your last job? Candidate: Yes, I worked as a receptionist for two years. Interviewer: What did you like about that job? Candidate: I liked talking to different people every day. Interviewer: Why do you want to work here? Candidate: I want to learn new skills and grow in my career.",
+                questions: [
+                    { q:"What was the candidate's last job?", options:["Receptionist","Chef","Teacher"], correct:0 },
+                    { q:"How long did they work there?", options:["One year","Two years","Three years"], correct:1 },
+                    { q:"Why do they want this job?", options:["For more money","To learn new skills","To work less"], correct:1 }
+                ]
+            }
+        ];
+
+        let currentActivity = null;
+        let isPlaying = false;
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0, 0);
+            if (sectionId === 'home') loadActivities();
+            if (sectionId !== 'activities' && window.speechSynthesis) window.speechSynthesis.cancel();
+        }
+
+        function loadActivities() {
+            const container = document.getElementById('activities-home');
+            container.innerHTML = '';
+            activities.forEach(a => {
+                const card = document.createElement('div');
+                card.className = 'activity-card';
+                card.onclick = () => loadActivity(a.id);
+                card.innerHTML = `
+                    <img src="${a.image}" alt="${a.title}">
+                    <div class="activity-card-content">
+                        <h3>${a.title}</h3>
+                        <p>${a.description}</p>
+                        <span class="activity-level">${a.level}</span>
+                    </div>`;
+                container.appendChild(card);
+            });
+        }
+
+        function loadActivity(id) {
+            const a = activities.find(x => x.id === id);
+            if (!a) return;
+            currentActivity = a;
+
+            document.getElementById('activity-title').textContent = a.title;
+            document.getElementById('activity-description').textContent = a.description;
+
+            const il = document.getElementById('instructions-list');
+            il.innerHTML = '';
+            a.instructions.forEach(i => { const li = document.createElement('li'); li.textContent = i; il.appendChild(li); });
+
+            document.getElementById('transcriptBox').textContent = a.script;
+            document.getElementById('transcriptBox').classList.remove('show');
+            document.getElementById('transcriptToggleBtn').textContent = 'Mostrar transcripción';
+
+            document.getElementById('playBtn').textContent = '▶';
+            document.getElementById('playBtn').classList.remove('playing');
+            document.getElementById('audioStatus').textContent = 'Sin límite de tiempo. Pulsa play cuando estés listo.';
+            isPlaying = false;
+
+            const qc = document.getElementById('quiz-container');
+            qc.innerHTML = '';
+            a.questions.forEach((q, qi) => {
+                const block = document.createElement('div');
+                block.className = 'quiz-question';
+                let optsHtml = '';
+                q.options.forEach((opt, oi) => {
+                    optsHtml += `
+                        <label class="option-label" id="q${qi}-opt${oi}">
+                            <input type="radio" name="q${qi}" value="${oi}">
+                            ${opt}
+                        </label>`;
+                });
+                block.innerHTML = `<p class="q-text">${qi+1}. ${q.q}</p><div class="quiz-options">${optsHtml}</div>`;
+                qc.appendChild(block);
+            });
+
+            document.getElementById('feedback').classList.remove('show', 'success', 'partial');
+            document.getElementById('checkAnswersBtn').disabled = false;
+
+            showSection('activities');
+        }
+
+        function toggleAudio(){
+            if(!('speechSynthesis' in window)){
+                document.getElementById('audioStatus').textContent = 'Tu navegador no soporta audio. Prueba en Chrome o Edge.';
+                return;
+            }
+            const btn = document.getElementById('playBtn');
+            const status = document.getElementById('audioStatus');
+
+            if(isPlaying){
+                window.speechSynthesis.cancel();
+                isPlaying = false;
+                btn.textContent = '▶';
+                btn.classList.remove('playing');
+                status.textContent = 'Audio detenido. Puedes escucharlo de nuevo cuando quieras.';
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+            const utter = new SpeechSynthesisUtterance(currentActivity.script);
+            utter.lang = 'en-US';
+            utter.rate = 0.92;
+            utter.onend = () => {
+                isPlaying = false;
+                btn.textContent = '▶';
+                btn.classList.remove('playing');
+                status.textContent = 'Audio terminado. Puedes escucharlo otra vez o responder las preguntas.';
+            };
+            window.speechSynthesis.speak(utter);
+            isPlaying = true;
+            btn.textContent = '⏸';
+            btn.classList.add('playing');
+            status.textContent = 'Reproduciendo…';
+        }
+
+        function speakInstructions(){
+            if(!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const text = currentActivity.instructions.join('. ');
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'en-US';
+            utter.rate = 0.92;
+            window.speechSynthesis.speak(utter);
+        }
+
+        function toggleTranscript(){
+            const box = document.getElementById('transcriptBox');
+            const btn = document.getElementById('transcriptToggleBtn');
+            box.classList.toggle('show');
+            btn.textContent = box.classList.contains('show') ? 'Ocultar transcripción' : 'Mostrar transcripción';
+        }
+
+        function checkAnswers(){
+            const a = currentActivity;
+            let correctCount = 0;
+            let details = [];
+
+            a.questions.forEach((q, qi) => {
+                const selected = document.querySelector(`input[name="q${qi}"]:checked`);
+                const selectedValue = selected ? parseInt(selected.value) : null;
+                const isCorrect = selectedValue === q.correct;
+                if(isCorrect) correctCount++;
+
+                q.options.forEach((opt, oi) => {
+                    const label = document.getElementById(`q${qi}-opt${oi}`);
+                    label.classList.remove('correct-answer','wrong-answer');
+                    if(oi === q.correct) label.classList.add('correct-answer');
+                    else if(oi === selectedValue && !isCorrect) label.classList.add('wrong-answer');
+                });
+
+                if(selectedValue === null){
+                    details.push(`Pregunta ${qi+1}: no seleccionaste ninguna opción. La respuesta correcta era "${q.options[q.correct]}".`);
+                } else if(isCorrect){
+                    details.push(`Pregunta ${qi+1}: correcta — "${q.options[q.correct]}".`);
+                } else {
+                    details.push(`Pregunta ${qi+1}: incorrecta. Elegiste "${q.options[selectedValue]}", la respuesta correcta era "${q.options[q.correct]}".`);
+                }
+            });
+
+            const total = a.questions.length;
+            const feedback = document.getElementById('feedback');
+            feedback.classList.remove('success','partial');
+            feedback.classList.add(correctCount === total ? 'success' : 'partial');
+            feedback.classList.add('show');
+
+            document.getElementById('feedback-title').textContent = `Resultado: ${correctCount} de ${total} correctas`;
+            document.getElementById('feedback-message').textContent = correctCount === total
+                ? 'Respondiste todas las preguntas correctamente.'
+                : 'Puedes escuchar el audio de nuevo y volver a intentarlo cuando quieras.';
+
+            const list = document.getElementById('feedback-details');
+            list.innerHTML = '';
+            details.forEach(d => { const li = document.createElement('li'); li.textContent = d; list.appendChild(li); });
+
+            feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        document.addEventListener('DOMContentLoaded', loadActivities);
+    </script>
+</body>
+</html>

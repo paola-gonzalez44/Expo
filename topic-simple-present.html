@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Present Tense - A1 English Course</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root{
+            --navy:#16233F;
+            --navy-2:#233B75;
+            --sky:#5B8DEF;
+            --sky-dark:#3E6FD1;
+            --sky-tint:#E7F0FD;
+            --pink-tint:#FDEAF0;
+            --bg:#F3F8FB;
+            --surface:#FFFFFF;
+            --ink:#2C3A4A;
+            --ink-soft:#647180;
+            --ring:#BFE0F0;
+            --radius-lg:26px;
+            --radius-md:16px;
+            --radius-sm:10px;
+            --warn:#D98243;
+            --warn-tint:#FCEEE1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.7;
+        }
+        h1,h2,h3,h4,h5,.btn,.nav-links a{ font-family:'Poppins', sans-serif; }
+
+        a:focus-visible,
+        button:focus-visible{
+            outline:3px solid var(--sky-dark);
+            outline-offset:3px;
+            border-radius:6px;
+        }
+
+        @media (prefers-reduced-motion: no-preference){
+            .content-card, .rule-card, .btn, .usage-item, .structure-block, .big-play{
+                transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 6px rgba(22,35,63,0.06);
+        }
+        .nav-links { display: flex; list-style: none; gap: 2.5rem; margin-left: auto; }
+        .nav-links a {
+            text-decoration: none; color: var(--ink-soft); font-weight: 600; font-size: 0.92rem;
+            padding: 8px 16px;
+            border-radius: 999px;
+        }
+        @media (prefers-reduced-motion: no-preference){
+            .nav-links a{ transition: background 0.2s ease, color 0.2s ease; }
+        }
+        .nav-links a:hover, .nav-links a.active { background: var(--sky-tint); color: var(--sky-dark); }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 70px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(22,35,63,0.92) 0%, rgba(35,59,117,0.88) 100%),
+                        url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            padding: 7rem 5%;
+            color: white;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(2.2rem, 4vw, 3.4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            opacity: 0.92;
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
+            font-weight: 300;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background: var(--surface);
+            padding: 1.2rem 5%;
+            border-bottom: 1px solid var(--ring);
+        }
+        .breadcrumb-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; }
+        .breadcrumb a { color: var(--ink-soft); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--sky-dark); }
+        .breadcrumb .separator { color: var(--ring); }
+        .breadcrumb .current { color: var(--sky-dark); font-weight: 700; }
+
+        /* Main Container */
+        .main-container { max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; }
+
+        /* Content Cards */
+        .content-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(22,35,63,0.08);
+            margin-bottom: 3rem;
+        }
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 34px rgba(22,35,63,0.14);
+        }
+
+        .card-header {
+            background: var(--surface);
+            padding: 2.5rem 3rem 1.5rem;
+            border-bottom: 1px solid var(--ring);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--sky-tint);
+            color: var(--sky-dark);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+        .card-header h3 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .card-body { padding: 2.5rem 3rem; }
+
+        /* Usage List */
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .usage-item {
+            padding: 1.5rem;
+            background: var(--bg);
+            border-radius: var(--radius-md);
+            border: 1px solid transparent;
+        }
+        .usage-item:hover {
+            border-color: var(--sky);
+            background: var(--sky-tint);
+        }
+        .usage-item h4 {
+            color: var(--navy);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .usage-item p {
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Structure Section */
+        .structure-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .structure-block {
+            position: relative;
+            padding: 2rem;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--ring);
+        }
+        .structure-block:hover {
+            border-color: var(--sky);
+            box-shadow: 0 8px 25px rgba(91,141,239,0.14);
+        }
+
+        .structure-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--sky-dark);
+            margin-bottom: 1rem;
+        }
+        .structure-type::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--sky);
+            border-radius: 50%;
+        }
+
+        /* Formula */
+        .formula-elegant {
+            background: linear-gradient(135deg, var(--sky-tint) 0%, #ffffff 100%);
+            border-left: 4px solid var(--sky);
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .formula-text {
+            font-family: 'Inter', monospace;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--navy-2);
+            letter-spacing: 0.5px;
+        }
+        .formula-highlight {
+            background: var(--sky);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* Examples */
+        .examples-elegant {
+            background: var(--bg);
+            border: 1px solid var(--ring);
+            border-radius: var(--radius-sm);
+            padding: 1.5rem 2rem;
+            position: relative;
+        }
+        .examples-elegant::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 4rem;
+            color: var(--sky);
+            opacity: 0.2;
+            line-height: 1;
+        }
+        .examples-label {
+            display: block;
+            color: var(--ink-soft);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--ring);
+        }
+        .example-item {
+            padding: 0.6rem 0;
+            color: var(--ink);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+        }
+        .example-item::before {
+            content: '→';
+            color: var(--sky-dark);
+            font-weight: 700;
+        }
+        .example-item strong {
+            color: var(--navy-2);
+            font-weight: 700;
+        }
+
+        /* Rules */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .rule-card {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--ring);
+            position: relative;
+            overflow: hidden;
+        }
+        .rule-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--sky), var(--sky-dark));
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+        @media (prefers-reduced-motion: no-preference){
+            .rule-card::before{ transition: transform 0.3s ease; }
+        }
+        .rule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(22,35,63,0.1);
+        }
+        .rule-card:hover::before {
+            transform: scaleX(1);
+        }
+        .rule-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: var(--sky-tint);
+            color: var(--sky-dark);
+            border-radius: 50%;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+        .rule-card h4 {
+            color: var(--navy);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+        .rule-card p {
+            color: var(--ink-soft);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        .rule-example {
+            padding: 1rem;
+            background: var(--bg);
+            border-radius: var(--radius-sm);
+            color: var(--navy-2);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Practice CTA */
+        .practice-cta {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+            border-radius: var(--radius-lg);
+            padding: 4rem 3rem;
+            text-align: center;
+            color: white;
+            margin-top: 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .practice-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: rgba(91,141,239,0.12);
+            border-radius: 50%;
+        }
+        .practice-cta h2 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            position: relative;
+        }
+        .practice-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--navy-2);
+            text-decoration: none;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.98rem;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+        }
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        .btn-outline:hover {
+            background: white;
+            color: var(--navy-2);
+            border-color: white;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 0.9rem;
+            position: relative;
+        }
+        @media (prefers-reduced-motion: no-preference){
+            .back-link{ transition: color 0.2s ease; }
+        }
+        .back-link:hover { color: white; }
+
+        /* Footer */
+        .footer {
+            background: var(--navy);
+            color: white;
+            text-align: center;
+            padding: 3rem 5%;
+            margin-top: 5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer p { opacity: 0.65; font-size: 0.9rem; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2.2rem; }
+            .card-header, .card-body { padding: 1.5rem; }
+            .formula-elegant { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+            .btn-group { flex-direction: column; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links" style="margin-left: auto;">
+            <a href="index.html">Home</a>
+            <a href="levels.html">Levels</a>
+            <a href="videos.html">Videos</a>
+            <a href="#about">About</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-badge">A1 Level · Grammar Fundamentals</div>
+        <h1>Simple Present Tense</h1>
+        <p>Master the most essential verb tense in English. Learn to articulate daily routines, habits, facts, and general truths with absolute confidence.</p>
+    </section>
+
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="index.html">Home</a>
+            <span class="separator">/</span>
+            <a href="levels.html">Levels</a>
+            <span class="separator">/</span>
+            <a href="a1-topics.html">A1 Topics</a>
+            <span class="separator">/</span>
+            <span class="current">Simple Present</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+
+        <!-- Usage Section -->
+        <div class="content-card">
+            <div class="card-header">
+                <div class="card-icon"></div>
+                <h3>Usage & Context</h3>
+            </div>
+            <div class="card-body">
+                <div class="usage-grid">
+                    <div class="usage-item">
+                        <h4>Habits & Routines</h4>
+                        <p>Actions that happen regularly or repeatedly in the present.</p>
+                    </div>
+                    <div class="usage-item">
+                        <h4>General Truths</h4>
+                        <p>Scientific facts, universal truths, and permanent states.</p>
+                    </div>
+                    <div class="usage-item">
+                        <h4>Permanent Situations</h4>
+                        <p>Long-lasting states, professions, or places of residence.</p>
+                    </div>
+                    <div class="usage-item">
+                        <h4>Scheduled Events</h4>
+                        <p>Timetables, programs, and fixed future arrangements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Structure Section -->
+        <div class="content-card">
+            <div class="card-header">
+                <div class="card-icon"></div>
+                <h3>Sentence Structure</h3>
+            </div>
+            <div class="card-body">
+                <div class="structure-container">
+
+                    <!-- Positive -->
+                    <div class="structure-block">
+                        <div class="structure-type">Positive Form</div>
+                        <div class="formula-elegant">
+                            <span class="formula-text">Subject + Verb</span>
+                            <span class="formula-highlight">+ s / es (he, she, it)</span>
+                        </div>
+                        <div class="examples-elegant">
+                            <span class="examples-label">Illustrative Examples</span>
+                            <div class="example-item">I <strong>work</strong> in a corporate office.</div>
+                            <div class="example-item">She <strong>works</strong> in a corporate office.</div>
+                            <div class="example-item">They <strong>play</strong> soccer on weekends.</div>
+                        </div>
+                    </div>
+
+                    <!-- Negative -->
+                    <div class="structure-block">
+                        <div class="structure-type">Negative Form</div>
+                        <div class="formula-elegant">
+                            <span class="formula-text">Subject + do not / does not + Verb</span>
+                        </div>
+                        <div class="examples-elegant">
+                            <span class="examples-label">Illustrative Examples</span>
+                            <div class="example-item">I <strong>don't like</strong> black coffee.</div>
+                            <div class="example-item">He <strong>doesn't work</strong> on Sundays.</div>
+                            <div class="example-item">We <strong>do not live</strong> in this city.</div>
+                        </div>
+                    </div>
+
+                    <!-- Questions -->
+                    <div class="structure-block">
+                        <div class="structure-type">Interrogative Form</div>
+                        <div class="formula-elegant">
+                            <span class="formula-text">Do / Does + Subject + Verb + ?</span>
+                        </div>
+                        <div class="examples-elegant">
+                            <span class="examples-label">Illustrative Examples</span>
+                            <div class="example-item"><strong>Do</strong> you <strong>speak</strong> English fluently?</div>
+                            <div class="example-item"><strong>Does</strong> she <strong>live</strong> near the office?</div>
+                            <div class="example-item"><strong>Do</strong> they <strong>meet</strong> every Monday?</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Rules Section -->
+        <div class="content-card">
+            <div class="card-header">
+                <div class="card-icon"></div>
+                <h3>Spelling Rules & Exceptions</h3>
+            </div>
+            <div class="card-body">
+                <div class="rules-grid">
+                    <div class="rule-card">
+                        <div class="rule-number">1</div>
+                        <h4>Sibilant Endings</h4>
+                        <p>For verbs ending in -s, -sh, -ch, -x, or -o, add <strong>-es</strong>.</p>
+                        <div class="rule-example">go → goes · watch → watches · fix → fixes</div>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-number">2</div>
+                        <h4>Consonant + Y</h4>
+                        <p>Change the 'y' to 'i' and add <strong>-es</strong>.</p>
+                        <div class="rule-example">study → studies · carry → carries · fly → flies</div>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-number">3</div>
+                        <h4>Vowel + Y</h4>
+                        <p>Simply add <strong>-s</strong>. The 'y' remains unchanged.</p>
+                        <div class="rule-example">play → plays · buy → buys · enjoy → enjoys</div>
+                    </div>
+
+                    <div class="rule-card">
+                        <div class="rule-number">4</div>
+                        <h4>The Irregular "Have"</h4>
+                        <p>The verb "have" changes to <strong>"has"</strong> for third-person singular.</p>
+                        <div class="rule-example">I have a meeting · She has a meeting</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Practice CTA -->
+        <div class="practice-cta">
+            <h2>Ready to Test Your Knowledge?</h2>
+            <p>Reinforce what you've learned with our interactive quiz designed to challenge your understanding of the Simple Present tense.</p>
+            <div class="btn-group">
+                <a href="game.html" class="btn"> Start Interactive Quiz</a>
+                <a href="videos.html" class="btn btn-outline">Watch Video Masterclass</a>
+            </div>
+            <a href="a1-topics.html" class="back-link">← Return to A1 Topics Overview</a>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Professional English Learning Platform. All rights reserved.</p>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 20px rgba(22,35,63,0.12)';
+            } else {
+                navbar.style.boxShadow = '0 1px 6px rgba(22,35,63,0.06)';
+            }
+        });
+    </script>
+</body>
+</html>
